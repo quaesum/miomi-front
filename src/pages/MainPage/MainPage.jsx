@@ -25,7 +25,6 @@ function TabPanel(props) {
 
 export const MainPage = ({animalsData, newsData}) => {
   const [tab, setTab] = useState(0);
-  
 
   const handleChangeTab = (event, newValue) => {
     setTab(newValue);
@@ -39,7 +38,7 @@ export const MainPage = ({animalsData, newsData}) => {
   }
 
   return (
-    <div className="grid place-content-center h-full w-full">
+    <div className="grid place-content-center h-full w-full flex-1">
       <Card sx={{ width: { sm: "100%", lg: "1024px", xs: "100%" } }}>
         <Tabs value={tab} onChange={handleChangeTab} variant="fullWidth">
           <Tab label="Животные" {...a11yProps(0)} />
