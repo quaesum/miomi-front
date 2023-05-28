@@ -1443,10 +1443,6 @@ module.exports = {
     'active',
     'disabled',
   ],
-  plugins: [
-    require('@tailwindcss/typography')({ modifiers: ['sm', 'lg'] }),
-    require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/line-clamp'),
-  ],
+  plugins: [],
 }
 
