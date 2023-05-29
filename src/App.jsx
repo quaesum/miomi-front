@@ -10,7 +10,7 @@ export const App = () => {
     <Routes>
       <Route path="/*" element={<Layout />}>
         <Route path="" element={<MainPageContainer />} />
-        <Route path="animal:id" element={<CurrentAnimalPageContainer />} />
+        <Route path="animal/:id" element={<CurrentAnimalPageContainer />} />
       </Route>
     </Routes>
   );
