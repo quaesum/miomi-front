@@ -1,15 +1,7 @@
 import React from "react";
 import { Avatar, Box, Card, Typography } from "@mui/material";
 import pointSrc from "../../assets/CurrentAnimalPage/point.png";
-
-const ageTransformation = (ageAnimal) => {
-  let age = `${ageAnimal} `;
-  let percentAge = ageAnimal % 10;
-  if (percentAge === 1) age += "год";
-  if (age >= 2 && age <= 4) age += "года";
-  else age += "лет";
-  return age;
-};
+import { ageTransformation } from "../../components/Animals/Animals";
 
 const CustomTypography = ({ text, active, className=""}) => {
   return (
@@ -34,6 +26,8 @@ const CustomTypography = ({ text, active, className=""}) => {
     </Typography>
   );
 };
+
+
 
 export const CurrentAnimalPage = ({ animal }) => {
   console.log(animal);

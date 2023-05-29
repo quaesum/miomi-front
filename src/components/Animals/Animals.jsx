@@ -9,12 +9,15 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router";
 
-const ageIdent = (age) => {
-  if (age === 1) return ' год'
-  if (age >= 2 && age <= 4) return ' года'
-  if ((age >= 5 && age <= 9) || age === 0) return ' лет'
-  else return ageIdent(age % 10)
-}
+export const ageTransformation = (ageAnimal) => {
+  let age = `${ageAnimal} `;
+  let percentAge = ageAnimal % 10;
+  if (percentAge === 1 && ageAnimal < 10) age += "год";
+  if (percentAge >= 2 && percentAge <= 4 && ageAnimal < 10) age += "года";
+  if ((percentAge >= 5 && percentAge <= 9) || percentAge === 0) age += "лет";
+  else if (age.length < 5) age += "лет";
+  return age;
+};
 
 export const Animals = ({ animals }) => {
   const navigate = useNavigate();
@@ -27,7 +30,8 @@ export const Animals = ({ animals }) => {
             <CardActionArea onClick={() => navigate(`/animal/${animal.id}`)}>
               <div className="flex flex-row">
                 <CardContent className="flex justify-items-center">
-                  <CardMedia src={`http://miomi.by:9000${animal.photos[0]}`}
+                  <CardMedia
+                    src={`http://miomi.by:9000${animal.photos[0]}`}
                     component="img"
                     alt={animal.id}
                     className="rounded-full ml-6"
@@ -36,8 +40,10 @@ export const Animals = ({ animals }) => {
                 </CardContent>
                 <CardContent className="flex flex-col justify-items-center">
                   <Typography fontSize={24}>{animal.name}</Typography>
-                  <Typography>{animal.sex === 0 ? 'мальчик' : 'девочка'}</Typography>
-                  <Typography>{animal.age + ageIdent(animal.age)}</Typography>
+                  <Typography>
+                    {animal.sex === 0 ? "мальчик" : "девочка"}
+                  </Typography>
+                  <Typography>{ageTransformation(animal.age)}</Typography>
                 </CardContent>
               </div>
             </CardActionArea>
