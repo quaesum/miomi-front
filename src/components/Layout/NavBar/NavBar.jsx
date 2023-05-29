@@ -3,11 +3,13 @@ import React from "react";
 import catSrc from "../../../assets/NavBar/cat.png";
 import pawSrc from "../../../assets/NavBar/paw.png";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
+import {useNavigate} from 'react-router-dom'
 
 export const NavBar = () => {
+  const navigate = useNavigate()
   return (
     <div className="p-0 max-h-40 h-40 relative bg-white">
-      <div className="flex flex-1 px-16 absolute">
+      <div className="flex flex-1 px-16 absolute cursor-pointer" onClick={()=>navigate("/")}>
         <img src={catSrc} alt="cat-icon" />
         <Typography fontSize={36} className="!mt-10 !font-semibold">
           mio.mi
