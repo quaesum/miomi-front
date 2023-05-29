@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router";
 
 export const ageTransformation = (ageAnimal) => {
-  let age = `${ageAnimal} `;
+  let age = "";
   let percentAge = ageAnimal % 10;
   if (percentAge === 1 && ageAnimal < 10) age += "год";
   if (percentAge >= 2 && percentAge <= 4 && ageAnimal < 10) age += "года";
@@ -43,7 +43,9 @@ export const Animals = ({ animals }) => {
                   <Typography>
                     {animal.sex === 0 ? "мальчик" : "девочка"}
                   </Typography>
-                  <Typography>{ageTransformation(animal.age)}</Typography>
+                  <Typography>{`${animal.age} ${ageTransformation(
+                    animal.age
+                  )}`}</Typography>
                 </CardContent>
               </div>
             </CardActionArea>

@@ -9,40 +9,58 @@ import {
 } from "@mui/material";
 import pointSrc from "../../assets/CurrentAnimalPage/point.png";
 import { ageTransformation } from "../../components/Animals/Animals";
-
-const CustomTypography = ({ text, active, className = "" }) => {
-  return (
-    <Typography
-      fontSize={18}
-      className={className}
-      sx={[
-        { py: "5px", pl: "13px", pr: "15px", borderRadius: "10px" },
-        active
-          ? {
-              color: "white",
-              backgroundColor: "#EE7100",
-              border: "1px solid #EE7100",
-            }
-          : {
-              color: "black",
-              border: "1px solid #EE7100",
-              backgroundColor: "white",
-            },
-      ]}
-    >
-      {text}
-    </Typography>
-  );
-};
+import { useForm } from "react-hook-form";
+import { Name } from "./componentsPage/Name";
+import { Sex } from "./componentsPage/Sex";
+import { CustomTypographyTag } from "./componentsPage/CustomTypographyTag";
+import { Description } from "./componentsPage/Description";
+import { Age } from "./componentsPage/Age";
 
 export const CurrentAnimalPage = ({ animal }) => {
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isSterilized, setIsSterilized] = useState(animal.sterilized);
+  const [isVaccinated, setIsVaccinated] = useState(animal.vaccinated);
+  const sex = animal.sex ? "девочка" : "мальчик";
 
-  const sex = animal?.sex ? "девочка" : "мальчик";
-  const age = ageTransformation(animal?.age);
+  const { register, handleSubmit, getValues, setValue } = useForm({
+    defaultValues: {
+      sex,
+      age: animal.age,
+      nameAnimal: animal.name,
+      description: animal.description,
+    },
+  });
+  console.log(getValues());
+
+  const defaultPropsForComponents = {
+    register: register,
+    isEditMode: isEditMode,
+  };
+
+  const handleClickModeChange = () => {
+    if (isEditMode) {
+      handleSubmit();
+      setIsEditMode((prev) => !prev);
+    } else {
+      setIsEditMode((prev) => !prev);
+    }
+  };
+
+  const handleChangeSex = (e) => {
+    setValue("sex", e.target.value);
+  };
+
+  const handleCustomTag = (type, active) => {
+    if (type === "vaccinated") setIsVaccinated(active);
+    else setIsSterilized(active);
+    setValue(type, active);
+  };
 
   return (
-    <div className="grid place-content-center h-full w-full flex-1">
+    <form
+      onSubmit={(e) => e.preventDefault()}
+      className="grid place-content-center h-full w-full flex-1"
+    >
       <Card
         sx={{
           width: { sm: "100%", lg: "1024px", xs: "100%", borderRadius: "20px" },
@@ -59,20 +77,30 @@ export const CurrentAnimalPage = ({ animal }) => {
             </Typography>
             <Box sx={{ mt: "10px" }} className="flex">
               <Typography sx={{ ml: "20px" }} className="flex flex-col">
-                <span className="text-2xl font-semibold">{animal?.name}</span>
-                <span className="text-gray-600 text-sm">{sex}</span>
+                <Name
+                  {...defaultPropsForComponents}
+                  name={getValues("nameAnimal")}
+                />
+                <Sex
+                  {...defaultPropsForComponents}
+                  sex={getValues("sex")}
+                  handleChangeSex={handleChangeSex}
+                />
               </Typography>
-              <Typography sx={{ mt: "13px", ml: "30px" }}>
-                <span className="text-sm text-gray-600">{age}</span>
-              </Typography>
+              <Age
+                {...defaultPropsForComponents}
+                age={getValues("age")}
+                ageName={ageTransformation(getValues("age"))}
+              />
             </Box>
           </Box>
           <Box className="flex flex-col" sx={{ mt: "23px" }}>
             <Typography
               fontSize={18}
               className={"text-grey-600 cursor-pointer"}
+              onClick={handleClickModeChange}
             >
-              Изменить
+              {isEditMode ? "Сохранить" : "Изменить"}
             </Typography>
             <Typography
               fontSize={18}
@@ -99,14 +127,22 @@ export const CurrentAnimalPage = ({ animal }) => {
             </Typography>
           </Box>
           <Box className="flex" sx={{ mt: "25px" }}>
-            <CustomTypography
+            <CustomTypographyTag
+              {...defaultPropsForComponents}
+              type={"vaccinated"}
               text={"Есть прививка"}
-              active={animal?.vaccinated}
+              active={isVaccinated}
+              handleCustomTag={handleCustomTag}
             />
-            <CustomTypography
+            <CustomTypographyTag
+              {...defaultPropsForComponents}
               className="!ml-10"
-              text={"Кастрирован"}
-              active={animal?.sterilized}
+              handleCustomTag={handleCustomTag}
+              type={"sterilized"}
+              text={
+                getValues("sex") === "мальчик" ? "Кастрирован" : "Кастрирована"
+              }
+              active={isSterilized}
             />
           </Box>
           <Box className="flex">
@@ -128,14 +164,10 @@ export const CurrentAnimalPage = ({ animal }) => {
             </ImageList>
           </Box>
           <Box sx={{ mt: "30px", color: "#6A6D76", fontSize: "18px" }}>
-            <textarea
-              className="resize-none w-full border-3 min-h-80 outline-0 rounded-lg p-6 cursor-default font-normal leading-6"
-              readOnly
-              value={animal?.description}
-            />
+            <Description {...defaultPropsForComponents} />
           </Box>
         </Box>
       </Card>
-    </div>
+    </form>
   );
 };

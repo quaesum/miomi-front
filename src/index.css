@@ -8,6 +8,6 @@
   flex-direction: column;
 }
 
-.layout-default > div:last-child{
+.layout-default>*:last-child {
   background-color: #DCDCDC;
 }

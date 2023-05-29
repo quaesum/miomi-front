@@ -19,6 +19,7 @@ export const CurrentAnimalPageContainer = () => {
       });
     }
   }, [animalsData]);
-
+  
+  if(!animal) return null
   return <CurrentAnimalPage animal={animal} />;
 };
