@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import {CurrentAnimalPage} from './CurrentAnimalPage'
-import { useAnimalContext } from '../../Context/AnimalContext'
-import { useSearchParams } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { CurrentAnimalPage } from "./CurrentAnimalPage";
+import { useAnimalContext } from "../../Context/AnimalContext";
+import { useParams } from "react-router-dom";
 
 export const CurrentAnimalPageContainer = () => {
-  const [animal, setAnimal] = useState()
-  const {animalsData} = useAnimalContext();
-  const [searchParams, setSearchParams] = useSearchParams({ category: 'all' })
-  
-  useEffect(()=>{
-    console.log(searchParams.get("id"))
-  }, [searchParams])
+  const [animal, setAnimal] = useState();
+  const { animalsData } = useAnimalContext();
+  let { id } = useParams();
 
-  return (
-    <CurrentAnimalPage animal={animal}/>
-  )
-}
+  useEffect(() => {
+    const tempCurrentAnimal = animalsData.filter(
+      (el) => el.id === Number(id)
+    )[0];
+    setAnimal(tempCurrentAnimal);
+  }, [animalsData]);
+
+  return <CurrentAnimalPage animal={animal} />;
+};
