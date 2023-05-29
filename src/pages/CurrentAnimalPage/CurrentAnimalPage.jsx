@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Box, Button, Card, Typography } from "@mui/material";
+import { Avatar, Box, Card, Typography } from "@mui/material";
 import pointSrc from "../../assets/CurrentAnimalPage/point.png";
 
 const ageTransformation = (ageAnimal) => {
