@@ -5,14 +5,19 @@ import { useParams } from "react-router-dom";
 
 export const CurrentAnimalPageContainer = () => {
   const [animal, setAnimal] = useState();
-  const { animalsData } = useAnimalContext();
+  const { animalsData, baseURL } = useAnimalContext();
   let { id } = useParams();
 
   useEffect(() => {
     const tempCurrentAnimal = animalsData.filter(
       (el) => el.id === Number(id)
     )[0];
-    setAnimal(tempCurrentAnimal);
+    if (tempCurrentAnimal) {
+      setAnimal({
+        ...tempCurrentAnimal,
+        photos: [...tempCurrentAnimal?.photos.map((el) => `${baseURL}${el}`)],
+      });
+    }
   }, [animalsData]);
 
   return <CurrentAnimalPage animal={animal} />;
