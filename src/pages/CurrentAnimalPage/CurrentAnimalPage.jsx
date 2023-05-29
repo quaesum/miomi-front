@@ -1,12 +1,20 @@
-import React from "react";
-import { Avatar, Box, Card, Typography } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Avatar,
+  Box,
+  Card,
+  ImageList,
+  ImageListItem,
+  Typography,
+} from "@mui/material";
 import pointSrc from "../../assets/CurrentAnimalPage/point.png";
 import { ageTransformation } from "../../components/Animals/Animals";
 
-const CustomTypography = ({ text, active, className=""}) => {
+const CustomTypography = ({ text, active, className = "" }) => {
   return (
     <Typography
-    className={className}
+      fontSize={18}
+      className={className}
       sx={[
         { py: "5px", pl: "13px", pr: "15px", borderRadius: "10px" },
         active
@@ -27,12 +35,12 @@ const CustomTypography = ({ text, active, className=""}) => {
   );
 };
 
-
-
 export const CurrentAnimalPage = ({ animal }) => {
-  console.log(animal);
+  const [isEditMode, setIsEditMode] = useState(false);
+
   const sex = animal?.sex ? "девочка" : "мальчик";
   const age = ageTransformation(animal?.age);
+
   return (
     <div className="grid place-content-center h-full w-full flex-1">
       <Card
@@ -90,7 +98,7 @@ export const CurrentAnimalPage = ({ animal }) => {
               <div className="ml-10">{animal?.shelter}</div>
             </Typography>
           </Box>
-          <Box className="flex">
+          <Box className="flex" sx={{ mt: "25px" }}>
             <CustomTypography
               text={"Есть прививка"}
               active={animal?.vaccinated}
@@ -99,6 +107,31 @@ export const CurrentAnimalPage = ({ animal }) => {
               className="!ml-10"
               text={"Кастрирован"}
               active={animal?.sterilized}
+            />
+          </Box>
+          <Box className="flex">
+            <ImageList
+              sx={{ width: "100%", height: 285, mt: "30px" }}
+              variant="quilted"
+              cols={3}
+            >
+              {animal?.photos?.map((item) => (
+                <ImageListItem key={item}>
+                  <img
+                    style={{ borderRadius: "15px" }}
+                    src={item}
+                    alt={item.title}
+                    loading="lazy"
+                  />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          </Box>
+          <Box sx={{ mt: "30px", color: "#6A6D76", fontSize: "18px" }}>
+            <textarea
+              className="resize-none w-full border-3 min-h-80 outline-0 rounded-lg p-6 cursor-default font-normal leading-6"
+              readOnly
+              value={animal?.description}
             />
           </Box>
         </Box>
