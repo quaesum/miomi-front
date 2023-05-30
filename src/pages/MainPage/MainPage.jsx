@@ -39,7 +39,7 @@ export const MainPage = ({animalsData, newsData}) => {
 
   return (
     <div className="grid place-content-center h-screen w-full flex-1 pt-12">
-      <Card sx={{ width: { sm: "100%", lg: "1240px", xs: "100%" } }}>
+      <Card sx={{ width: {lg: "1240px"} }} className="w-screen">
         <Tabs value={tab} onChange={handleChangeTab} variant="fullWidth">
           <Tab label="Животные" {...a11yProps(0)} />
           <Tab label="Новости" {...a11yProps(1)} />
