@@ -9,9 +9,9 @@ export const NavBar = () => {
   const navigate = useNavigate()
   return (
     <div className="p-0 max-h-40 h-40 relative bg-white">
-      <div className="flex flex-1 px-16 absolute cursor-pointer" onClick={()=>navigate("/")}>
+      <div className="hidden md:flex flex-1 px-16 absolute cursor-pointer" onClick={()=>navigate("/")}>
         <img src={catSrc} alt="cat-icon" />
-        <Typography fontSize={36} className="!mt-10 !font-semibold">
+        <Typography className="!mt-10 !font-semibold !text-3xl">
           mio.mi
         </Typography>
       </div>
@@ -26,7 +26,7 @@ export const NavBar = () => {
                   sx={{
                     backgroundColor: "#ff9800",
                     "&:hover": { backgroundColor: "#e38800" },
-                  }}
+                  }}  
                 >
                   <img src={pawSrc} alt="paw-icon" />
                   <Typography fontSize={16}>
