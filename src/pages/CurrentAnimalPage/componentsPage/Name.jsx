@@ -6,6 +6,7 @@ export const Name = ({ isEditMode, register, name }) => {
     <>
       {isEditMode ? (
         <TextField
+          classes="!font-semibold"
           {...register("nameAnimal")}
           id="standard-required"
           variant="standard"

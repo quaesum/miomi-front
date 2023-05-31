@@ -15,7 +15,7 @@ export const ageTransformation = (ageAnimal) => {
   if (percentAge === 1 && ageAnimal < 10) age += "год";
   if (percentAge >= 2 && percentAge <= 4 && ageAnimal < 10) age += "года";
   if ((percentAge >= 5 && percentAge <= 9) || percentAge === 0) age += "лет";
-  else if (age.length < 5) age += "лет";
+  else if (ageAnimal >= 10 && ageAnimal <= 20) age += "лет";
   return age;
 };
 
