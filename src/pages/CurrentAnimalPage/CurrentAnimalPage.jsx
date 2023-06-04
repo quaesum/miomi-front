@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -15,11 +15,15 @@ import { Sex } from "./componentsPage/Sex";
 import { CustomTypographyTag } from "./componentsPage/CustomTypographyTag";
 import { Description } from "./componentsPage/Description";
 import { Age } from "./componentsPage/Age";
+import { ModalPhotos } from "./componentsPage/ModalPhotos";
+import axios from "axios";
 
 export const CurrentAnimalPage = ({ animal }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSterilized, setIsSterilized] = useState(animal.sterilized);
   const [isVaccinated, setIsVaccinated] = useState(animal.vaccinated);
+  const [filesURL, setFilesURL] = useState(animal.photos);
+
   const sex = animal.sex ? "девочка" : "мальчик";
 
   const { register, handleSubmit, getValues, setValue } = useForm({
@@ -40,6 +44,23 @@ export const CurrentAnimalPage = ({ animal }) => {
   const handleClickModeChange = () => {
     if (isEditMode) {
       handleSubmit();
+      // let bodyFromData = new FormData();
+      // let sex = getValues("sex") === "мальчик" ? 1 : 0;
+      // bodyFromData.append("name", getValues("nameAnimal"));
+      // bodyFromData.append("sex", sex);
+      // bodyFromData.append("age", Number(getValues("age")));
+      // bodyFromData.append("sterilized", isSterilized);
+      // bodyFromData.append("vaccinated", isVaccinated);
+      // bodyFromData.append("animals", [...files]);
+      // console.log(bodyFromData)
+      // axios
+      //   .post("http://localhost:8000/animal", bodyFromData, {
+      //     headers: { "Content-Type": "multipart/form-data" },
+      //   })
+      //   .then((res) => {
+      //     console.log(res.data);
+      //   })
+      //   .catch((e) => console.log(e));
       setIsEditMode((prev) => !prev);
     } else {
       setIsEditMode((prev) => !prev);
@@ -54,6 +75,19 @@ export const CurrentAnimalPage = ({ animal }) => {
     if (type === "vaccinated") setIsVaccinated(active);
     else setIsSterilized(active);
     setValue(type, active);
+  };
+
+  const handleFileLoad = (e, index) => {
+    let tempIndex = Number(index.split("-")[2]);
+    if (e.target.files) {
+      let image = e.target.files[0];
+      let path = URL.createObjectURL(image);
+      let tempFilesURL = [...filesURL];
+
+      tempFilesURL[tempIndex] = path;
+
+      setFilesURL(tempFilesURL);
+    }
   };
 
   return (
@@ -145,18 +179,27 @@ export const CurrentAnimalPage = ({ animal }) => {
               active={isSterilized}
             />
           </Box>
-          <Box className="flex">
+          <Box className="flex flex-col">
+            {isEditMode && <ModalPhotos handleFileLoad={handleFileLoad} />}
             <ImageList
-              sx={{ width: "100%", height: 285, mt: "30px" }}
+              sx={
+                !isEditMode
+                  ? { mt: "30px", width: "100%", height: "285px" }
+                  : { width: "100%", height: 285 }
+              }
               variant="quilted"
               cols={3}
             >
-              {animal?.photos?.map((item) => (
+              {filesURL.map((item) => (
                 <ImageListItem key={item}>
                   <img
-                    style={{ borderRadius: "15px" }}
+                    style={{
+                      borderRadius: "15px",
+                      height: "285px",
+                      width: "285px",
+                    }}
                     src={item}
-                    alt={item.title}
+                    alt={"animal_image"}
                     loading="lazy"
                   />
                 </ImageListItem>

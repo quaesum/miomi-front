@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import { MainPageContainer } from "./pages/MainPage/MainPageContainer";
 import { Route, Routes } from "react-router";
 import { CurrentAnimalPageContainer } from "./pages/CurrentAnimalPage/CurrentAnimalPageContainer";
