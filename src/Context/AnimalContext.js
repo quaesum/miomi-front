@@ -4,18 +4,22 @@ import { createContext, useContext, useEffect, useState } from "react";
 export const AnimalContext = createContext();
 
 export function AnimalContextProvider({ children }) {
-    const [isLogin, setIsLogin] = useState(false)
+    const [isLogin, setIsLogin] = useState(true)
     const [animalsData, setAnimalsData] = useState([]);
     const baseURL = "http://miomi.by:9000"
 
-        useEffect(() => {
-            axios.get(`http://miomi.by/api/animal/v1/`).then((res) => {
-                setAnimalsData(res.data);
-            });
-        }, [])
+    const handleDeleteAnimal = (id) => {
+        console.log('Delete:' + id)
+    }
+
+    useEffect(() => {
+        axios.get(`http://miomi.by/api/animal/v1/`).then((res) => {
+            setAnimalsData(res.data);
+        });
+    }, [])
     return (
         <AnimalContext.Provider
-            value={{ animalsData, baseURL, isLogin, setIsLogin }}
+            value={{ animalsData, baseURL, isLogin, setIsLogin, handleDeleteAnimal }}
         >
             {children}
         </AnimalContext.Provider>

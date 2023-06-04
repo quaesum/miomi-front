@@ -21,5 +21,5 @@ export const CurrentAnimalPageContainer = () => {
   }, [animalsData]);
   
   if(!animal) return null
-  return <CurrentAnimalPage animal={animal} />;
+  return <CurrentAnimalPage animal={animal} id={id} />;
 };

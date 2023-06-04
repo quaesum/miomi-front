@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Box,
   Card,
   ImageList,
   ImageListItem,
+  Modal,
   Typography,
 } from "@mui/material";
 import pointSrc from "../../assets/CurrentAnimalPage/point.png";
@@ -16,13 +17,17 @@ import { CustomTypographyTag } from "./componentsPage/CustomTypographyTag";
 import { Description } from "./componentsPage/Description";
 import { Age } from "./componentsPage/Age";
 import { ModalPhotos } from "./componentsPage/ModalPhotos";
-import axios from "axios";
+import { ModalAnimalDelete } from "../../components/ModalAnimalDelete/ModalAnimalDelete";
 
-export const CurrentAnimalPage = ({ animal }) => {
+export const CurrentAnimalPage = ({ animal, id }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSterilized, setIsSterilized] = useState(animal.sterilized);
   const [isVaccinated, setIsVaccinated] = useState(animal.vaccinated);
   const [filesURL, setFilesURL] = useState(animal.photos);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const sex = animal.sex ? "девочка" : "мальчик";
 
@@ -137,12 +142,21 @@ export const CurrentAnimalPage = ({ animal }) => {
               {isEditMode ? "Сохранить" : "Изменить"}
             </Typography>
             <Typography
+              onClick={handleOpen}
               fontSize={18}
               className="cursor-pointer !ml-auto w-max"
               sx={{ color: "#EE7100" }}
             >
               Удалить
             </Typography>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <ModalAnimalDelete id={id} handleClose={handleClose}/>
+            </Modal>
           </Box>
         </Box>
         <div
