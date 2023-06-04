@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 export const AnimalContext = createContext();
 
 export function AnimalContextProvider({ children }) {
-    const [isLogin, setIsLogin] = useState(true)
+    const [isLogin, setIsLogin] = useState(false)
     const [animalsData, setAnimalsData] = useState([]);
     const baseURL = "http://miomi.by:9000"
 
