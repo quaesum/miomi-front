@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 export const AnimalContext = createContext();
 
 export function AnimalContextProvider({ children }) {
+    const [isLogin, setIsLogin] = useState(false)
     const [animalsData, setAnimalsData] = useState([]);
     const baseURL = "http://miomi.by:9000"
 
@@ -14,7 +15,7 @@ export function AnimalContextProvider({ children }) {
         }, [])
     return (
         <AnimalContext.Provider
-            value={{ animalsData, baseURL }}
+            value={{ animalsData, baseURL, isLogin, setIsLogin }}
         >
             {children}
         </AnimalContext.Provider>
