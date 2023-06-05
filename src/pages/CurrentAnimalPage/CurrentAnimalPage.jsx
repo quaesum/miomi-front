@@ -155,7 +155,7 @@ export const CurrentAnimalPage = ({ animal, id }) => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <ModalAnimalDelete id={id} handleClose={handleClose}/>
+              <ModalAnimalDelete id={id} handleClose={handleClose} />
             </Modal>
           </Box>
         </Box>

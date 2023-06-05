@@ -5,8 +5,9 @@ import pawSrc from "../../../assets/NavBar/paw.png";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 import { useNavigate } from "react-router-dom";
 
-export const NavBar = () => {
+export const NavBar = ({ firstName, lastName }) => {
   const navigate = useNavigate();
+  const userName = firstName && lastName ? `${firstName} ${lastName}` : "User";
   return (
     <div className="p-0 max-h-40 h-40 relative bg-white">
       <div
@@ -61,8 +62,12 @@ export const NavBar = () => {
             color="inherit"
           >
             <div className="hidden md:flex flex-col mx-4 items-end">
-              <Typography component="span" className="font-semibold flex">
-                User
+              <Typography
+                fontSize={18}
+                component="span"
+                className="font-semibold flex !normal-case"
+              >
+                {userName}
               </Typography>
               <Typography
                 className="text-11 font-medium capitalize"
