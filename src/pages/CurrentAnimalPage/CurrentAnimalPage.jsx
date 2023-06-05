@@ -25,6 +25,8 @@ export const CurrentAnimalPage = ({ animal, id }) => {
   const [isVaccinated, setIsVaccinated] = useState(animal.vaccinated);
   const [filesURL, setFilesURL] = useState(animal.photos);
 
+  console.log(animal);
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -39,7 +41,6 @@ export const CurrentAnimalPage = ({ animal, id }) => {
       description: animal.description,
     },
   });
-  console.log(getValues());
 
   const defaultPropsForComponents = {
     register: register,
@@ -164,15 +165,21 @@ export const CurrentAnimalPage = ({ animal, id }) => {
           style={{ backgroundColor: "#DCDCDC" }}
         ></div>
         <Box sx={{ px: 10, pt: 2, pb: 5 }} className="flex flex-col">
+          {/* PLACE */}
           <Box className="flex">
             <img
               src={pointSrc}
               style={{ width: "17px", height: "26px" }}
               alt="point"
             />
-            <Typography fontSize={22} sx={{ color: "#6A6D76" }}>
-              <div className="ml-10">{animal?.shelter}</div>
-            </Typography>
+            <Box className="ml-10">
+              <Typography fontSize={22} sx={{ color: "#6A6D76" }}>
+                {animal?.shelter}
+              </Typography>
+              <Typography sx={{ color: "#6A6D76" }} fontSize={18}>
+                {animal.address}
+              </Typography>
+            </Box>
           </Box>
           <Box className="flex" sx={{ mt: "25px" }}>
             <CustomTypographyTag
