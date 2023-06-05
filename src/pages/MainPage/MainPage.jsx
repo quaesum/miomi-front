@@ -24,8 +24,9 @@ function TabPanel(props) {
   );
 }
 
-export const MainPage = ({ animalsData, newsData }) => {
+export const MainPage = () => {
   const [tab, setTab] = useState(0);
+  const [isAllAnimal, setIsAllAnimal] = useState(true);
 
   const handleChangeTab = (event, newValue) => {
     setTab(newValue);
@@ -44,14 +45,17 @@ export const MainPage = ({ animalsData, newsData }) => {
         sx={{ width: { lg: "1240px", borderRadius: "20px" } }}
         className="w-screen"
       >
-        <UserContainer />
+        <UserContainer
+          isAllAnimal={isAllAnimal}
+          setIsAllAnimal={setIsAllAnimal}
+        />
         <Tabs value={tab} onChange={handleChangeTab} variant="fullWidth">
           <Tab label="Животные" {...a11yProps(0)} />
           <Tab label="Новости" {...a11yProps(1)} />
           <Tab label="Пожертвования" {...a11yProps(2)} />
         </Tabs>
         <TabPanel value={tab} index={0}>
-          <AnimalsContainer />
+          <AnimalsContainer isAllAnimal={isAllAnimal} />
         </TabPanel>
         <TabPanel value={tab} index={1}>
           <NewsContainer />

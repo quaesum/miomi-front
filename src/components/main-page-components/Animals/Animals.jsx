@@ -25,6 +25,13 @@ export const Animals = ({
 }) => {
   const navigate = useNavigate();
   const page = `Страница ${currentPage}`;
+  const classNameRightArrow = `${
+    maxPages === currentPage ? "opacity-30" : "cursor-pointer"
+  }`;
+
+  const classNameLeftArrow = `${
+    currentPage === 1 ? "opacity-30" : "cursor-pointer"
+  }`;
 
   const handleAnimalClick = (id) => {
     navigate(`/animal/${id}`);
@@ -57,7 +64,7 @@ export const Animals = ({
         <img
           src={leftArrowSVG}
           alt="left-arrow"
-          className="cursor-pointer"
+          className={classNameLeftArrow}
           onClick={handleClickLeftArrow}
         />
         <Typography className="!mx-10" fontSize={20} sx={{ color: "#EE7100" }}>
@@ -66,7 +73,7 @@ export const Animals = ({
         <img
           src={rightArrowSVG}
           alt="right-arrow"
-          className="cursor-pointer"
+          className={classNameRightArrow}
           onClick={handleClickRightArrow}
         />
       </Box>

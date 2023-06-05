@@ -1,8 +1,7 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 
-export const User = ({ firstName, lastName }) => {
-  const [isAllAnimal, setIsAllAnimal] = useState(false);
+export const User = ({ firstName, lastName, isAllAnimal, setIsAllAnimal }) => {
 
   const userName = `${firstName} ${lastName}`;
 
