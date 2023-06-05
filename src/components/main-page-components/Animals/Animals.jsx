@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  Typography,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-} from "@mui/material";
 import { useNavigate } from "react-router";
+import { AnimalCard } from "./AnimalCard";
 
 export const ageTransformation = (ageAnimal) => {
   let age = "";
@@ -18,39 +12,26 @@ export const ageTransformation = (ageAnimal) => {
   return age;
 };
 
-export const Animals = ({ animals }) => {
+export const Animals = ({ animals, baseURL }) => {
   const navigate = useNavigate();
+
+  const handleAnimalClick = (id) => {
+    navigate(`/animal/${id}`);
+  };
+
+  const animalsElements = animals.map((el) => (
+    <AnimalCard
+      key={el.id}
+      {...el}
+      photo={`${baseURL}${el.photos[0]}`}
+      handleAnimalClick={handleAnimalClick}
+      ageText={ageTransformation(el.age)}
+    />
+  ));
 
   return (
     <div className={`grid sm:grid-cols-1 md:grid-cols-3 `}>
-      {animals.map((animal) => {
-        return (
-          <Card className="flex shadow m-10" sx={{ height: 200 }} key={animal.id}>
-            <CardActionArea onClick={() => navigate(`/animal/${animal.id}`)}>
-              <div className="flex flex-row">
-                <CardContent className="flex justify-items-center">
-                  <CardMedia
-                    src={`http://miomi.by:9000${animal.photos[0]}`}
-                    component="img"
-                    alt={animal.id}
-                    className="rounded-full ml-6"
-                    sx={{ width: 125, height: 125 }}
-                  />
-                </CardContent>
-                <CardContent className="flex flex-col justify-items-center">
-                  <Typography fontSize={24}>{animal.name}</Typography>
-                  <Typography>
-                    {animal.sex === 0 ? "мальчик" : "девочка"}
-                  </Typography>
-                  <Typography>{`${animal.age} ${ageTransformation(
-                    animal.age
-                  )}`}</Typography>
-                </CardContent>
-              </div>
-            </CardActionArea>
-          </Card>
-        );
-      })}
+      {animalsElements}
     </div>
   );
 };

@@ -4,6 +4,5 @@ import { useAnimalContext } from "../../../Context/AnimalContext";
 
 export const NavBarContainer = () => {
   const { userData } = useAnimalContext();
-  console.log(userData)
-  return <NavBar {...userData}/>;
+  return <NavBar {...userData} />;
 };

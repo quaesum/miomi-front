@@ -7,6 +7,7 @@ export const AnimalContext = createContext();
 export function AnimalContextProvider({ children }) {
     const [isLogin, setIsLogin] = useState(false)
     const [animalsData, setAnimalsData] = useState([]);
+    const [newsData, setNewsData] = useState([]);
     const [userData, setUserData] = useState({})
 
     const baseURL = "http://miomi.by:9000"
@@ -18,6 +19,9 @@ export function AnimalContextProvider({ children }) {
     useEffect(() => {
         axios.get(`http://miomi.by/api/animal/v1/`).then((res) => {
             setAnimalsData(res.data);
+        });
+        axios.get(`http://miomi.by/api/news/v1/`).then((res) => {
+            setNewsData(res.data);
         });
     }, [])
 
@@ -31,7 +35,7 @@ export function AnimalContextProvider({ children }) {
 
     return (
         <AnimalContext.Provider
-            value={{ animalsData, baseURL, isLogin, setIsLogin, handleDeleteAnimal, userData }}
+            value={{ animalsData, baseURL, isLogin, setIsLogin, handleDeleteAnimal, userData, newsData }}
         >
             {children}
         </AnimalContext.Provider>
