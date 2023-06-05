@@ -1,5 +1,5 @@
-import { Box, Button, Modal, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Box } from "@mui/material";
+import React from "react";
 
 const styleBtn = {
   display: "inline-flex",

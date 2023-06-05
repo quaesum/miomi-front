@@ -10,24 +10,31 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
+import AuthService from "../../auth/auth.service";
 
-export const Login = ({setIsLogin}) => {
+export const Login = ({ setIsLogin }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-  const handleSubmitForm = () =>{
-    console.log(getValues())
-    setIsLogin(true)
-  }
+  const user = localStorage.getItem("user");
 
-  const {register, handleSubmit, getValues} = useForm();
+  useEffect(() => {
+    if (user) setIsLogin(true);
+    else setIsLogin(false);
+  }, [user, setIsLogin]);
+
+  const handleSubmitForm = () => {
+    AuthService.login(getValues("email"), getValues("password"));
+  };
+
+  const { register, handleSubmit, getValues } = useForm();
 
   return (
     <div className="grid place-content-center h-screen w-full flex-1 pb-80">
@@ -54,9 +61,9 @@ export const Login = ({setIsLogin}) => {
               sx={{ width: "400px" }}
               className="!mb-20 w-full"
               id="outlined-basic"
-              label="Login"
+              label="E-mail"
               variant="outlined"
-              {...register("login")}
+              {...register("email")}
             />
             <FormControl sx={{ width: "400px" }} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">

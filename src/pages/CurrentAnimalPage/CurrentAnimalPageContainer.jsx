@@ -18,7 +18,7 @@ export const CurrentAnimalPageContainer = () => {
         photos: [...tempCurrentAnimal?.photos.map((el) => `${baseURL}${el}`)],
       });
     }
-  }, [animalsData]);
+  }, [animalsData, baseURL, id]);
   
   if(!animal) return null
   return <CurrentAnimalPage animal={animal} id={id} />;
