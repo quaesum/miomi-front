@@ -25,7 +25,7 @@ export const Animals = ({ animals }) => {
     <div className={`grid sm:grid-cols-1 md:grid-cols-3 `}>
       {animals.map((animal) => {
         return (
-          <Card className="flex shadow m-10" sx={{ height: 200 }}>
+          <Card className="flex shadow m-10" sx={{ height: 200 }} key={animal.id}>
             <CardActionArea onClick={() => navigate(`/animal/${animal.id}`)}>
               <div className="flex flex-row">
                 <CardContent className="flex justify-items-center">

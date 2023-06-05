@@ -7,9 +7,10 @@ export const AnimalContext = createContext();
 export function AnimalContextProvider({ children }) {
     const [isLogin, setIsLogin] = useState(false)
     const [animalsData, setAnimalsData] = useState([]);
+    const [userData, setUserData] = useState({})
+
     const baseURL = "http://miomi.by:9000"
     const userKey = localStorage.getItem("user")
-    const userData = UserService.getUserInfo().then(res => res).catch(er => { })
     const handleDeleteAnimal = (id) => {
         console.log('Delete:' + id)
     }
@@ -21,13 +22,16 @@ export function AnimalContextProvider({ children }) {
     }, [])
 
     useEffect(() => {
-        if (userKey) setIsLogin(true)
+        if (userKey) {
+            setIsLogin(true)
+            UserService.getUserInfo().then(res => setUserData(res.data.data)).catch(er => { })
+        }
         else setIsLogin(false)
     }, [userKey])
 
     return (
         <AnimalContext.Provider
-            value={{ animalsData, baseURL, isLogin, setIsLogin, handleDeleteAnimal }}
+            value={{ animalsData, baseURL, isLogin, setIsLogin, handleDeleteAnimal, userData }}
         >
             {children}
         </AnimalContext.Provider>
