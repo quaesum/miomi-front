@@ -1,6 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import { AnimalCard } from "./AnimalCard";
+import { Box, Typography } from "@mui/material";
+import leftArrowSVG from "../../../assets/CurrentAnimalPage/left-arrow.svg";
+import rightArrowSVG from "../../../assets/CurrentAnimalPage/right-arrow.svg";
 
 export const ageTransformation = (ageAnimal) => {
   let age = "";
@@ -12,11 +15,27 @@ export const ageTransformation = (ageAnimal) => {
   return age;
 };
 
-export const Animals = ({ animals, baseURL }) => {
+export const Animals = ({
+  animals,
+  baseURL,
+  currentPage,
+  handleIncrementPage,
+  handleDecrementPage,
+  maxPages,
+}) => {
   const navigate = useNavigate();
+  const page = `Страница ${currentPage}`;
 
   const handleAnimalClick = (id) => {
     navigate(`/animal/${id}`);
+  };
+
+  const handleClickLeftArrow = () => {
+    if (currentPage !== 1) handleDecrementPage();
+  };
+
+  const handleClickRightArrow = () => {
+    if (currentPage <= maxPages) handleIncrementPage();
   };
 
   const animalsElements = animals.map((el) => (
@@ -30,8 +49,27 @@ export const Animals = ({ animals, baseURL }) => {
   ));
 
   return (
-    <div className={`grid sm:grid-cols-1 md:grid-cols-3 `}>
-      {animalsElements}
-    </div>
+    <>
+      <div className={`grid sm:grid-cols-1 md:grid-cols-3 `}>
+        {animalsElements}
+      </div>
+      <Box className="m-auto w-max flex">
+        <img
+          src={leftArrowSVG}
+          alt="left-arrow"
+          className="cursor-pointer"
+          onClick={handleClickLeftArrow}
+        />
+        <Typography className="!mx-10" fontSize={20} sx={{ color: "#EE7100" }}>
+          {page}
+        </Typography>
+        <img
+          src={rightArrowSVG}
+          alt="right-arrow"
+          className="cursor-pointer"
+          onClick={handleClickRightArrow}
+        />
+      </Box>
+    </>
   );
 };
