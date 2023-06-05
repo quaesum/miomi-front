@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@mui/material";
 import pointSrc from "../../assets/CurrentAnimalPage/point.png";
-import { ageTransformation } from "../../components/Animals/Animals";
 import { useForm } from "react-hook-form";
 import { Name } from "./componentsPage/Name";
 import { Sex } from "./componentsPage/Sex";
@@ -18,6 +17,7 @@ import { Description } from "./componentsPage/Description";
 import { Age } from "./componentsPage/Age";
 import { ModalPhotos } from "./componentsPage/ModalPhotos";
 import { ModalAnimalDelete } from "../../components/ModalAnimalDelete/ModalAnimalDelete";
+import { ageTransformation } from "../../components/main-page-components/Animals/Animals";
 
 export const CurrentAnimalPage = ({ animal, id }) => {
   const [isEditMode, setIsEditMode] = useState(false);
