@@ -4,11 +4,13 @@ import { CurrentAnimalPageContainer } from "./pages/CurrentAnimalPage/CurrentAni
 import Layout from "./components/Layout/Layout";
 import { LoginContainer } from "./components/Login/LoginContainer";
 import { MainPage } from "./pages/MainPage/MainPage";
+import TermsOfUse from "./pages/TermsOfUse";
 
 export const App = () => {
   return (
     <Routes>
       <Route path="/*" element={<Layout />}>
+        <Route path="terms-of-use" element={<TermsOfUse />}/>
         <Route path="" element={<MainPage />} />
         <Route path="animal/:id" element={<CurrentAnimalPageContainer />} />
         <Route path="login" element={<LoginContainer />} />
