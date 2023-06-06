@@ -7,6 +7,7 @@ import { MainPage } from "./pages/MainPage/MainPage";
 import TermsOfUse from "./pages/TermsOfUse";
 import ProfilePageContainer from "./pages/ProfilePage/ProfilePageContainer.";
 import { CurrentNewsPageContainer } from "./pages/CurrentNewsPage/CurrentNewsPageContainer";
+import { CreateAnimalPage } from "./pages/CreateAnimalPage/CreateAnimalPage";
 
 export const App = () => {
   return (
@@ -18,6 +19,7 @@ export const App = () => {
         <Route path="news/:id" element={<CurrentNewsPageContainer />} />
         <Route path="login" element={<LoginContainer />} />
         <Route path="profile" element={<ProfilePageContainer/>}/>
+        <Route path="animals/create-animal" element={<CreateAnimalPage/>}/>
         <Route path="*" element={<Navigate to={"/"} />} />
       </Route>
     </Routes>

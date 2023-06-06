@@ -57,7 +57,7 @@ export const ModalDelete = ({ id, handleClose }) => {
                   color: "#6A6D76",
                   border: "3px solid #DCDCDC",
                 }}
-                className="!mt-12 !text-sm !normal-case	"
+                className="!mt-12 !text-sm !normal-case"
                 type="submit"
                 variant="outlined"
                 onClick={handleClose}
@@ -70,7 +70,7 @@ export const ModalDelete = ({ id, handleClose }) => {
                   "&:hover": { backgroundColor: "#e38800" },
                   backgroundColor: "#ff9800",
                 }}
-                className="!mt-6 !text-sm !normal-case	"
+                className="!mt-6 !text-sm !normal-case"
                 type="submit"
                 variant="contained"
                 onClick={handleDelete}
