@@ -33,6 +33,7 @@ class AuthService {
     }
 
     logout() {
+        
         localStorage.removeItem("user");
     }
 

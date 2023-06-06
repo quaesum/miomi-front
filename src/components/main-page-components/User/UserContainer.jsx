@@ -4,5 +4,5 @@ import { useAnimalContext } from "../../../Context/AnimalContext";
 
 export const UserContainer = (props) => {
   const { userData } = useAnimalContext();
-  return userData ?  <User {...props} {...userData}/> : null
+  return userData.lenght ? <User {...props} {...userData} /> : null;
 };

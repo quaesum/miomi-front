@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Card,
   FormControl,
   IconButton,
@@ -10,14 +9,21 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import { LoadingButton } from "@mui/lab";
+import React, { useEffect, useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
 import AuthService from "../../auth/auth.service";
+import { useNavigate } from "react-router";
 
 export const Login = ({ setIsLogin }) => {
+  const navigate = useNavigate()
+
   const [showPassword, setShowPassword] = React.useState(false);
+  const [errors, setErrors] = useState("");
+  const [isRequest, setIsRequest] = useState(false);
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -31,7 +37,16 @@ export const Login = ({ setIsLogin }) => {
   }, [user, setIsLogin]);
 
   const handleSubmitForm = () => {
-    AuthService.login(getValues("email"), getValues("password"));
+    setIsRequest(true);
+    const res = AuthService.login(getValues("email"), getValues("password"))
+      .then((res) => {
+        setIsLogin(false);
+        navigate("/")
+      })
+      .catch((er) => {
+        setIsRequest(false);
+        setErrors(er.message);
+      });
   };
 
   const { register, handleSubmit, getValues } = useForm();
@@ -88,19 +103,29 @@ export const Login = ({ setIsLogin }) => {
                 label="Password"
               />
             </FormControl>
-            <Button
-              className="!mt-20"
-              type="submit"
-              variant="contained"
-              sx={{
-                borderRadius: "8px",
-                padding: "5px 60px",
-                backgroundColor: "#ff9800",
-                "&:hover": { backgroundColor: "#e38800" },
-              }}
-            >
-              <Typography fontSize={18}>Продолжить</Typography>
-            </Button>
+            <Box className="!mt-20">
+              {errors && (
+                <Typography
+                  className="flex justify-center"
+                  sx={{ color: "red" }}
+                >
+                  {errors}
+                </Typography>
+              )}
+              <LoadingButton
+                loading={isRequest}
+                type="submit"
+                variant="contained"
+                sx={{
+                  borderRadius: "8px",
+                  padding: "5px 60px",
+                  backgroundColor: "#ff9800",
+                  "&:hover": { backgroundColor: "#e38800" },
+                }}
+              >
+                <Typography fontSize={18}>Продолжить</Typography>
+              </LoadingButton>
+            </Box>
           </form>
         </Box>
       </Card>

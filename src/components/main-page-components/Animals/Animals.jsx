@@ -34,7 +34,7 @@ export const Animals = ({
   }`;
 
   const handleAnimalClick = (id) => {
-    navigate(`/animal/${id}`);
+    navigate(`/animals/${id}`);
   };
 
   const handleClickLeftArrow = () => {
