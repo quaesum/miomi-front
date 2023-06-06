@@ -9,7 +9,7 @@ const btnStyle = {
   width: "100%",
 };
 
-export const ModalAnimalDelete = ({ id, handleClose }) => {
+export const ModalDelete = ({ id, handleClose }) => {
   const { handleDeleteAnimal } = useAnimalContext();
   const navigate = useNavigate();
 

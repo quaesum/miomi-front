@@ -35,7 +35,7 @@ export const Login = ({ login, setIsLogin }) => {
 
   const handleSubmitForm = () => {
     setIsRequest(true);
-    const res = AuthService.login(getValues("email"), getValues("password"))
+    AuthService.login(getValues("email"), getValues("password"))
       .then((res) => {
         login();
       })

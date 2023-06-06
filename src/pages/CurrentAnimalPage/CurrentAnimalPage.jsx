@@ -16,7 +16,7 @@ import { CustomTypographyTag } from "./componentsPage/CustomTypographyTag";
 import { Description } from "./componentsPage/Description";
 import { Age } from "./componentsPage/Age";
 import { ModalPhotos } from "./componentsPage/ModalPhotos";
-import { ModalAnimalDelete } from "../../components/ModalAnimalDelete/ModalAnimalDelete";
+import { ModalDelete } from "../../components/ModalDelete/ModalDelete";
 import { ageTransformation } from "../../components/main-page-components/Animals/Animals";
 
 export const CurrentAnimalPage = ({ animal, id }) => {
@@ -156,7 +156,7 @@ export const CurrentAnimalPage = ({ animal, id }) => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <ModalAnimalDelete id={id} handleClose={handleClose} />
+              <ModalDelete id={id} handleClose={handleClose} />
             </Modal>
           </Box>
         </Box>
