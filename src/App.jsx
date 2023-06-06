@@ -5,6 +5,7 @@ import Layout from "./components/Layout/Layout";
 import { LoginContainer } from "./components/Login/LoginContainer";
 import { MainPage } from "./pages/MainPage/MainPage";
 import TermsOfUse from "./pages/TermsOfUse";
+import ProfilePageContainer from "./pages/ProfilePage/ProfilePageContainer.";
 
 export const App = () => {
   return (
@@ -14,6 +15,7 @@ export const App = () => {
         <Route path="" element={<MainPage />} />
         <Route path="animal/:id" element={<CurrentAnimalPageContainer />} />
         <Route path="login" element={<LoginContainer />} />
+        <Route path="profile" element={<ProfilePageContainer/>}/>
       </Route>
     </Routes>
   );

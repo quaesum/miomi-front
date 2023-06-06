@@ -60,6 +60,7 @@ export const NavBar = ({ firstName, lastName }) => {
           <Button
             className="min-h-40 min-w-40 px-0 md:px-16 py-0 md:py-6"
             color="inherit"
+            onClick={() => navigate('/profile')}
           >
             <div className="hidden md:flex flex-col mx-4 items-end">
               <Typography
