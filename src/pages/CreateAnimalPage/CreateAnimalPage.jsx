@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Card, Typography } from "@mui/material";
 import { PlaceAnAd } from "../../components/PlaceAnAd/PlaceAnAd";
 import arrowUp from "../../assets/CreateAnimalPage/arrow-up.png";
 import { useForm } from "react-hook-form";
 import { CustomTypographyTag } from "../../components/CustomTypographyTag/CustomTypographyTag";
+import nullPicture from "../../assets/CreateAnimalPage/null-picture.png";
 
 const CustomTag = ({ type, text, active, className = "", handleCustomTag }) => {
   return (
@@ -41,11 +42,41 @@ const CustomLabelTag = ({ text, sx, className }) => {
   );
 };
 
+const typesImage = ["image/png", "image/jpeg", "image/gif", "image/svg+xml"];
+
 export const CreateAnimalPage = () => {
   const [activeAnimal, setAcitveAnimal] = useState("dog");
   const [isSterilized, setIsSterilized] = useState(false);
   const [isVaccinated, setIsVaccinated] = useState(false);
   const [sex, setSex] = useState(1);
+  const [photos, setPhotos] = useState([]);
+  const [isDragEnter, setIsDragEnter] = useState(false);
+  const [photoElements, setPhotoElements] = useState([]);
+
+  useEffect(() => {
+    let tempPhotoElements = [];
+    for (let i = 0; i < 3; i++) {
+      let path = "";
+      try {
+        path = URL.createObjectURL(photos[i]);
+      } catch (er) {}
+      tempPhotoElements[i] = (
+        <img
+          className={`${path ? "cursor-pointer" : ""}`}
+          key={i}
+          style={{
+            height: "90px",
+            width: "90px",
+          }}
+          onClick={path ? () => deleteFile(i) : () => {}}
+          src={path ? path : nullPicture}
+          alt={"photo_image"}
+          loading="lazy"
+        />
+      );
+    }
+    setPhotoElements(tempPhotoElements);
+  }, [photos]);
 
   const {
     register,
@@ -65,10 +96,30 @@ export const CreateAnimalPage = () => {
     },
   });
 
-  console.log(errors);
+  const addFile = (file) => {
+    let tempPhotos = [...photos];
+    tempPhotos.unshift(file);
+    tempPhotos = tempPhotos.slice(0, 3);
+    setPhotos(tempPhotos);
+  };
+
+  const deleteFile = (i) => {
+    let tempFiles = [...photos];
+    console.log(i);
+    tempFiles = tempFiles.map((el, index) => {
+      if (index !== i) return el;
+      else return null;
+    });
+    tempFiles = tempFiles.filter((el) => el !== null);
+    setPhotos(tempFiles);
+  };
 
   const handleSubmitForm = () => {
-    console.log(getValues());
+    if (photos.length >= 1) {
+      console.log(getValues());
+    } else {
+      alert("Загрузити фото"); //TODO Сделать ошибку под картинками
+    }
   };
 
   const handleChangeAnimal = (type) => {
@@ -87,6 +138,39 @@ export const CreateAnimalPage = () => {
     setValue(type, active);
   };
 
+  const dragEnterHandler = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setIsDragEnter(true);
+  };
+
+  const dragLeaveHandler = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setIsDragEnter(false);
+  };
+
+  const dragOverHandler = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    event.dataTransfer.dropEffect = "move";
+    event.returnValue = false;
+  };
+
+  const dropHandler = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    event.dataTransfer.dropEffect = "move";
+    event.returnValue = false;
+
+    const files = [...event.dataTransfer.files];
+    console.log(files);
+    files.forEach((el) => {
+      addFile(el);
+    });
+    setIsDragEnter(false);
+  };
+
   return (
     <form
       onSubmit={handleSubmit(handleSubmitForm)}
@@ -99,50 +183,105 @@ export const CreateAnimalPage = () => {
         className="w-screen"
       >
         <PlaceAnAd type={"Животные"} />
-        <Box sx={{ mx: 10, my: 3 }}>
+        <Box sx={{ ml: 10, my: 3, mr: 15 }}>
           {/* PHOTOS */}
-          <Box className="flex">
-            <Box>
-              <Typography fontSize={20} className="!font-semibold">
-                Фотографии
-              </Typography>
-              <Box
-                className="grid grid-rows-2 grid-cols-2 gap-y-6"
-                sx={{ mt: 2 }}
-              >
-                <Button
-                  variant="contained"
+          <div
+            className={`${isDragEnter ? "" : "flex justify-between"} w-full`}
+            onDragEnter={dragEnterHandler}
+            onDragOver={dragOverHandler}
+            onDragLeave={dragLeaveHandler}
+            onDrop={dropHandler}
+          >
+            {isDragEnter ? (
+              <>
+                {/* DROP AREA */}
+                <Box
+                  minHeight={133}
                   sx={{
-                    backgroundColor: "#EE7100",
-                    borderRadius: "10px",
-                    "&:hover": { backgroundColor: "#ee6f00d2" },
+                    border: "3px solid #EE7100",
+                    color: "#6A6D76",
+                    fontSize: "24px",
                   }}
+                  className="!h-full !border-dashed flex justify-center items-center"
                 >
-                  <Box className="flex">
-                    <img src={arrowUp} alt="arrow-up" height={8} width={20} />
-                    <Typography className="!normal-case" fontSize={18}>
-                      &nbsp; Добавьте фотографии
+                  Перетащите сюда
+                </Box>
+              </>
+            ) : (
+              <>
+                {/* PHOTOS */}
+                <Box>
+                  <Typography fontSize={20} className="!font-semibold">
+                    Фотографии
+                  </Typography>
+                  <Box
+                    className="grid grid-rows-2 grid-cols-2 gap-y-6"
+                    sx={{ mt: 2 }}
+                  >
+                    <Button
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "#EE7100",
+                        borderRadius: "10px",
+                        "&:hover": { backgroundColor: "#ee6f00d2" },
+                      }}
+                    >
+                      <Box className="flex">
+                        <img
+                          src={arrowUp}
+                          alt="arrow-up"
+                          height={8}
+                          width={20}
+                        />
+                        <Typography className="!normal-case" fontSize={18}>
+                          &nbsp; Добавьте фотографии{" "}
+                          {/*TODO Заставить работать*/}
+                        </Typography>
+                      </Box>
+                    </Button>
+                    <Typography
+                      className="flex justify-center items-center"
+                      sx={{ color: "#6A6D76" }}
+                      fontSize={18}
+                    >
+                      Или перетащите сюда
+                    </Typography>
+                    <Typography
+                      className="flex justify-center items-center"
+                      sx={{ color: "#6A6D76" }}
+                      fontSize={18}
+                    >
+                      Максимальный размер 10 МБ
                     </Typography>
                   </Box>
-                </Button>
-                <Typography
-                  className="flex justify-center items-center"
-                  sx={{ color: "#6A6D76" }}
-                  fontSize={18}
-                >
-                  Или перетащите сюда
-                </Typography>
-                <Typography
-                  className="flex justify-center items-center"
-                  sx={{ color: "#6A6D76" }}
-                  fontSize={18}
-                >
-                  Максимальный размер 10 МБ
-                </Typography>
-              </Box>
-              <Box className="min-w-100"></Box>
-            </Box>
-          </Box>
+                </Box>
+
+                {/* VIEW PHOTOS */}
+                <Box className="min-w-100 ">
+                  <Box width={340} className="flex flex-row justify-between">
+                    {photoElements}
+                  </Box>
+                  <Box className="flex justify-center items-center !mt-10">
+                    <img
+                      key={999}
+                      style={{
+                        height: "22px",
+                        width: "22px",
+                      }}
+                      src={nullPicture}
+                      alt={"null-puctire"}
+                      loading="lazy"
+                    />
+                    <Typography fontSize={18}>
+                      &nbsp;{`Загружено ${photos.length} из 3`}
+                    </Typography>
+                  </Box>
+                </Box>
+              </>
+            )}
+          </div>
+
+          {/* MAIN INFORMATION */}
           <Box
             sx={{
               mt: 4,
