@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Card, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, Typography } from "@mui/material";
 import { PlaceAnAd } from "../../components/PlaceAnAd/PlaceAnAd";
 import arrowUp from "../../assets/CreateAnimalPage/arrow-up.png";
 import { useForm } from "react-hook-form";
@@ -47,7 +47,13 @@ export const CreateAnimalPage = () => {
   const [isVaccinated, setIsVaccinated] = useState(false);
   const [sex, setSex] = useState(1);
 
-  const { register, handleSubmit, getValues, setValue, errors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       animalType: "dog",
       sex,
@@ -59,24 +65,26 @@ export const CreateAnimalPage = () => {
     },
   });
 
+  console.log(errors);
+
   const handleSubmitForm = () => {
     console.log(getValues());
   };
 
   const handleChangeAnimal = (type) => {
     setAcitveAnimal(type);
-    setValue("animalType", type)
+    setValue("animalType", type);
   };
 
   const handleChangeSex = (type) => {
     setSex(type);
-    setValue("sex", type)
+    setValue("sex", type);
   };
 
   const handleChangeMedic = (type, active) => {
     if (type === "vaccinated") setIsVaccinated(active);
     else setIsSterilized(active);
-    setValue(type, active)
+    setValue(type, active);
   };
 
   return (
@@ -186,38 +194,75 @@ export const CreateAnimalPage = () => {
 
             {/* AGE */}
             <CustomLabelTag text={"Возраст"} />
-            <Box className="flex ml-10">
+            <Box className="flex items-center ml-10">
               <input
-                {...register("age")}
+                {...register("age", {
+                  required: "Обязательное поле",
+                  min: { value: 0.1, message: "Минимальный возраст 1 год" },
+                  max: { value: 30, message: "Максимальный возраст 30 лет" },
+                })}
                 type="number"
                 min={0}
                 max={30}
-                className="outline-0 rounded-lg w-40 pl-6 !border-solid !border-2 !border-gray-300"
+                className={`outline-0 rounded-lg w-40 h-full pl-6 !border-solid !border-2 ${
+                  errors.age ? "border-red-300" : "!border-gray-300"
+                }`}
               />
+              {errors.age && (
+                <Box sx={{ color: "red", ml: 4 }}>{errors.age.message}</Box>
+              )}
             </Box>
 
             {/* NAME */}
             <CustomLabelTag text={"Имя"} />
-            <Box className="flex ml-10">
+            <Box className="flex ml-10 items-center">
               <input
-                {...register("name")}
+                {...register("name", {
+                  required: "Обязательное поле",
+                  minLength: {
+                    value: 3,
+                    message: "Минимальная длина 3 символа",
+                  },
+                  maxLength: {
+                    value: 13,
+                    message: "Максимальная длина 13 символов",
+                  },
+                })}
                 type="text"
                 min={0}
                 max={30}
-                className="outline-0 rounded-lg w-80 pl-6 !border-solid !border-2 !border-gray-300"
+                className={`outline-0 rounded-lg w-120 h-full pl-6 !border-solid !border-2 ${
+                  errors.name ? "border-red-300" : "!border-gray-300"
+                }`}
               />
+              {errors.name && (
+                <Box sx={{ color: "red", ml: 4 }}>{errors.name.message}</Box>
+              )}
             </Box>
 
             {/* ADDRESS */}
             <CustomLabelTag text={"Местоположение"} />
-            <Box className="flex ml-10">
+            <Box className="flex ml-10 items-center">
               <input
-                {...register("address")}
+                {...register("address", {
+                  required: "Обязательное поле",
+                  minLength: {
+                    value: 3,
+                    message: "Минимальная длина 3 символа",
+                  },
+                })}
                 type="text"
                 min={0}
                 max={30}
-                className="outline-0 rounded-lg w-full pl-6 !border-solid !border-2 !border-gray-300"
+                className={`outline-0 rounded-lg h-full pl-6 !border-solid !border-2 ${
+                  errors.address
+                    ? "border-red-300 w-6/12"
+                    : "!border-gray-300 w-full"
+                }`}
               />
+              {errors.address && (
+                <Box sx={{ color: "red", ml: 4 }}>{errors.address.message}</Box>
+              )}
             </Box>
 
             {/* INFO MEDIC */}
@@ -259,13 +304,13 @@ export const CreateAnimalPage = () => {
               <textarea
                 rows={2}
                 {...register("description")}
-                className="resize-none w-full border-3 outline-0 rounded-lg p-6 cursor-default font-normal leading-6"
+                className="resize-none w-full border-3 outline-0 rounded-lg px-6 cursor-default font-normal leading-6"
               />
             </Box>
           </Box>
           <Box className="flex justify-center mt-20">
             <Button
-            type="submit"
+              type="submit"
               variant="contained"
               sx={{
                 backgroundColor: "#EE7100",
@@ -273,7 +318,12 @@ export const CreateAnimalPage = () => {
                 "&:hover": { backgroundColor: "#ee6f00d2" },
               }}
             >
-              <Typography fontSize={20} className="font-normal !normal-case !mx-20">Сохранить</Typography>
+              <Typography
+                fontSize={20}
+                className="font-normal !normal-case !mx-20"
+              >
+                Сохранить
+              </Typography>
             </Button>
           </Box>
         </Box>
