@@ -15,11 +15,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
 import AuthService from "../../auth/auth.service";
-import { useNavigate } from "react-router";
 
-export const Login = ({ setIsLogin }) => {
-  const navigate = useNavigate()
-
+export const Login = ({ login, setIsLogin }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [errors, setErrors] = useState("");
   const [isRequest, setIsRequest] = useState(false);
@@ -40,8 +37,7 @@ export const Login = ({ setIsLogin }) => {
     setIsRequest(true);
     const res = AuthService.login(getValues("email"), getValues("password"))
       .then((res) => {
-        setIsLogin(false);
-        navigate("/")
+        login();
       })
       .catch((er) => {
         setIsRequest(false);

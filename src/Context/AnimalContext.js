@@ -1,10 +1,13 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import UserService from "../auth/user.service";
+import { useNavigate } from "react-router";
 
 export const AnimalContext = createContext();
 
 export function AnimalContextProvider({ children }) {
+    const navigate = useNavigate()
+
     const [isLogin, setIsLogin] = useState(false)
     const [animalsData, setAnimalsData] = useState([]);
     const [newsData, setNewsData] = useState([]);
@@ -32,7 +35,6 @@ export function AnimalContextProvider({ children }) {
             UserService.getUserInfo().then(res => setUserData(res.data.data)).catch(er => { })
         }
         else {
-            console.log(userData, isLogin)
             setIsLogin(false)
             setUserData([])
         }
@@ -40,11 +42,19 @@ export function AnimalContextProvider({ children }) {
 
     const logout = () => {
         setUserKey(localStorage.getItem("user"))
+        setIsLogin(false)
+        setUserData([])
+    }
+
+    const login = () => {
+        setIsLogin(true)
+        UserService.getUserInfo().then(res => setUserData(res.data.data)).catch(er => { })
+        navigate("/")
     }
 
     return (
         <AnimalContext.Provider
-            value={{ animalsData, baseURL, isLogin, setIsLogin, handleDeleteAnimal, userData, newsData, logout }}
+            value={{ animalsData, baseURL, isLogin, setIsLogin, handleDeleteAnimal, userData, newsData, logout, login }}
         >
             {children}
         </AnimalContext.Provider>

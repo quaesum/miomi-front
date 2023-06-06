@@ -4,10 +4,10 @@ import { useAnimalContext } from "../../Context/AnimalContext";
 import { useNavigate } from "react-router";
 
 export const LoginContainer = () => {
-  const { setIsLogin, isLogin } = useAnimalContext();
+  const { login, isLogin, setIsLogin } = useAnimalContext();
   const navigate = useNavigate();
 
   if (isLogin) navigate("/");
 
-  return <Login setIsLogin={setIsLogin} />;
+  return <Login login={login} setIsLogin={setIsLogin}/>;
 };
