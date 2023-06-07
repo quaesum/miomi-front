@@ -9,6 +9,7 @@ import { CurrentNewsPageContainer } from "./pages/CurrentNewsPage/CurrentNewsPag
 import { CreateAnimalPage } from "./pages/CreateAnimalPage/CreateAnimalPage";
 import { RegistrationContainer } from "./pages/Registration/RegistrationContainer";
 import { LoginContainer } from "./pages/Login/LoginContainer";
+import { CreateNewsPage } from "./pages/CreateNewsPage/CreateNewsPage";
 
 export const App = () => {
   return (
@@ -22,6 +23,7 @@ export const App = () => {
         <Route path="animals/create-animal" element={<CreateAnimalPage/>}/>
         <Route path="registration" element={<RegistrationContainer />}/>
         <Route path="terms-of-use" element={<TermsOfUse />}/>
+        <Route path="news/create-news" element={<CreateNewsPage />}/>
         <Route path="*" element={<Navigate to={"/"} />} />
       </Route>
     </Routes>
