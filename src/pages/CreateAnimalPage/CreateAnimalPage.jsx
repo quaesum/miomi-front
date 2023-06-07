@@ -383,7 +383,7 @@ export const CreateAnimalPage = () => {
                 type="number"
                 min={0}
                 max={30}
-                className={`outline-0 rounded-lg w-40 h-full pl-6 !border-solid !border-2 ${
+                className={`outline-0 rounded-md w-40 h-full pl-6 !border-solid !border-2 ${
                   errors.age ? "border-red-300" : "!border-gray-300"
                 }`}
               />
@@ -410,7 +410,7 @@ export const CreateAnimalPage = () => {
                 type="text"
                 min={0}
                 max={30}
-                className={`outline-0 rounded-lg w-120 h-full pl-6 !border-solid !border-2 ${
+                className={`outline-0 rounded-md w-120 h-full pl-6 !border-solid !border-2 ${
                   errors.name ? "border-red-300" : "!border-gray-300"
                 }`}
               />
@@ -433,7 +433,7 @@ export const CreateAnimalPage = () => {
                 type="text"
                 min={0}
                 max={30}
-                className={`outline-0 rounded-lg h-full pl-6 !border-solid !border-2 ${
+                className={`outline-0 rounded-md h-full pl-6 !border-solid !border-2 ${
                   errors.address
                     ? "border-red-300 w-6/12"
                     : "!border-gray-300 w-full"
@@ -483,7 +483,7 @@ export const CreateAnimalPage = () => {
               <textarea
                 rows={2}
                 {...register("description")}
-                className="resize-none w-full border-3 outline-0 rounded-lg px-6 cursor-default font-normal leading-6"
+                className="resize-none w-full border-2 border-gray-300 outline-0 rounded-md px-6 cursor-default font-normal leading-6"
               />
             </Box>
           </Box>
