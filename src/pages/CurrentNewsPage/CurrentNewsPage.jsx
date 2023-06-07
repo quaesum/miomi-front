@@ -23,7 +23,7 @@ export const CurrentNewsPage = ({ news, id }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const { register, handleSubmit, getValues, setValue } = useForm({
+  const { register, handleSubmit, getValues } = useForm({
     defaultValues: {
       label: news.label,
       description: news.description,
@@ -103,6 +103,14 @@ export const CurrentNewsPage = ({ news, id }) => {
         ></div>
         <Box sx={{ px: 10, pt: 2, pb: 5 }} className="flex flex-col">
           <Box className="flex flex-col">
+            <Box>
+              <Typography
+                fontSize={18}
+                className="text-grey-600 cursor-default !mr-16"
+              >
+                {news.created_at}
+              </Typography>
+            </Box>
             {isEditMode && <ModalPhotos handleFileLoad={handleFileLoad} />}
             <ImageList
               sx={
