@@ -7,7 +7,13 @@ import { CustomTypographyTag } from "../../components/CustomTypographyTag/Custom
 import nullPicture from "../../assets/CreateAnimalPage/null-picture.png";
 import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
 
-export const CustomTag = ({ type, text, active, className = "", handleCustomTag }) => {
+export const CustomTag = ({
+  type,
+  text,
+  active,
+  className = "",
+  handleCustomTag,
+}) => {
   return (
     <Typography
       fontSize={18}
@@ -20,11 +26,23 @@ export const CustomTag = ({ type, text, active, className = "", handleCustomTag 
               color: "white",
               backgroundColor: "#EE7100",
               border: "2px solid #EE7100",
+              "&:hover": {
+                backgroundColor: "#ee6f00d2",
+                borderColor: "#ee6f00d2 !important",
+                boxShadow:
+                  "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12) !important",
+              },
             }
           : {
               color: "#6A6D76",
               border: "2px solid #DCDCDC",
               backgroundColor: "white",
+              "&:hover": {
+                backgroundColor: "#DCDCDC",
+                border: "2px solid #DCDCDC",
+                boxShadow:
+                "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12) !important",
+              },
             },
       ]}
     >
@@ -79,9 +97,9 @@ export const CreateAnimalPage = () => {
     setPhotoElements(tempPhotoElements);
   }, [photos]);
 
-  useEffect(()=>{
-    setValue("photos", photos.length)
-  }, [photos])
+  useEffect(() => {
+    setValue("photos", photos.length);
+  }, [photos]);
 
   const {
     register,
