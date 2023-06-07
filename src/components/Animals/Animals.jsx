@@ -49,7 +49,7 @@ export const Animals = ({
     <AnimalCard
       key={el.id}
       {...el}
-      photo={`${baseURL}${el.photos[0]}`}
+      photo={`${baseURL}${el?.photos?.[0]}`}
       handleAnimalClick={handleAnimalClick}
       ageText={ageTransformation(el.age)}
     />

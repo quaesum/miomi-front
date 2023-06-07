@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, Typography, Tabs, Tab, Box } from "@mui/material";
 import { UserContainer } from "../../components/main-page-components/User/UserContainer";
 import { AnimalsContainer } from "../../components/main-page-components/Animals/AnimalsContainer";
-import { NewsContainer } from "../../components/main-page-components/News/NewsContainer";
+import { NewsContainer } from "../../components/News/NewsContainer";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

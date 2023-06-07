@@ -5,11 +5,12 @@ import pawSrc from "../../../assets/NavBar/paw.png";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 import { useNavigate } from "react-router-dom";
 
-const CustomButton = ({ text, url }) => {
+const CustomButton = ({ text, url, popupState }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate(url);
+    console.log(popupState.close())
   };
 
   return (
@@ -39,7 +40,6 @@ const CustomButton = ({ text, url }) => {
 
 export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
   const navigate = useNavigate();
-
   const userName = `${firstName} ${lastName}`;
 
   return (
@@ -108,14 +108,17 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                       >
                         <Box className="grid grid-rows-3 gap-6">
                           <CustomButton
+                            popupState={popupState}
                             text={"Животное"}
                             url={"animals/create-animal"}
                           />
                           <CustomButton
+                            popupState={popupState}
                             text={"Новость"}
                             url={"news/create-news"}
                           />
                           <CustomButton
+                            popupState={popupState}
                             text={"Пожертвование"}
                             url={"donations/create-animal"}
                           />
