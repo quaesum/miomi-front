@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  Checkbox,
   FormControl,
   IconButton,
   InputAdornment,
@@ -25,10 +26,10 @@ const btnStyle = {
 };
 
 export const Login = ({ login, setIsLogin }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = React.useState(false);
-  const [errors, setErrors] = useState("");
+  const [errorsRequest, setErrorsRequest] = useState("");
   const [isRequest, setIsRequest] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -51,11 +52,24 @@ export const Login = ({ login, setIsLogin }) => {
       })
       .catch((er) => {
         setIsRequest(false);
-        setErrors(er.message);
+        setErrorsRequest(er.message);
       });
   };
 
-  const { register, handleSubmit, getValues } = useForm();
+  const validationDefaultProps = {
+    required: "Обяазательное поле",
+    minLength: {
+      value: 3,
+      message: "Минимальная длина 3 символа",
+    },
+  };
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm();
 
   return (
     <div className="grid place-content-center h-screen w-full flex-1 pb-80">
@@ -78,44 +92,92 @@ export const Login = ({ login, setIsLogin }) => {
             className="flex flex-col items-center w-full px-20 py-20"
             onSubmit={handleSubmit(handleSubmitForm)}
           >
-            <TextField
-              sx={{ width: "400px" }}
-              className="!mb-20 w-full"
-              id="outlined-basic"
-              label="E-mail"
-              variant="outlined"
-              {...register("email")}
-            />
-            <FormControl sx={{ width: "400px" }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">
-                Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
-                {...register("password")}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
+            {/* EMAIL */}
+            <Box className="flex flex-col !mb-10">
+              <TextField
+                sx={{ width: "400px" }}
+                className="w-full"
+                id="outlined-basic"
+                label="Почтовый ящик"
+                variant="outlined"
+                {...register("email", {
+                  ...validationDefaultProps,
+                  pattern: {
+                    value:
+                      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu,
+                    message: "Неверный формат (example@gmail.com)",
+                  },
+                })}
               />
-            </FormControl>
+              {errors.email && (
+                <Box sx={{ color: "red" }}>{errors.email.message}</Box>
+              )}
+            </Box>
+
+            {/* PASSWORD */}
+            <Box>
+              <FormControl sx={{ width: "400px" }} variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Пароль
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  {...register("password", { ...validationDefaultProps })}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Пароль"
+                />
+              </FormControl>
+              {errors.password && (
+                <Box sx={{ color: "red" }}>{errors.password.message}</Box>
+              )}
+            </Box>
+
+            {/* CHECKBOX */}
+            <Box className="flex flex-col justify-center">
+              <Box className="flex justify-center items-center">
+                <Checkbox
+                  label="Пользовательское соглашение"
+                  {...register("terms_of_use", {
+                    validate: (value) => {
+                      if (!value) return "Прочтите пользовательское соглашение";
+                    },
+                  })}
+                />
+                <Typography
+                  sx={{
+                    color: "#6A6D76",
+                    "&:hover": { color: "#EE7100" },
+                  }}
+                  className="cursor-pointer"
+                  onClick={() => navigate("/terms-of-use")}
+                >
+                  Пользовательское соглашение
+                </Typography>
+              </Box>
+              {errors.terms_of_use && (
+                <Box sx={{ color: "red" }}>{errors.terms_of_use.message}</Box>
+              )}
+            </Box>
+
             <Box className="!mt-20 flex flex-col">
-              {errors && (
+              {errorsRequest && (
                 <Typography
                   className="flex justify-center"
                   sx={{ color: "red" }}
                 >
-                  {errors}
+                  {errorsRequest}
                 </Typography>
               )}
               <LoadingButton
@@ -142,7 +204,7 @@ export const Login = ({ login, setIsLogin }) => {
                   color: "#6A6D76",
                   border: "2px solid #DCDCDC",
                 }}
-                onClick={()=> navigate("/registration")}
+                onClick={() => navigate("/registration")}
                 className="!mt-4 !text-sm !normal-case"
                 type="submit"
                 variant="outlined"

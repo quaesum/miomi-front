@@ -235,7 +235,7 @@ export const Registration = ({ login }) => {
                     pattern: {
                       value:
                         /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu,
-                      message: "Неверный формат",
+                      message: "Неверный формат (example@gmail.com)",
                     },
                   })}
                   variant="outlined"

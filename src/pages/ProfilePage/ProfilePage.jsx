@@ -144,7 +144,7 @@ export default function ProfilePage({ data, updateUserInfo }) {
                     pattern: {
                       value:
                         /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu,
-                      message: "Неверный формат",
+                      message: "Неверный формат (example@gmail.com)",
                     },
                   })}
                 />
