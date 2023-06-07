@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Animals } from "./Animals";
-import { useAnimalContext } from "../../../Context/AnimalContext";
+import { useAnimalContext } from "../../Context/AnimalContext";
 
 export const AnimalsContainer = ({ isAllAnimal }) => {
   const { baseURL, animalsData, userData } = useAnimalContext();

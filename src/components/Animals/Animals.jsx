@@ -2,8 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { AnimalCard } from "./AnimalCard";
 import { Box, Typography } from "@mui/material";
-import leftArrowSVG from "../../../assets/CurrentAnimalPage/left-arrow.svg";
-import rightArrowSVG from "../../../assets/CurrentAnimalPage/right-arrow.svg";
+import leftArrowSVG from "../../assets/CurrentAnimalPage/left-arrow.svg";
+import rightArrowSVG from "../../assets/CurrentAnimalPage/right-arrow.svg";
 
 export const ageTransformation = (ageAnimal) => {
   let age = "";

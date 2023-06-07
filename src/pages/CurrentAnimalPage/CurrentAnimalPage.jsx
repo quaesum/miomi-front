@@ -17,7 +17,7 @@ import { Description } from "./componentsPage/Description";
 import { Age } from "./componentsPage/Age";
 import { ModalPhotos } from "./componentsPage/ModalPhotos";
 import { ModalDelete } from "../../components/ModalDelete/ModalDelete";
-import { ageTransformation } from "../../components/main-page-components/Animals/Animals";
+import {ageTransformation} from "../../components/Animals/Animals"
 
 export const CurrentAnimalPage = ({ animal, id }) => {
   const [isEditMode, setIsEditMode] = useState(false);
