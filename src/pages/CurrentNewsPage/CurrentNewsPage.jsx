@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { ModalDelete } from "../../components/ModalDelete/ModalDelete";
-import { Description } from "./componentsPage/Description";
 import { ModalPhotos } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
 import { Label } from "./componentsPage/Label";
 
@@ -17,13 +16,16 @@ export const CurrentNewsPage = ({ news, id }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [filesURL, setFilesURL] = useState(news.photos);
 
-  console.log(news);
-
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const { register, handleSubmit, getValues } = useForm({
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       label: news.label,
       description: news.description,
@@ -57,9 +59,18 @@ export const CurrentNewsPage = ({ news, id }) => {
     }
   };
 
+  const handleFormSubmit = () => {
+    console.log(getValues());
+  };
+
+  const validationDefaultProps = {
+    required: "Обязательное поле",
+    minLength: { value: 3, message: "Минимальная длина 3 символа" },
+  };
+
   return (
     <form
-      onSubmit={(e) => e.preventDefault()}
+      onSubmit={handleSubmit(handleFormSubmit)}
       className="grid place-content-center h-full w-full flex-1"
     >
       <Card
@@ -68,17 +79,24 @@ export const CurrentNewsPage = ({ news, id }) => {
         }}
       >
         <Box sx={{ px: 10, py: 3 }} className="flex justify-between h-min-80">
-          <Box className="flex flex-col justify-center">
-            <Label label={getValues("label")} {...defaultPropsForComponents} />
+          <Box className="flex flex-col justify-center w-full pr-60">
+            <Label
+              errors={errors.label}
+              validationDefaultProps={validationDefaultProps}
+              label={getValues("label")}
+              {...defaultPropsForComponents}
+            />
           </Box>
-          <Box className="flex flex-row" sx={{ mt: "15px" }}>
-            <Typography
-              fontSize={18}
-              className="text-grey-600 cursor-pointer !mr-16"
-              onClick={handleClickModeChange}
-            >
-              {isEditMode ? "Сохранить" : "Изменить"}
-            </Typography>
+          <Box className="flex flex-row justify-center" sx={{ mt: "15px" }}>
+            <button type={isEditMode ? "submit" : ""} className="h-max">
+              <Typography
+                fontSize={18}
+                className="text-grey-600 cursor-pointer !mr-16"
+                onClick={handleClickModeChange}
+              >
+                {isEditMode ? "Сохранить" : "Изменить"}
+              </Typography>
+            </button>
             <Typography
               onClick={handleOpen}
               fontSize={18}
@@ -138,7 +156,25 @@ export const CurrentNewsPage = ({ news, id }) => {
             </ImageList>
           </Box>
           <Box sx={{ mt: "30px", color: "#6A6D76", fontSize: "18px" }}>
-            <Description {...defaultPropsForComponents} />
+            <textarea
+              rows={3}
+              readOnly={!isEditMode}
+              {...register("description", {
+                required: "Обязательное поле",
+                minLength: {
+                  value: 5,
+                  message: "Минимальная длина 5 символа",
+                },
+              })}
+              className={`resize-none w-full border-2 border-gray-300 outline-0 rounded-md px-6 cursor-default font-normal leading-6 ${
+                errors.description
+                  ? "border-red-300"
+                  : "!border-gray-300 w-full"
+              }`}
+            />
+            {errors.description && (
+              <Box sx={{ color: "red" }}>{errors.description.message}</Box>
+            )}
           </Box>
         </Box>
       </Card>

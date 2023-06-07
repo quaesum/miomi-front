@@ -16,7 +16,7 @@ export const AnimalsContainer = ({ isAllAnimal }) => {
     let tempAnimals = animalsData;
     //Sort by shelter id
     if (!isAllAnimal) {
-      tempAnimals = animalsData.filter((el) => el.shelterId === 1); //TODO userData.shelterId replace 1
+      tempAnimals = animalsData.filter((el) => el.shelterId === userData.shelterId); //TODO userData.shelterId replace 1
     }
 
     //Max pages

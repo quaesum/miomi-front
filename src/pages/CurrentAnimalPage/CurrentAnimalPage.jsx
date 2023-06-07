@@ -19,7 +19,7 @@ import { ModalDelete } from "../../components/ModalDelete/ModalDelete";
 import { ageTransformation } from "../../components/Animals/Animals";
 import { Address } from "./componentsPage/Address";
 
-export const CurrentAnimalPage = ({ animal, id }) => {
+export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSterilized, setIsSterilized] = useState(animal.sterilized);
   const [isVaccinated, setIsVaccinated] = useState(animal.vaccinated);
@@ -154,7 +154,8 @@ export const CurrentAnimalPage = ({ animal, id }) => {
               />
             </Box>
           </Box>
-          <Box className="flex flex-col" sx={{ mt: "23px" }}>
+
+          {isCanEdit && <Box className="flex flex-col" sx={{ mt: "23px" }}>
             <button type={isEditMode ? "submit" : ""}>
               <Typography
                 fontSize={18}
@@ -180,7 +181,8 @@ export const CurrentAnimalPage = ({ animal, id }) => {
             >
               <ModalDelete id={id} handleClose={handleClose} />
             </Modal>
-          </Box>
+          </Box>}
+          
         </Box>
         <div
           className="h-2 w-full"
@@ -236,7 +238,7 @@ export const CurrentAnimalPage = ({ animal, id }) => {
               variant="quilted"
               cols={3}
             >
-              {filesURL?.map((item) => (
+              {filesURL.map((item) => (
                 <ImageListItem key={item}>
                   <img
                     style={{
