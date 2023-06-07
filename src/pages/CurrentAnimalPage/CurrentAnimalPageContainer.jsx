@@ -8,7 +8,7 @@ export const CurrentAnimalPageContainer = () => {
   const [isCanEdit, setIsCanEdit] = useState();
   const { animalsData, baseURL, isLogin, userData } = useAnimalContext();
   let { id } = useParams();
-  const userShelterId = userData.shelterId ? userData.shelterId : "";
+  const userShelterId = userData.shelter_id ? userData.shelter_id : "";
 
   useEffect(() => {
     const tempCurrentAnimal = animalsData.filter(

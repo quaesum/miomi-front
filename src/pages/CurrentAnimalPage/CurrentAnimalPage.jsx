@@ -104,6 +104,7 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
   };
 
   const handleFormSubmit = () => {
+    setIsEditMode(false)
     console.log(getValues());
   };
 
@@ -156,7 +157,7 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
                 <button type="submit" className="h-max">
                   <Typography
                     fontSize={18}
-                    className="text-grey-600 cursor-pointer !mr-16"
+                    className="text-grey-600 cursor-pointer"
                   >
                     Сохранить
                   </Typography>
@@ -164,7 +165,7 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
               ) : (
                 <Typography
                   fontSize={18}
-                  className="text-grey-600 cursor-pointer !mr-16"
+                  className="text-grey-600 cursor-pointer"
                   onClick={handleClickActive}
                 >
                   Изменить
@@ -196,11 +197,13 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
         <Box sx={{ px: 10, pt: 2, pb: 5 }} className="flex flex-col">
           {/* PLACE */}
           <Box className="flex">
+            <Box className={isEditMode ? "flex items-center": ""}>
             <img
               src={pointSrc}
               style={{ width: "17px", height: "26px" }}
               alt="point"
             />
+            </Box>
             <Box className="ml-10">
               <Address
                 validationDefaultProps={validationDefaultProps}
@@ -213,7 +216,7 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
               </Typography>
             </Box>
           </Box>
-          <Box className="flex" sx={{ mt: "25px" }}>
+          <Box className={isEditMode ? "flex justify-center" : "flex"} sx={{ mt: "25px" }}>
             <CustomTypographyTag
               {...defaultPropsForComponents}
               type={"vaccinated"}
@@ -270,7 +273,9 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
                   message: "Минимальная длина 5 символа",
                 },
               })}
-              className={`resize-none w-full border-2 border-gray-300 outline-0 rounded-md px-6 cursor-default font-normal leading-6 ${
+              className={`resize-none w-full outline-0 rounded-md px-6 cursor-default font-normal leading-6 ${
+                isEditMode ? "border-2 border-gray-300" : ""
+              } ${
                 errors.description
                   ? "border-red-300 w-6/12"
                   : "!border-gray-300 w-full"
