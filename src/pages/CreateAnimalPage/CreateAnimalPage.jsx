@@ -62,7 +62,6 @@ export const CustomLabelTag = ({ text, sx, className }) => {
   );
 };
 
-const typesImage = ["image/png", "image/jpeg", "image/gif", "image/svg+xml"];
 
 export const CreateAnimalPage = () => {
   const [activeAnimal, setAcitveAnimal] = useState(1);

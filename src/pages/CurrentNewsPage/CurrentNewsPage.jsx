@@ -9,12 +9,11 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { ModalDelete } from "../../components/ModalDelete/ModalDelete";
-import { ModalPhotos } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
+import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
 import { Label } from "./componentsPage/Label";
 
 export const CurrentNewsPage = ({ news, id }) => {
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isSubmit, setIsSubmit] = useState(false);
   const [filesURL, setFilesURL] = useState(news.photos);
 
   const [open, setOpen] = React.useState(false);
@@ -72,7 +71,13 @@ export const CurrentNewsPage = ({ news, id }) => {
     >
       <Card
         sx={{
-          width: { sm: "100%", lg: "1024px", xs: "100%", borderRadius: "20px" },
+          width: {
+            sm: "100%",
+            lg: "1024px",
+            xs: "100%",
+            borderRadius: "20px",
+            pb: 10,
+          },
         }}
       >
         <Box sx={{ px: 10, py: 3 }} className="flex justify-between h-min-80">
@@ -83,10 +88,19 @@ export const CurrentNewsPage = ({ news, id }) => {
               label={getValues("label")}
               {...defaultPropsForComponents}
             />
+            <Typography
+              fontSize={18}
+              className="text-grey-600 cursor-default !mt-4"
+            >
+              {news.created_at}
+            </Typography>
           </Box>
-          <Box className="flex flex-row justify-center" sx={{ mt: "15px" }}>
+          <Box
+            className="flex flex-row justify-center items-center"
+            sx={{ mt: "15px" }}
+          >
             {isEditMode ? (
-              <button type={isSubmit ? "submit" : ""} className="h-max">
+              <button type="submit" className="h-max">
                 <Typography
                   fontSize={18}
                   className="text-grey-600 cursor-pointer !mr-16"
@@ -127,43 +141,33 @@ export const CurrentNewsPage = ({ news, id }) => {
         ></div>
         <Box sx={{ px: 10, pt: 2, pb: 5 }} className="flex flex-col">
           <Box className="flex flex-col">
-            <Box>
-              <Typography
-                fontSize={18}
-                className="text-grey-600 cursor-default !mr-16"
-              >
-                {news.created_at}
-              </Typography>
-            </Box>
-            {isEditMode && <ModalPhotos handleFileLoad={handleFileLoad} />}
-            <ImageList
-              sx={
-                !isEditMode
-                  ? { mt: "30px", width: "100%", height: "285px" }
-                  : { width: "100%", height: 285 }
-              }
-              variant="quilted"
-              cols={3}
+            {isEditMode && (
+              <CustomButton
+                text={"Поменять картинку"}
+                handleFileLoad={handleFileLoad}
+                index={0}
+              />
+            )}
+            <ImageListItem
+              className="!flex !justify-center"
+              sx={isEditMode ? { mt: 3 } : {}}
+              key={filesURL[0]}
             >
-              {filesURL.map((item) => (
-                <ImageListItem key={item}>
-                  <img
-                    style={{
-                      borderRadius: "15px",
-                      height: "285px",
-                      width: "285px",
-                    }}
-                    src={item}
-                    alt="news_image"
-                    loading="lazy"
-                  />
-                </ImageListItem>
-              ))}
-            </ImageList>
+              <img
+                style={{
+                  borderRadius: "15px",
+                  height: "285px",
+                  width: "285px",
+                }}
+                src={filesURL[0]}
+                alt="news_image"
+                loading="lazy"
+              />
+            </ImageListItem>
           </Box>
           <Box sx={{ mt: "30px", color: "#6A6D76", fontSize: "18px" }}>
             <textarea
-              rows={3}
+              rows={8}
               readOnly={!isEditMode}
               {...register("description", {
                 required: "Обязательное поле",
@@ -172,7 +176,9 @@ export const CurrentNewsPage = ({ news, id }) => {
                   message: "Минимальная длина 5 символа",
                 },
               })}
-              className={`resize-none w-full border-2 border-gray-300 outline-0 rounded-md px-6 cursor-default font-normal leading-6 ${
+              className={`resize-none w-full outline-0 rounded-md px-6 cursor-default font-normal leading-6 ${
+                isEditMode ? "border-2 border-gray-300" : ""
+              } ${
                 errors.description
                   ? "border-red-300"
                   : "!border-gray-300 w-full"

@@ -59,30 +59,25 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
     minLength: { value: 3, message: "Минимальная длина 3 символа" },
   };
 
-  const handleClickModeChange = () => {
-    if (isEditMode) {
-      handleSubmit();
-      // let bodyFromData = new FormData();
-      // let sex = getValues("sex") === "мальчик" ? 1 : 0;
-      // bodyFromData.append("name", getValues("nameAnimal"));
-      // bodyFromData.append("sex", sex);
-      // bodyFromData.append("age", Number(getValues("age")));
-      // bodyFromData.append("sterilized", isSterilized);
-      // bodyFromData.append("vaccinated", isVaccinated);
-      // bodyFromData.append("animals", [...files]);
-      // console.log(bodyFromData)
-      // axios
-      //   .post("http://localhost:8000/animal", bodyFromData, {
-      //     headers: { "Content-Type": "multipart/form-data" },
-      //   })
-      //   .then((res) => {
-      //     console.log(res.data);
-      //   })
-      //   .catch((e) => console.log(e));
-      setIsEditMode((prev) => !prev);
-    } else {
-      setIsEditMode((prev) => !prev);
-    }
+  const handleClickActive = () => {
+    // let bodyFromData = new FormData();
+    // let sex = getValues("sex") === "мальчик" ? 1 : 0;
+    // bodyFromData.append("name", getValues("nameAnimal"));
+    // bodyFromData.append("sex", sex);
+    // bodyFromData.append("age", Number(getValues("age")));
+    // bodyFromData.append("sterilized", isSterilized);
+    // bodyFromData.append("vaccinated", isVaccinated);
+    // bodyFromData.append("animals", [...files]);
+    // console.log(bodyFromData)
+    // axios
+    //   .post("http://localhost:8000/animal", bodyFromData, {
+    //     headers: { "Content-Type": "multipart/form-data" },
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //   })
+    //   .catch((e) => console.log(e));
+    setIsEditMode(true);
   };
 
   const handleChangeSex = (e) => {
@@ -155,34 +150,44 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
             </Box>
           </Box>
 
-          {isCanEdit && <Box className="flex flex-col" sx={{ mt: "23px" }}>
-            <button type={isEditMode ? "submit" : ""}>
+          {isCanEdit && (
+            <Box className="flex flex-col" sx={{ mt: "23px" }}>
+              {isEditMode ? (
+                <button type="submit" className="h-max">
+                  <Typography
+                    fontSize={18}
+                    className="text-grey-600 cursor-pointer !mr-16"
+                  >
+                    Сохранить
+                  </Typography>
+                </button>
+              ) : (
+                <Typography
+                  fontSize={18}
+                  className="text-grey-600 cursor-pointer !mr-16"
+                  onClick={handleClickActive}
+                >
+                  Изменить
+                </Typography>
+              )}
               <Typography
+                onClick={handleOpen}
                 fontSize={18}
-                className={"text-grey-600 cursor-pointer"}
-                onClick={handleClickModeChange}
+                className="cursor-pointer !ml-auto w-max"
+                sx={{ color: "#EE7100" }}
               >
-                {isEditMode ? "Сохранить" : "Изменить"}
+                Удалить
               </Typography>
-            </button>
-            <Typography
-              onClick={handleOpen}
-              fontSize={18}
-              className="cursor-pointer !ml-auto w-max"
-              sx={{ color: "#EE7100" }}
-            >
-              Удалить
-            </Typography>
-            <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <ModalDelete id={id} handleClose={handleClose} />
-            </Modal>
-          </Box>}
-          
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <ModalDelete id={id} handleClose={handleClose} />
+              </Modal>
+            </Box>
+          )}
         </Box>
         <div
           className="h-2 w-full"

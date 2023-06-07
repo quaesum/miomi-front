@@ -67,8 +67,8 @@ export const ModalDelete = ({ id, handleClose }) => {
               <Button
                 sx={{
                   ...btnStyle,
-                  "&:hover": { backgroundColor: "#e38800" },
-                  backgroundColor: "#ff9800",
+                  "&:hover": { backgroundColor: "#ee6f00d2" },
+                  backgroundColor: "#EE7100",
                 }}
                 className="!mt-6 !text-sm !normal-case"
                 type="submit"

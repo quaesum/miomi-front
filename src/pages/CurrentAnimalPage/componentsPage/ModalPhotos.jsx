@@ -51,6 +51,8 @@ const style = {
   border: "1px solid #EE7100",
 };
 
+const typesImage = ["image/png", "image/jpeg", "image/gif", "image/svg+xml"];
+
 export const CustomButton = ({ text, handleFileLoad, index, type = "" }) => {
   return (
     <Box className="m-auto">
@@ -64,6 +66,7 @@ export const CustomButton = ({ text, handleFileLoad, index, type = "" }) => {
         {text}
       </label>
       <input
+        accept={typesImage.join(",")}
         id={`upload-file-${index}`}
         hidden
         type="file"
