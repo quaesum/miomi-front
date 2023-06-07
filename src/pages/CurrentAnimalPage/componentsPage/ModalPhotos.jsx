@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
+import s from "./ModalPhotos.module.css";
 
 const styleBtn = {
   display: "inline-flex",
@@ -12,7 +13,6 @@ const styleBtn = {
   position: "relative",
   boxSizing: "border-box",
   WebkitTapHighlightColor: "transparent",
-  backgroundColor: "transparent",
   outline: "0",
   margin: "0",
   cursor: "pointer",
@@ -26,37 +26,48 @@ const styleBtn = {
   textDecoration: "none",
   fontFamily: "Roboto,Helvetica,Arial,sans-serif",
   fontWeight: "500",
-  fontSize: "0.9375rem",
+  fontSize: "1rem",
   lineHeight: "1.75",
   letterSpacing: "0.02857em",
   textTransform: "uppercase",
   minWidth: "64px",
   padding: "7px 21px",
-  borderRadius: "4px",
+  borderRadius: "10px",
   WebkitTransition:
     "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
   transition:
     "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-  color: "#ff9800",
-  border: "1px solid #ff9800",
-  ":hover": {
-    backgroundColor: "",
-  },
+  color: "#6A6D76",
+  border: "1px solid #6A6D76",
+  backgroundColor: "transperent",
+  boxShadow:
+    "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
 };
 
-const CustomButton = ({ text, handleFileLoad, index }) => {
+const style = {
+  ...styleBtn,
+  backgroundColor: "#EE7100",
+  color: "white",
+  border: "1px solid #EE7100",
+};
+
+export const CustomButton = ({ text, handleFileLoad, index, type = "" }) => {
   return (
     <Box className="m-auto">
-      <label style={{ ...styleBtn }} className="w-max" for={`upload-file-${index}`}>
+      <label
+        style={type ? { ...style } : { ...styleBtn }}
+        className={`w-max ${
+          type ? s.hoverEffectType : s.hoverEffect
+        } !normal-case`}
+        for={`upload-file-${index}`}
+      >
         {text}
       </label>
       <input
         id={`upload-file-${index}`}
         hidden
         type="file"
-        onChange={(event) =>
-          handleFileLoad(event, event.target.id)
-        }
+        onChange={(event) => handleFileLoad(event, event.target.id)}
         className="w-max"
       />
     </Box>

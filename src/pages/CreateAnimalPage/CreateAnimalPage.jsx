@@ -5,6 +5,7 @@ import arrowUp from "../../assets/CreateAnimalPage/arrow-up.png";
 import { useForm } from "react-hook-form";
 import { CustomTypographyTag } from "../../components/CustomTypographyTag/CustomTypographyTag";
 import nullPicture from "../../assets/CreateAnimalPage/null-picture.png";
+import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
 
 const CustomTag = ({ type, text, active, className = "", handleCustomTag }) => {
   return (
@@ -103,6 +104,15 @@ export const CreateAnimalPage = () => {
     setPhotos(tempPhotos);
   };
 
+  const addFiles = (files) => {
+    let tempPhotos = [...photos];
+    files.forEach((el) => {
+      tempPhotos.unshift(el);
+    });
+    tempPhotos = tempPhotos.slice(0, 3);
+    setPhotos(tempPhotos);
+  };
+
   const deleteFile = (i) => {
     let tempFiles = [...photos];
     console.log(i);
@@ -138,6 +148,14 @@ export const CreateAnimalPage = () => {
     setValue(type, active);
   };
 
+  const handleFileLoad = (e, index) => {
+    let tempIndex = Number(index.split("-")[2]);
+    if (e.target.files) {
+      const files = [...e.target.files]
+      addFiles(files)
+    }
+  };
+
   const dragEnterHandler = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -165,9 +183,11 @@ export const CreateAnimalPage = () => {
 
     const files = [...event.dataTransfer.files];
     console.log(files);
-    files.forEach((el) => {
-      addFile(el);
-    });
+    if (files.length > 1) {
+      addFiles(files);
+    } else {
+      files.forEach((el) => addFile(el));
+    }
     setIsDragEnter(false);
   };
 
@@ -218,27 +238,24 @@ export const CreateAnimalPage = () => {
                     className="grid grid-rows-2 grid-cols-2 gap-y-6"
                     sx={{ mt: 2 }}
                   >
-                    <Button
-                      variant="contained"
-                      sx={{
-                        backgroundColor: "#EE7100",
-                        borderRadius: "10px",
-                        "&:hover": { backgroundColor: "#ee6f00d2" },
-                      }}
-                    >
-                      <Box className="flex">
-                        <img
-                          src={arrowUp}
-                          alt="arrow-up"
-                          height={8}
-                          width={20}
-                        />
-                        <Typography className="!normal-case" fontSize={18}>
-                          &nbsp; Добавьте фотографии{" "}
-                          {/*TODO Заставить работать*/}
-                        </Typography>
-                      </Box>
-                    </Button>
+                    <CustomButton
+                      text={
+                        <>
+                          <img
+                            src={arrowUp}
+                            alt="arrow-up"
+                            height={8}
+                            width={20}
+                          />
+                          <Typography className="!normal-case" fontSize={18}>
+                            &nbsp; Добавьте фотографии
+                          </Typography>
+                        </>
+                      }
+                      index={1}
+                      handleFileLoad={handleFileLoad}
+                      type="create-animal"
+                    />
                     <Typography
                       className="flex justify-center items-center"
                       sx={{ color: "#6A6D76" }}
