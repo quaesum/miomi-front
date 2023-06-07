@@ -79,6 +79,10 @@ export const CreateAnimalPage = () => {
     setPhotoElements(tempPhotoElements);
   }, [photos]);
 
+  useEffect(()=>{
+    setValue("photos", photos.length)
+  }, [photos])
+
   const {
     register,
     handleSubmit,
@@ -94,6 +98,7 @@ export const CreateAnimalPage = () => {
       vaccinated: isVaccinated,
       sterilized: isSterilized,
       description: "",
+      photos: 0,
     },
   });
 
@@ -125,11 +130,7 @@ export const CreateAnimalPage = () => {
   };
 
   const handleSubmitForm = () => {
-    if (photos.length >= 1) {
-      console.log(getValues());
-    } else {
-      alert("Загрузити фото"); //TODO Сделать ошибку под картинками
-    }
+    console.log(getValues());
   };
 
   const handleChangeAnimal = (type) => {
@@ -151,8 +152,8 @@ export const CreateAnimalPage = () => {
   const handleFileLoad = (e, index) => {
     let tempIndex = Number(index.split("-")[2]);
     if (e.target.files) {
-      const files = [...e.target.files]
-      addFiles(files)
+      const files = [...e.target.files];
+      addFiles(files);
     }
   };
 
@@ -212,6 +213,12 @@ export const CreateAnimalPage = () => {
             onDragLeave={dragLeaveHandler}
             onDrop={dropHandler}
           >
+            <input
+              className="hidden"
+              {...register("photos", {
+                min: { value: 1, message: "Загрузите минимум 1 фотографию" },
+              })}
+            />
             {isDragEnter ? (
               <>
                 {/* DROP AREA */}
@@ -279,19 +286,35 @@ export const CreateAnimalPage = () => {
                     {photoElements}
                   </Box>
                   <Box className="flex justify-center items-center !mt-10">
-                    <img
-                      key={999}
-                      style={{
-                        height: "22px",
-                        width: "22px",
-                      }}
-                      src={nullPicture}
-                      alt={"null-puctire"}
-                      loading="lazy"
-                    />
-                    <Typography fontSize={18}>
-                      &nbsp;{`Загружено ${photos.length} из 3`}
-                    </Typography>
+                    <Box className="flex flex-col">
+                      <Box className="flex justify-center items-center">
+                        <img
+                          key={999}
+                          style={{
+                            height: "22px",
+                            width: "22px",
+                          }}
+                          src={nullPicture}
+                          alt={"null-puctire"}
+                          loading="lazy"
+                        />
+                        <Typography fontSize={18}>
+                          &nbsp;{`Загружено ${photos.length} из 3`}
+                        </Typography>
+                      </Box>
+                      {photos.length < 1 && (
+                        <Typography
+                          sx={{
+                            color: "red",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                          fontSize={18}
+                        >
+                          {errors?.photos?.message}
+                        </Typography>
+                      )}
+                    </Box>
                   </Box>
                 </Box>
               </>
