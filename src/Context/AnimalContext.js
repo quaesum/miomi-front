@@ -52,9 +52,13 @@ export function AnimalContextProvider({ children }) {
         navigate("/")
     }
 
+    const updateUserInfo = () => {
+        UserService.getUserInfo().then(res => setUserData(res.data.data)).catch(er => { })
+    }
+
     return (
         <AnimalContext.Provider
-            value={{ animalsData, baseURL, isLogin, setIsLogin, handleDeleteAnimal, userData, newsData, logout, login }}
+            value={{ animalsData, baseURL, isLogin, setIsLogin, handleDeleteAnimal, userData, newsData, logout, login, updateUserInfo }}
         >
             {children}
         </AnimalContext.Provider>
