@@ -163,7 +163,7 @@ export const Login = ({ login, setIsLogin }) => {
                   className="cursor-pointer"
                   onClick={() => navigate("/terms-of-use")}
                 >
-                  Пользовательское соглашение
+                  Согласен с пользовательским соглашением
                 </Typography>
               </Box>
               {errors.terms_of_use && (
