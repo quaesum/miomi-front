@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { CustomTypographyTag } from "../../components/CustomTypographyTag/CustomTypographyTag";
 import nullPicture from "../../assets/CreateAnimalPage/null-picture.png";
 import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
+import DataService from "../../auth/data.service";
 
 export const CustomTag = ({
   type,
@@ -41,7 +42,7 @@ export const CustomTag = ({
                 backgroundColor: "#DCDCDC",
                 border: "2px solid #DCDCDC",
                 boxShadow:
-                "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12) !important",
+                  "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12) !important",
               },
             },
       ]}
@@ -64,7 +65,7 @@ export const CustomLabelTag = ({ text, sx, className }) => {
 const typesImage = ["image/png", "image/jpeg", "image/gif", "image/svg+xml"];
 
 export const CreateAnimalPage = () => {
-  const [activeAnimal, setAcitveAnimal] = useState("dog");
+  const [activeAnimal, setAcitveAnimal] = useState(1);
   const [isSterilized, setIsSterilized] = useState(false);
   const [isVaccinated, setIsVaccinated] = useState(false);
   const [sex, setSex] = useState(1);
@@ -109,7 +110,7 @@ export const CreateAnimalPage = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      animalType: "dog",
+      animalType: 1,
       sex,
       name: "",
       age: 0,
@@ -148,7 +149,19 @@ export const CreateAnimalPage = () => {
   };
 
   const handleSubmitForm = () => {
-    console.log(getValues());
+    const postData = {
+      age: getValues("age"),
+      name: getValues("name"),
+      sex: getValues("sex"),
+      type: getValues("animalType"),
+      description: getValues("description"),
+      sterilized: getValues("sterilized"),
+      vaccinated: getValues("vaccinated"),
+      //shelterId:
+      //photos: [] 
+    };
+    //DataService.addNewAnimal(postData)
+    console.log(postData)
   };
 
   const handleChangeAnimal = (type) => {
@@ -168,7 +181,6 @@ export const CreateAnimalPage = () => {
   };
 
   const handleFileLoad = (e, index) => {
-    let tempIndex = Number(index.split("-")[2]);
     if (e.target.files) {
       const files = [...e.target.files];
       addFiles(files);
@@ -353,21 +365,27 @@ export const CreateAnimalPage = () => {
             <CustomLabelTag text={"Хочу поделиться"} />
             <Box className="flex">
               <CustomTag
-                type={"dog"}
-                text={"Собакой"}
-                active={activeAnimal === "dog"}
-                handleCustomTag={handleChangeAnimal}
-              />
-              <CustomTag
                 text={"Котом"}
-                type={"cat"}
-                active={activeAnimal === "cat"}
+                type={1}
+                active={activeAnimal === 1}
                 handleCustomTag={handleChangeAnimal}
               />
               <CustomTag
-                text={"Енотом"}
-                type={"raccoon"}
-                active={activeAnimal === "raccoon"}
+                type={2}
+                text={"Собакой"}
+                active={activeAnimal === 2}
+                handleCustomTag={handleChangeAnimal}
+              />
+              <CustomTag
+                text={"Птицой"}
+                type={3}
+                active={activeAnimal === 3}
+                handleCustomTag={handleChangeAnimal}
+              />
+              <CustomTag
+                text={"Другим"}
+                type={4}
+                active={activeAnimal === 4}
                 handleCustomTag={handleChangeAnimal}
               />
             </Box>
@@ -495,14 +513,27 @@ export const CreateAnimalPage = () => {
               sx={{ gridRowStart: "7", gridRowEnd: "9" }}
             />
             <Box
-              className="flex ml-10"
+              className="flex ml-10 flex-col"
               sx={{ gridRowStart: "7", gridRowEnd: "9" }}
             >
               <textarea
                 rows={2}
-                {...register("description")}
-                className="resize-none w-full border-2 border-gray-300 outline-0 rounded-md px-6 cursor-default font-normal leading-6"
+                {...register("description", {
+                  required: "Обязательное поле",
+                  minLength: {
+                    value: 5,
+                    message: "Минимальная длина 5 символа",
+                  },
+                })}
+                className={`resize-none w-full border-2 border-gray-300 outline-0 rounded-md px-6 cursor-default font-normal leading-6 ${
+                  errors.description
+                    ? "border-red-300 w-6/12"
+                    : "!border-gray-300 w-full"
+                }`}
               />
+              {errors.description && (
+                <Box sx={{ color: "red" }}>{errors.description.message}</Box>
+              )}
             </Box>
           </Box>
           <Box className="flex justify-center mt-20">
