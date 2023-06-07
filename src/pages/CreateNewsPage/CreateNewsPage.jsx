@@ -342,14 +342,27 @@ export const CreateNewsPage = () => {
               sx={{ gridRowStart: "2", gridRowEnd: "4" }}
             />
             <Box
-              className="flex ml-10"
+              className="flex ml-10 flex-col"
               sx={{ gridRowStart: "2", gridRowEnd: "4" }}
             >
               <textarea
                 rows={2}
-                {...register("description")}
-                className="resize-none w-full border-2 border-gray-300 outline-0 rounded-lg px-6 cursor-default font-normal leading-6"
+                {...register("description", {
+                  required: "Обязательное поле",
+                  minLength: {
+                    value: 5,
+                    message: "Минимальная длина 5 символа",
+                  },
+                })}
+                className={`resize-none w-full border-2 border-gray-300 outline-0 rounded-md px-6 cursor-default font-normal leading-6 ${
+                  errors.description
+                    ? "border-red-300 w-6/12"
+                    : "!border-gray-300 w-full"
+                }`}
               />
+              {errors.description && (
+                <Box sx={{ color: "red" }}>{errors.description.message}</Box>
+              )}
             </Box>
           </Box>
           <Box className="flex justify-center mt-20">

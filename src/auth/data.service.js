@@ -8,6 +8,10 @@ class DataService {
         return axios.get(BASE_URL + '', {...data}, { headers: authHeader() });
     }
 
+    addNewNews(data) {
+        return axios.get(BASE_URL + '', {...data}, { headers: authHeader() });
+    }
+
 }
 
 export default new DataService();
