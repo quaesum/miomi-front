@@ -13,11 +13,11 @@ import { useForm } from "react-hook-form";
 import { Name } from "./componentsPage/Name";
 import { Sex } from "./componentsPage/Sex";
 import { CustomTypographyTag } from "../../components/CustomTypographyTag/CustomTypographyTag";
-import { Description } from "./componentsPage/Description";
 import { Age } from "./componentsPage/Age";
 import { ModalPhotos } from "./componentsPage/ModalPhotos";
 import { ModalDelete } from "../../components/ModalDelete/ModalDelete";
-import {ageTransformation} from "../../components/Animals/Animals"
+import { ageTransformation } from "../../components/Animals/Animals";
+import { Address } from "./componentsPage/Address";
 
 export const CurrentAnimalPage = ({ animal, id }) => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -33,18 +33,30 @@ export const CurrentAnimalPage = ({ animal, id }) => {
 
   const sex = animal.sex ? "девочка" : "мальчик";
 
-  const { register, handleSubmit, getValues, setValue } = useForm({
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       sex,
       age: animal.age,
       nameAnimal: animal.name,
       description: animal.description,
+      address: animal.shelter,
     },
   });
 
   const defaultPropsForComponents = {
     register: register,
     isEditMode: isEditMode,
+  };
+
+  const validationDefaultProps = {
+    required: "Обязательное поле",
+    minLength: { value: 3, message: "Минимальная длина 3 символа" },
   };
 
   const handleClickModeChange = () => {
@@ -96,9 +108,13 @@ export const CurrentAnimalPage = ({ animal, id }) => {
     }
   };
 
+  const handleFormSubmit = () => {
+    console.log(getValues());
+  };
+
   return (
     <form
-      onSubmit={(e) => e.preventDefault()}
+      onSubmit={handleSubmit(handleFormSubmit)}
       className="grid place-content-center h-full w-full flex-1"
     >
       <Card
@@ -111,23 +127,27 @@ export const CurrentAnimalPage = ({ animal, id }) => {
             <Typography>
               <Avatar
                 alt="avatar-animal"
-                src={animal?.photos[0]}
+                src={animal?.photos?.[0]}
                 sx={{ width: 90, height: 90 }}
               />
             </Typography>
             <Box sx={{ mt: "10px" }} className="flex">
               <Typography sx={{ ml: "20px" }} className="flex flex-col">
                 <Name
+                  errors={errors.nameAnimal}
+                  validationDefaultProps={validationDefaultProps}
                   {...defaultPropsForComponents}
                   name={getValues("nameAnimal")}
                 />
                 <Sex
+                  validationDefaultProps={validationDefaultProps}
                   {...defaultPropsForComponents}
                   sex={getValues("sex")}
                   handleChangeSex={handleChangeSex}
                 />
               </Typography>
               <Age
+                errors={errors.age}
                 {...defaultPropsForComponents}
                 age={getValues("age")}
                 ageName={ageTransformation(getValues("age"))}
@@ -135,13 +155,15 @@ export const CurrentAnimalPage = ({ animal, id }) => {
             </Box>
           </Box>
           <Box className="flex flex-col" sx={{ mt: "23px" }}>
-            <Typography
-              fontSize={18}
-              className={"text-grey-600 cursor-pointer"}
-              onClick={handleClickModeChange}
-            >
-              {isEditMode ? "Сохранить" : "Изменить"}
-            </Typography>
+            <button type={isEditMode ? "submit" : ""}>
+              <Typography
+                fontSize={18}
+                className={"text-grey-600 cursor-pointer"}
+                onClick={handleClickModeChange}
+              >
+                {isEditMode ? "Сохранить" : "Изменить"}
+              </Typography>
+            </button>
             <Typography
               onClick={handleOpen}
               fontSize={18}
@@ -173,9 +195,12 @@ export const CurrentAnimalPage = ({ animal, id }) => {
               alt="point"
             />
             <Box className="ml-10">
-              <Typography fontSize={22} sx={{ color: "#6A6D76" }}>
-                {animal?.shelter}
-              </Typography>
+              <Address
+                validationDefaultProps={validationDefaultProps}
+                errors={errors.address}
+                address={getValues("address")}
+                {...defaultPropsForComponents}
+              />
               <Typography sx={{ color: "#6A6D76" }} fontSize={18}>
                 {animal.address}
               </Typography>
@@ -211,7 +236,7 @@ export const CurrentAnimalPage = ({ animal, id }) => {
               variant="quilted"
               cols={3}
             >
-              {filesURL.map((item) => (
+              {filesURL?.map((item) => (
                 <ImageListItem key={item}>
                   <img
                     style={{
@@ -228,7 +253,25 @@ export const CurrentAnimalPage = ({ animal, id }) => {
             </ImageList>
           </Box>
           <Box sx={{ mt: "30px", color: "#6A6D76", fontSize: "18px" }}>
-            <Description {...defaultPropsForComponents} />
+            <textarea
+              rows={3}
+              readOnly={!isEditMode}
+              {...register("description", {
+                required: "Обязательное поле",
+                minLength: {
+                  value: 5,
+                  message: "Минимальная длина 5 символа",
+                },
+              })}
+              className={`resize-none w-full border-2 border-gray-300 outline-0 rounded-md px-6 cursor-default font-normal leading-6 ${
+                errors.description
+                  ? "border-red-300 w-6/12"
+                  : "!border-gray-300 w-full"
+              }`}
+            />
+            {errors.description && (
+              <Box sx={{ color: "red" }}>{errors.description.message}</Box>
+            )}
           </Box>
         </Box>
       </Card>

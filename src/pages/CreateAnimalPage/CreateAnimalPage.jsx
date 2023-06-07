@@ -488,8 +488,6 @@ export const CreateAnimalPage = () => {
                 isEditMode={true}
                 type={"vaccinated"}
                 text={"Есть прививка"}
-                color="#6A6D76"
-                border="2px solid #DCDCDC"
                 active={isVaccinated}
                 handleCustomTag={handleChangeMedic}
               />
@@ -497,8 +495,6 @@ export const CreateAnimalPage = () => {
                 register={register}
                 isEditMode={true}
                 className="!ml-10"
-                color="#6A6D76"
-                border="2px solid #DCDCDC"
                 handleCustomTag={handleChangeMedic}
                 type={"sterilized"}
                 text={getValues("sex") === 1 ? "Кастрирован" : "Кастрирована"}

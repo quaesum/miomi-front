@@ -7,8 +7,8 @@ export const CustomTypographyTag = ({
   isEditMode,
   text,
   active,
-  color = "black",
-  border = "1px solid #EE7100",
+  color = "",
+  border = "",
   className = "",
   handleCustomTag,
 }) => {
@@ -26,26 +26,38 @@ export const CustomTypographyTag = ({
           transition: "0.2s",
         },
         active
+          ? !isEditMode
+            ? {
+                color: "white",
+                backgroundColor: "#EE7100",
+                border: "2px solid #EE7100",
+              }
+            : {
+                color: "white",
+                backgroundColor: "#EE7100",
+                border: "2px solid #EE7100",
+                "&:hover": {
+                  backgroundColor: "#ee6f00d2 !important",
+                  borderColor: "#ee6f00d2 !important",
+                  boxShadow:
+                    "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12) !important",
+                },
+              }
+          : !isEditMode
           ? {
-              color: "white",
-              backgroundColor: "#EE7100",
-              border: "2px solid #EE7100",
-              "&:hover": {
-                backgroundColor: "#ee6f00d2 !important",
-                borderColor: "#ee6f00d2 !important",
-                boxShadow:
-                  "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12) !important",
-              },
+              color: "#6A6D76",
+              border: "2px solid #DCDCDC",
+              backgroundColor: "white",
             }
           : {
-              color: { color },
-              border: { border },
+              color: "#6A6D76",
+              border: "2px solid #DCDCDC",
               backgroundColor: "white",
               "&:hover": {
                 backgroundColor: "#DCDCDC",
                 border: "2px solid #DCDCDC",
                 boxShadow:
-                "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12) !important",
+                  "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12) !important",
               },
             },
       ]}

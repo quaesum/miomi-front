@@ -1,4 +1,4 @@
-import { NativeSelect } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 
 export const Sex = ({
@@ -6,24 +6,26 @@ export const Sex = ({
   register,
   sex,
   handleChangeSex,
+  validationDefaultProps,
+  errors,
 }) => {
   const otherSex = sex === "мальчик" ? "девочка" : "мальчик";
   return (
     <>
       {isEditMode ? (
-        <NativeSelect
-          {...register("sex")}
-          sx={{ width: "max-content" }}
-          defaultValue={sex}
-          onChange={handleChangeSex}
-          inputProps={{
-            name: "name",
-            id: "uncontrolled-native",
-          }}
-        >
-          <option value={sex}>{sex}</option>
-          <option value={otherSex}>{otherSex}</option>
-        </NativeSelect>
+        <>
+          <select
+            {...register("sex", { ...validationDefaultProps })}
+            className={` mt-6 outline-0 rounded-md h-100 pl-6 !border-solid !border-2 text-base ${
+              errors ? "border-red-300 w-6/12" : "!border-gray-300 w-full"
+            }`}
+            onChange={handleChangeSex}
+          >
+            <option value={sex}>{sex}</option>
+            <option value={otherSex}>{otherSex}</option>
+          </select>
+          {errors && <Box sx={{ color: "red", ml: 4 }}>{errors.message}</Box>}
+        </>
       ) : (
         <span className="text-gray-600 text-sm">{sex}</span>
       )}
