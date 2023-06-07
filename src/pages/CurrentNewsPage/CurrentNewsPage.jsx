@@ -14,6 +14,7 @@ import { Label } from "./componentsPage/Label";
 
 export const CurrentNewsPage = ({ news, id }) => {
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
   const [filesURL, setFilesURL] = useState(news.photos);
 
   const [open, setOpen] = React.useState(false);
@@ -37,13 +38,8 @@ export const CurrentNewsPage = ({ news, id }) => {
     isEditMode: isEditMode,
   };
 
-  const handleClickModeChange = () => {
-    if (isEditMode) {
-      handleSubmit();
-      setIsEditMode((prev) => !prev);
-    } else {
-      setIsEditMode((prev) => !prev);
-    }
+  const handleClickActive = () => {
+    setIsEditMode(true);
   };
 
   const handleFileLoad = (e, index) => {
@@ -60,6 +56,7 @@ export const CurrentNewsPage = ({ news, id }) => {
   };
 
   const handleFormSubmit = () => {
+    if (isEditMode) setIsEditMode(false);
     console.log(getValues());
   };
 
@@ -88,15 +85,24 @@ export const CurrentNewsPage = ({ news, id }) => {
             />
           </Box>
           <Box className="flex flex-row justify-center" sx={{ mt: "15px" }}>
-            <button type={isEditMode ? "submit" : ""} className="h-max">
+            {isEditMode ? (
+              <button type={isSubmit ? "submit" : ""} className="h-max">
+                <Typography
+                  fontSize={18}
+                  className="text-grey-600 cursor-pointer !mr-16"
+                >
+                  Сохранить
+                </Typography>
+              </button>
+            ) : (
               <Typography
                 fontSize={18}
                 className="text-grey-600 cursor-pointer !mr-16"
-                onClick={handleClickModeChange}
+                onClick={handleClickActive}
               >
-                {isEditMode ? "Сохранить" : "Изменить"}
+                Изменить
               </Typography>
-            </button>
+            )}
             <Typography
               onClick={handleOpen}
               fontSize={18}

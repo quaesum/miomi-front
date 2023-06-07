@@ -6,6 +6,7 @@ import authService from "../../../auth/auth.service";
 
 export const NavBarContainer = () => {
   const { userData, isLogin, logout } = useAnimalContext();
+  console.log(userData)
   const navigate = useNavigate();
   
   const handleClickExit = () => {
