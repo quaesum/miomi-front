@@ -7,7 +7,7 @@ import { CustomTypographyTag } from "../../components/CustomTypographyTag/Custom
 import nullPicture from "../../assets/CreateAnimalPage/null-picture.png";
 import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
 
-const CustomTag = ({ type, text, active, className = "", handleCustomTag }) => {
+export const CustomTag = ({ type, text, active, className = "", handleCustomTag }) => {
   return (
     <Typography
       fontSize={18}
@@ -33,7 +33,7 @@ const CustomTag = ({ type, text, active, className = "", handleCustomTag }) => {
   );
 };
 
-const CustomLabelTag = ({ text, sx, className }) => {
+export const CustomLabelTag = ({ text, sx, className }) => {
   return (
     <Box sx={sx} className={`${className} text-semibold flex items-center`}>
       <Typography fontWeight={600} fontSize={20}>

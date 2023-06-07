@@ -8,6 +8,7 @@ import TermsOfUse from "./pages/TermsOfUse";
 import ProfilePageContainer from "./pages/ProfilePage/ProfilePageContainer.";
 import { CurrentNewsPageContainer } from "./pages/CurrentNewsPage/CurrentNewsPageContainer";
 import { CreateAnimalPage } from "./pages/CreateAnimalPage/CreateAnimalPage";
+import { RegistrationContainer } from "./pages/Registration/RegistrationContainer";
 
 export const App = () => {
   return (
@@ -20,6 +21,7 @@ export const App = () => {
         <Route path="login" element={<LoginContainer />} />
         <Route path="profile" element={<ProfilePageContainer/>}/>
         <Route path="animals/create-animal" element={<CreateAnimalPage/>}/>
+        <Route path="registration/" element={<RegistrationContainer />}/>
         <Route path="*" element={<Navigate to={"/"} />} />
       </Route>
     </Routes>

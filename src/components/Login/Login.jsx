@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   FormControl,
   IconButton,
@@ -15,8 +16,17 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
 import AuthService from "../../auth/auth.service";
+import { useNavigate } from "react-router";
+
+const btnStyle = {
+  borderRadius: "10px",
+  padding: "2px 50px",
+  width: "100%",
+};
 
 export const Login = ({ login, setIsLogin }) => {
+  const navigate = useNavigate()
+
   const [showPassword, setShowPassword] = React.useState(false);
   const [errors, setErrors] = useState("");
   const [isRequest, setIsRequest] = useState(false);
@@ -99,7 +109,7 @@ export const Login = ({ login, setIsLogin }) => {
                 label="Password"
               />
             </FormControl>
-            <Box className="!mt-20">
+            <Box className="!mt-20 flex flex-col">
               {errors && (
                 <Typography
                   className="flex justify-center"
@@ -115,12 +125,30 @@ export const Login = ({ login, setIsLogin }) => {
                 sx={{
                   borderRadius: "8px",
                   padding: "5px 60px",
-                  backgroundColor: "#ff9800",
-                  "&:hover": { backgroundColor: "#e38800" },
+                  backgroundColor: "#EE7100",
+                  "&:hover": { backgroundColor: "#ee6f00d2" },
                 }}
               >
                 <Typography fontSize={18}>Продолжить</Typography>
               </LoadingButton>
+              <Button
+                sx={{
+                  ...btnStyle,
+                  "&:hover": {
+                    backgroundColor: "#DCDCDC",
+                    border: "2px solid #DCDCDC",
+                  },
+                  borderRadius: "10px",
+                  color: "#6A6D76",
+                  border: "2px solid #DCDCDC",
+                }}
+                onClick={()=> navigate("/registration")}
+                className="!mt-4 !text-sm !normal-case"
+                type="submit"
+                variant="outlined"
+              >
+                Регистрация
+              </Button>
             </Box>
           </form>
         </Box>

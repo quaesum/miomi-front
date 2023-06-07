@@ -11,3 +11,8 @@
 .layout-default>*:last-child {
   background-color: #DCDCDC;
 }
+
+input.form-control{
+  width: 222px !important;
+  height: 56px !important;
+}
