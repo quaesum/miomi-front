@@ -104,7 +104,7 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
   };
 
   const handleFormSubmit = () => {
-    setIsEditMode(false)
+    setIsEditMode(false);
     console.log(getValues());
   };
 
@@ -185,7 +185,11 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
-                <ModalDelete id={id} handleClose={handleClose} />
+                <ModalDelete
+                  type={"animal"}
+                  id={id}
+                  handleClose={handleClose}
+                />
               </Modal>
             </Box>
           )}
@@ -197,12 +201,12 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
         <Box sx={{ px: 10, pt: 2, pb: 5 }} className="flex flex-col">
           {/* PLACE */}
           <Box className="flex">
-            <Box className={isEditMode ? "flex items-center": ""}>
-            <img
-              src={pointSrc}
-              style={{ width: "17px", height: "26px" }}
-              alt="point"
-            />
+            <Box className={isEditMode ? "flex items-center" : ""}>
+              <img
+                src={pointSrc}
+                style={{ width: "17px", height: "26px" }}
+                alt="point"
+              />
             </Box>
             <Box className="ml-10">
               <Address
@@ -216,7 +220,10 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
               </Typography>
             </Box>
           </Box>
-          <Box className={isEditMode ? "flex justify-center" : "flex"} sx={{ mt: "25px" }}>
+          <Box
+            className={isEditMode ? "flex justify-center" : "flex"}
+            sx={{ mt: "25px" }}
+          >
             <CustomTypographyTag
               {...defaultPropsForComponents}
               type={"vaccinated"}

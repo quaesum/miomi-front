@@ -10,18 +10,27 @@ const btnStyle = {
   width: "100%",
 };
 
-export const ModalDelete = ({ id, handleClose }) => {
-  const { updateNews } = useAnimalContext();
+export const ModalDelete = ({ id, handleClose, type }) => {
+  const { updateNews, updateAnimals } = useAnimalContext();
   const navigate = useNavigate();
 
   const handleDelete =async () => {
     handleClose();
-    await DataService.deleteAnimal(id)
+    if(type === "animal"){
+      await DataService.deleteAnimal(id)
+      .then((res) => {
+        updateAnimals();
+        navigate("/");
+      })
+      .catch((er) => {});
+    } else {
+      await DataService.deleteNews(id)
       .then((res) => {
         updateNews();
         navigate("/");
       })
-      .catch((er) => {});
+    }
+    
   };
 
   return (

@@ -32,6 +32,14 @@ class DataService {
 
     async deleteAnimal(id) {
         return await axios
+            .post(`${BASE_URL} ---- ${id}`, {}, {
+                headers: authHeaderPhoto(),
+            })
+            .then((res) => res.data)
+    }
+
+    async deleteNews(id) {
+        return await axios
             .post(`${BASE_URL}news/v1/remove/${id}`, {}, {
                 headers: authHeaderPhoto(),
             })
