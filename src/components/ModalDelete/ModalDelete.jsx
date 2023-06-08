@@ -1,0 +1,100 @@
+import { Box, Button, Card, Typography } from "@mui/material";
+import React from "react";
+import { useAnimalContext } from "../../Context/AnimalContext";
+import { useNavigate } from "react-router";
+import DataService from "../../auth/data.service";
+
+const btnStyle = {
+  borderRadius: "8px",
+  padding: "5px 50px",
+  width: "100%",
+};
+
+export const ModalDelete = ({ id, handleClose, type }) => {
+  const { updateNews, updateAnimals } = useAnimalContext();
+  const navigate = useNavigate();
+
+  const handleDelete =async () => {
+    handleClose();
+    if(type === "animal"){
+      await DataService.deleteAnimal(id)
+      .then((res) => {
+        updateAnimals();
+        navigate("/");
+      })
+      .catch((er) => {});
+    } else {
+      await DataService.deleteNews(id)
+      .then((res) => {
+        updateNews();
+        navigate("/");
+      })
+    }
+    
+  };
+
+  return (
+    <div className="grid place-content-center h-screen w-full flex-1 pb-80">
+      <Card
+        sx={{
+          width: { sm: "100%", lg: "650px", xs: "100%", borderRadius: "20px" },
+        }}
+        className="w-screen"
+      >
+        <Box className="flex justify-center items-center min-h-60">
+          <Typography className="!font-semibold !text-3xl">
+            Вы уверены?
+          </Typography>
+        </Box>
+        <div
+          className="h-2 w-full"
+          style={{ backgroundColor: "#DCDCDC" }}
+        ></div>
+        <Box className="flex justify-center items-center px-100 pb-20 pt-10">
+          <Box sx={{ width: "300px" }}>
+            <Typography
+              sx={{ color: "#6A6D76" }}
+              fontSize={18}
+              className="flex items-center flex-col"
+            >
+              <p>Обратно восстановить будет</p>
+              <p>невозможно</p>
+            </Typography>
+            <Box>
+              <Button
+                sx={{
+                  ...btnStyle,
+                  "&:hover": {
+                    backgroundColor: "#DCDCDC",
+                    border: "3px solid #DCDCDC",
+                  },
+                  color: "#6A6D76",
+                  border: "3px solid #DCDCDC",
+                }}
+                className="!mt-12 !text-sm !normal-case"
+                type="submit"
+                variant="outlined"
+                onClick={handleClose}
+              >
+                Не хочу удалять
+              </Button>
+              <Button
+                sx={{
+                  ...btnStyle,
+                  "&:hover": { backgroundColor: "#ee6f00d2" },
+                  backgroundColor: "#EE7100",
+                }}
+                className="!mt-6 !text-sm !normal-case"
+                type="submit"
+                variant="contained"
+                onClick={handleDelete}
+              >
+                Да, удалить
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Card>
+    </div>
+  );
+};
