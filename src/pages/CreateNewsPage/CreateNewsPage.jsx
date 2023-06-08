@@ -3,9 +3,11 @@ import { Box, Button, Card, Typography } from "@mui/material";
 import { PlaceAnAd } from "../../components/PlaceAnAd/PlaceAnAd";
 import arrowUp from "../../assets/CreateAnimalPage/arrow-up.png";
 import { useForm } from "react-hook-form";
-import { CustomTypographyTag } from "../../components/CustomTypographyTag/CustomTypographyTag";
 import nullPicture from "../../assets/CreateAnimalPage/null-picture.png";
 import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
+import DataService from "../../auth/data.service";
+import { useNavigate } from "react-router";
+import { useAnimalContext } from "../../Context/AnimalContext";
 
 export const CustomTag = ({
   type,
@@ -49,41 +51,59 @@ export const CustomLabelTag = ({ text, sx, className }) => {
   );
 };
 
-const typesImage = ["image/png", "image/jpeg", "image/gif", "image/svg+xml"];
-
 export const CreateNewsPage = () => {
-  const [photos, setPhotos] = useState([]);
+  const navigate = useNavigate();
+  const { updateNews } = useAnimalContext();
+  const [photo, setPhoto] = useState(null);
   const [isDragEnter, setIsDragEnter] = useState(false);
-  const [photoElements, setPhotoElements] = useState([]);
+  const [photoElement, setPhotoElement] = useState([]);
+  const [isRequestImages, setIsRequestImages] = useState(false);
+  const [photosId, setPhotosId] = useState([]);
 
   useEffect(() => {
-    let tempPhotoElements = [];
-    for (let i = 0; i < 3; i++) {
-      let path = "";
-      try {
-        path = URL.createObjectURL(photos[i]);
-      } catch (er) {}
-      tempPhotoElements[i] = (
-        <img
-          className={`${path ? "cursor-pointer" : ""}`}
-          key={i}
-          style={{
-            height: "90px",
-            width: "90px",
-          }}
-          onClick={path ? () => deleteFile(i) : () => {}}
-          src={path ? path : nullPicture}
-          alt={"photo_image"}
-          loading="lazy"
-        />
-      );
+    if (!isRequestImages && photosId.length === 1 && getValues("label")) {
+      const postData = {
+        photo: photosId[0],
+        label: getValues("label"),
+        description: getValues("description"),
+      };
+
+      DataService.addNewNews(postData)
+        .then((res) => {
+          navigate("/");
+          updateNews();
+        })
+        .catch((er) => console.log(er.message));
     }
-    setPhotoElements(tempPhotoElements);
-  }, [photos]);
+  }, [photosId, isRequestImages]);
 
   useEffect(() => {
-    setValue("photos", photos.length);
-  }, [photos]);
+    let tempPhotoElement = null;
+    let path = "";
+    try {
+      path = URL.createObjectURL(photo);
+    } catch (er) {}
+    tempPhotoElement = (
+      <img
+        className={`${path ? "cursor-pointer" : ""}`}
+        key={path}
+        style={{
+          height: "90px",
+          width: "90px",
+        }}
+        onClick={path ? () => deleteFile() : () => {}}
+        src={path ? path : nullPicture}
+        alt={"photo_image"}
+        loading="lazy"
+      />
+    );
+
+    setPhotoElement(tempPhotoElement);
+  }, [photo]);
+
+  useEffect(() => {
+    setValue("photos", photo ? 1 : 0);
+  }, [photo]);
 
   const {
     register,
@@ -99,40 +119,37 @@ export const CreateNewsPage = () => {
   });
 
   const addFile = (file) => {
-    let tempPhotos = [...photos];
-    tempPhotos.unshift(file);
-    tempPhotos = tempPhotos.slice(0, 3);
-    setPhotos(tempPhotos);
+    setPhoto(file);
   };
 
-  const addFiles = (files) => {
-    let tempPhotos = [...photos];
-    files.forEach((el) => {
-      tempPhotos.unshift(el);
-    });
-    tempPhotos = tempPhotos.slice(0, 3);
-    setPhotos(tempPhotos);
+  const deleteFile = () => {
+    setPhoto(null);
   };
 
-  const deleteFile = (i) => {
-    let tempFiles = [...photos];
-    console.log(i);
-    tempFiles = tempFiles.map((el, index) => {
-      if (index !== i) return el;
-      else return null;
-    });
-    tempFiles = tempFiles.filter((el) => el !== null);
-    setPhotos(tempFiles);
+  const getPhotosId = async () => {
+    let tempPhoto = [];
+
+    setIsRequestImages(true);
+
+    await DataService.addPhotoNews(photo)
+      .then((res) => {
+        tempPhoto.push(res.data);
+      })
+      .catch((er) => {});
+    if (tempPhoto.length === 1) {
+      setPhotosId(tempPhoto);
+      setIsRequestImages(false);
+    }
   };
 
   const handleSubmitForm = () => {
-    console.log(getValues());
+    getPhotosId();
   };
 
   const handleFileLoad = (e, index) => {
     if (e.target.files) {
       const files = [...e.target.files];
-      addFiles(files);
+      addFile(files?.[0]);
     }
   };
 
@@ -163,11 +180,7 @@ export const CreateNewsPage = () => {
 
     const files = [...event.dataTransfer.files];
     console.log(files);
-    if (files.length > 1) {
-      addFiles(files);
-    } else {
-      files.forEach((el) => addFile(el));
-    }
+    files.forEach((el) => addFile(el));
     setIsDragEnter(false);
   };
 
@@ -234,7 +247,7 @@ export const CreateNewsPage = () => {
                             width={20}
                           />
                           <Typography className="!normal-case" fontSize={18}>
-                            &nbsp; Добавьте фотографии
+                            &nbsp; Добавьте фотографию
                           </Typography>
                         </>
                       }
@@ -261,8 +274,8 @@ export const CreateNewsPage = () => {
 
                 {/* VIEW PHOTOS */}
                 <Box className="min-w-100 ">
-                  <Box width={340} className="flex flex-row justify-between">
-                    {photoElements}
+                  <Box width={340} className="flex flex-row justify-center">
+                    {photoElement}
                   </Box>
                   <Box className="flex justify-center items-center !mt-10">
                     <Box className="flex flex-col">
@@ -278,21 +291,23 @@ export const CreateNewsPage = () => {
                           loading="lazy"
                         />
                         <Typography fontSize={18}>
-                          &nbsp;{`Загружено ${photos.length} из 3`}
+                          &nbsp;{`Загружено ${photo !== null ? 1 : 0} из 1`}
                         </Typography>
                       </Box>
-                      {photos.length < 1 && (
-                        <Typography
-                          sx={{
-                            color: "red",
-                            display: "flex",
-                            justifyContent: "center",
-                          }}
-                          fontSize={18}
-                        >
-                          {errors?.photos?.message}
-                        </Typography>
-                      )}
+                      {photo
+                        ? false
+                        : true && (
+                            <Typography
+                              sx={{
+                                color: "red",
+                                display: "flex",
+                                justifyContent: "center",
+                              }}
+                              fontSize={18}
+                            >
+                              {errors?.photos?.message}
+                            </Typography>
+                          )}
                     </Box>
                   </Box>
                 </Box>

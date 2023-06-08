@@ -5,15 +5,11 @@ const BASE_URL = "http://miomi.by/api/"
 
 class DataService {
     async addNewAnimal(data) {
-        return await axios.post(BASE_URL + 'animal/v1/add', { ...data }, { headers: authHeader() }).then(res => {
-            return res.data
-        });
+        return await axios.post(BASE_URL + 'animal/v1/add', { ...data }, { headers: authHeader() }).then(res => res.data);
     }
 
-
-
-    addNewNews(data) {
-        return axios.get(BASE_URL + '', { ...data }, { headers: authHeader() });
+    async addNewNews(data) {
+        return await axios.post(BASE_URL + 'news/v1/add', { ...data }, { headers: authHeader() }).then(res => res.data);
     }
 
     async addPhotoNews(file) {
