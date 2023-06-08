@@ -43,16 +43,16 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
   const userName = `${firstName} ${lastName}`;
 
   return (
-    <div className="p-0 max-h-40 h-40 relative bg-white overflow-hidden">
+    <div className="p-0 max-h-40 h-40 relative bg-white">
       <div
         className="flex flex-1 px-16 absolute cursor-pointer"
         onClick={() => navigate("/")}
       >
-        {/* <img
+        <img
           src={catSrc}
           alt="cat-icon"
           className="hidden md:flex"
-        /> */}
+        />
         <Typography className="!mt-10 !font-semibold !text-3xl hidden sm:flex">
           mio.mi
         </Typography>
