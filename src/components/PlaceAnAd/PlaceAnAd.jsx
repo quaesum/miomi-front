@@ -4,14 +4,25 @@ import React from "react";
 export const PlaceAnAd = ({ type }) => {
   return (
     <>
-      <Box className="flex flex-row " sx={{ mx: 13, my: 4 }}>
-        <Typography fontSize={30} className="!font-semibold">
+      <Box
+        className="flex"
+        sx={{
+          mx: { lg: 13, xs: 2 },
+          my: { lg: 4, xs: 2 },
+          flexDirection: { xs: "column" },
+        }}
+      >
+        <Typography
+          fontSize={30}
+          sx={{ justifyContent: { xs: "center" } }}
+          className="!font-semibold flex"
+        >
           Подача объявления
         </Typography>
         <Typography
           fontSize={30}
-          sx={{ ml: 5, color: "#EE7100" }}
-          className="!font-semibold"
+          sx={{ justifyContent: { xs: "center" }, ml: {lg: 5}, color: "#EE7100" }}
+          className="!font-semibold flex"
         >
           {type}
         </Typography>

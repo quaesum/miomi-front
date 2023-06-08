@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Card, Typography } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import { PlaceAnAd } from "../../components/PlaceAnAd/PlaceAnAd";
 import arrowUp from "../../assets/CreateAnimalPage/arrow-up.png";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,7 @@ import { useAnimalContext } from "../../Context/AnimalContext";
 import DataService from "../../auth/data.service";
 import { useNavigate } from "react-router";
 import { LoadingButton } from "@mui/lab";
+import { useMobile } from "../../hooks/useMobile";
 
 export const CustomTag = ({
   type,
@@ -66,6 +67,7 @@ export const CustomLabelTag = ({ text, sx, className }) => {
 };
 
 export const CreateAnimalPage = () => {
+  const isMobile = useMobile();
   const { userData, updateAnimals } = useAnimalContext();
   const navigate = useNavigate();
   const [activeAnimal, setAcitveAnimal] = useState(1);
@@ -286,6 +288,8 @@ export const CreateAnimalPage = () => {
     setIsDragEnter(false);
   };
 
+  console.log(isMobile);
+
   return (
     <form
       onSubmit={handleSubmit(handleSubmitForm)}
@@ -293,12 +297,19 @@ export const CreateAnimalPage = () => {
     >
       <Card
         sx={{
-          width: { lg: "1240px", borderRadius: "20px", minHeight: "80px" },
+          width: { lg: "1240px", xs: "full", minHeight: "80px" },
+          borderRadius: { lg: "20px", xs: "0" },
         }}
         className="w-screen"
       >
         <PlaceAnAd type={"Животные"} />
-        <Box sx={{ ml: 10, my: 3, mr: 15 }}>
+        <Box
+          sx={{
+            ml: { lg: "10", xs: "5" },
+            my: { lg: "3" },
+            mr: { lg: "15" },
+          }}
+        >
           {/* PHOTOS */}
           <div
             className={`${isDragEnter ? "" : "flex justify-between"} w-full`}
@@ -313,7 +324,7 @@ export const CreateAnimalPage = () => {
                 min: { value: 1, message: "Загрузите минимум 1 фотографию" },
               })}
             />
-            {isDragEnter ? (
+            {isDragEnter && !isMobile ? (
               <>
                 {/* DROP AREA */}
                 <Box
@@ -336,7 +347,7 @@ export const CreateAnimalPage = () => {
                     Фотографии
                   </Typography>
                   <Box
-                    className="grid grid-rows-2 grid-cols-2 gap-y-6"
+                    className={!isMobile && "grid grid-rows-2 grid-cols-2 gap-y-6"}
                     sx={{ mt: 2 }}
                   >
                     <CustomButton
@@ -357,25 +368,29 @@ export const CreateAnimalPage = () => {
                       handleFileLoad={handleFileLoad}
                       type="create-animal"
                     />
-                    <Typography
-                      className="flex justify-center items-center"
-                      sx={{ color: "#6A6D76" }}
-                      fontSize={18}
-                    >
-                      Или перетащите сюда
-                    </Typography>
-                    <Typography
-                      className="flex justify-center items-center"
-                      sx={{ color: "#6A6D76" }}
-                      fontSize={18}
-                    >
-                      Максимальный размер 10 МБ
-                    </Typography>
+                    {!isMobile && (
+                      <>
+                        <Typography
+                          className="flex justify-center items-center"
+                          sx={{ color: "#6A6D76" }}
+                          fontSize={18}
+                        >
+                          Или перетащите сюда
+                        </Typography>
+                        <Typography
+                          className="flex justify-center items-center"
+                          sx={{ color: "#6A6D76" }}
+                          fontSize={18}
+                        >
+                          Максимальный размер 10 МБ
+                        </Typography>{" "}
+                      </>
+                    )}
                   </Box>
                 </Box>
 
                 {/* VIEW PHOTOS */}
-                <Box className="min-w-100 ">
+                {!isMobile && <Box className={`min-w-100 ${isMobile ? "hidden" : ""}`}>
                   <Box width={340} className="flex flex-row justify-between">
                     {photoElements}
                   </Box>
@@ -410,14 +425,14 @@ export const CreateAnimalPage = () => {
                       )}
                     </Box>
                   </Box>
-                </Box>
+                </Box>}
               </>
             )}
           </div>
 
           {/* MAIN INFORMATION */}
           <Box
-            sx={{
+            sx={isMobile &&{
               mt: 4,
               gridTemplateRows: "repeat(8, 1fr)",
               gridTemplateColumns: "200px 1fr",
