@@ -88,7 +88,7 @@ export default function ProfilePage({ data, updateUserInfo }) {
             borderRadius: "20px",
           },
         }}
-        className="!w-screen"
+        className={isMobile && `!w-screen`}
       >
         <Box className="flex justify-center items-center min-h-80">
           <Avatar sx={{ width: 100, height: 100 }} />

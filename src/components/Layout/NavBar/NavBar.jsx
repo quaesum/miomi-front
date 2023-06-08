@@ -10,7 +10,7 @@ const CustomButton = ({ text, url, popupState }) => {
 
   const handleClick = () => {
     navigate(url);
-    console.log(popupState.close())
+    console.log(popupState.close());
   };
 
   return (
@@ -48,7 +48,11 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
         className="flex flex-1 px-16 absolute cursor-pointer"
         onClick={() => navigate("/")}
       >
-        <img src={catSrc} alt="cat-icon" className="hidden md:flex" />
+        {/* <img
+          src={catSrc}
+          alt="cat-icon"
+          className="hidden md:flex"
+        /> */}
         <Typography className="!mt-10 !font-semibold !text-3xl hidden sm:flex">
           mio.mi
         </Typography>
@@ -78,8 +82,14 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                             }
                       }
                     >
-                      <img src={pawSrc} alt="paw-icon" className="hidden sm:flex"/>
-                      <Typography sx={{lineHeight: { xs: "1rem", sm: "1.5rem"}}}>
+                      <img
+                        src={pawSrc}
+                        alt="paw-icon"
+                        className="hidden sm:flex"
+                      />
+                      <Typography
+                        sx={{ lineHeight: { xs: "1rem", sm: "1.5rem" } }}
+                      >
                         &nbsp; Подать объявление
                       </Typography>
                     </Button>
@@ -101,7 +111,12 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                       <Box
                         sx={{
                           p: 2,
-                          width: {xs: '172px', sm: "248px", md: "248px", lg: "248px;"},
+                          width: {
+                            xs: "172px",
+                            sm: "248px",
+                            md: "248px",
+                            lg: "248px;",
+                          },
                           borderStartStartRadius: 0,
                         }}
                         className="flex justify-center"
@@ -131,7 +146,7 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
             </div>
             <div className="mr-7">
               <Button
-              onClick={() => navigate("/profile")}
+                onClick={() => navigate("/profile")}
                 className="min-h-40 min-w-40 px-0 md:px-16 py-0 md:py-6"
                 color="inherit"
               >
