@@ -10,6 +10,7 @@ import { CreateAnimalPage } from "./pages/CreateAnimalPage/CreateAnimalPage";
 import { RegistrationContainer } from "./pages/Registration/RegistrationContainer";
 import { LoginContainer } from "./pages/Login/LoginContainer";
 import { CreateNewsPage } from "./pages/CreateNewsPage/CreateNewsPage";
+import { CurrentDonationsPage } from "./pages/CurrentDonationsPage/CurrentNewsPage";
 
 export const App = () => {
   return (
@@ -18,6 +19,7 @@ export const App = () => {
         <Route path="" element={<MainPage />} />
         <Route path="animals/:id" element={<CurrentAnimalPageContainer />} />
         <Route path="news/:id" element={<CurrentNewsPageContainer />} />
+        <Route path="donations/:id" element={<CurrentDonationsPage />} />
         <Route path="login" element={<LoginContainer />} />
         <Route path="profile" element={<ProfilePageContainer/>}/>
         <Route path="animals/create-animal" element={<CreateAnimalPage/>}/>

@@ -12,18 +12,29 @@ export function AnimalContextProvider({ children }) {
     const [animalsData, setAnimalsData] = useState([]);
     const [newsData, setNewsData] = useState([]);
     const [userData, setUserData] = useState({})
+    const [donations, setDonations] = useState([
+        {
+            id: 1,
+            label: "Пожертвование Суперкот",
+            description: "Через систему «Расчет» (ЕРИП): Благотворительность, общественные объединения >> Защита животных >> Суперкот >> Благотворительный взнос\nНа расчетный счет: BY69BPSB31351026340179330000 в ОАО «БПС-Сбербанк», г. Минск, BIC BPSBBY2X Получатель: МБООПЖ «Суперкот», УНП 194901770, назначение платежа: «Пожертвование»"
+        }
+    ])
+    const [urlsImages, setUrlsImages] = useState([])
     const [userKey, setUserKey] = useState()
 
-    const baseURL = "http://miomi.by:9000"
+    const baseURL = "http://miomi.by:9000" //images
+    const BASE_URL = "http://miomi.by/api/"
 
     useEffect(() => {
         setUserKey(localStorage.getItem("user"))
-        axios.get(`http://miomi.by/api/animal/v1/`).then((res) => {
+        axios.get(`${BASE_URL}animal/v1/`).then((res) => {
             setAnimalsData(res.data);
         });
-        axios.get(`http://miomi.by/api/news/v1/`).then((res) => {
+        axios.get(`${BASE_URL}news/v1/`).then((res) => {
             setNewsData(res.data);
         });
+        axios.get(`${BASE_URL}file/v1/getUrl`).then((res) =>
+            setUrlsImages(res.data))
     }, [])
 
     useEffect(() => {
@@ -44,15 +55,20 @@ export function AnimalContextProvider({ children }) {
     }
 
     const updateAnimals = async () => {
-        await axios.get(`http://miomi.by/api/animal/v1/`).then((res) => {
+        await axios.get(`${BASE_URL}animal/v1/`).then((res) => {
             setAnimalsData(res.data);
         });
     }
 
     const updateNews = async () => {
-        await axios.get(`http://miomi.by/api/news/v1/`).then((res) => {
+        await axios.get(`${BASE_URL}news/v1/`).then((res) => {
             setNewsData(res.data);
         });
+    }
+
+    const updateUrls = async () => {
+        await axios.get(`${BASE_URL}file/v1/getUrl`).then((res) =>
+            setUrlsImages(res.data))
     }
 
     const login = () => {
@@ -67,7 +83,13 @@ export function AnimalContextProvider({ children }) {
 
     return (
         <AnimalContext.Provider
-            value={{ animalsData, baseURL, isLogin, setIsLogin, userData, newsData, logout, login, updateUserInfo, updateAnimals, updateNews }}
+            value={{
+                animalsData,
+                baseURL, isLogin, setIsLogin,
+                userData, newsData, logout,
+                login, updateUserInfo, updateAnimals,
+                updateNews, updateUrls, urlsImages, donations
+            }}
         >
             {children}
         </AnimalContext.Provider>

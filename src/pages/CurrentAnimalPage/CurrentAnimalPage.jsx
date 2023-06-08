@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -18,14 +18,37 @@ import { ModalPhotos } from "./componentsPage/ModalPhotos";
 import { ModalDelete } from "../../components/ModalDelete/ModalDelete";
 import { ageTransformation } from "../../components/Animals/Animals";
 import { Address } from "./componentsPage/Address";
+import DataService from "../../auth/data.service";
 
-export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
+export const CurrentAnimalPage = ({
+  animal,
+  id,
+  isCanEdit,
+  urlsImages,
+  baseURL,
+}) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSterilized, setIsSterilized] = useState(animal.sterilized);
   const [isVaccinated, setIsVaccinated] = useState(animal.vaccinated);
   const [filesURL, setFilesURL] = useState(animal.photos);
+  const [filesID, setFilesID] = useState();
+  const [files, setFiles] = useState([]);
 
   console.log(animal);
+
+  useEffect(() => {
+    console.log(urlsImages);
+    console.log(animal.photos);
+    const tempPhotosUrls = [...animal.photos.map((el) => `${baseURL}${el}`)];
+    const tempPhotoID = [
+      ...animal.photos.map((defaultUrl) => {
+        const id = urlsImages.filter((el) => el.url === defaultUrl)[0].id;
+        return id;
+      }),
+    ];
+    setFilesURL(tempPhotosUrls);
+    setFilesID(tempPhotoID);
+  }, [animal]);
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -54,6 +77,10 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
     isEditMode: isEditMode,
   };
 
+  useEffect(() => {
+    console.log(files);
+  }, [files]);
+
   const validationDefaultProps = {
     required: "Обязательное поле",
     minLength: { value: 3, message: "Минимальная длина 3 символа" },
@@ -77,18 +104,34 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
     let tempIndex = Number(index.split("-")[2]);
     if (e.target.files) {
       let image = e.target.files[0];
+
       let path = URL.createObjectURL(image);
       let tempFilesURL = [...filesURL];
+      let tempFiles = [...files];
 
       tempFilesURL[tempIndex] = path;
+      tempFiles[tempIndex] = image;
 
       setFilesURL(tempFilesURL);
+      setFiles(tempFiles);
     }
   };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     setIsEditMode(false);
     console.log(getValues());
+    const tempPhotosId = []; //id photos
+    // for (let i = 0; i < files.length; i++) {
+    //   if (files[i]) {
+    //     await DataService.addPhotoAnimal(files[i])
+    //       .then((res) => {
+    //         tempPhotosId.push(res.data);
+    //       })
+    //       .catch((er) => {});
+    //   } else {
+    //     tempPhotosId.push(filesID[i]);
+    //   }
+    // }
   };
 
   return (
@@ -106,7 +149,7 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
             <Typography>
               <Avatar
                 alt="avatar-animal"
-                src={animal?.photos?.[0]}
+                src={filesURL[0]}
                 sx={{ width: 90, height: 90 }}
               />
             </Typography>
