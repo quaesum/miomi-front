@@ -1,15 +1,16 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
+import { useMobile } from "../../hooks/useMobile";
 
 export const PlaceAnAd = ({ type }) => {
+  const isMobile = useMobile()
   return (
     <>
       <Box
-        className="flex"
+        className={`flex ${isMobile && "flex-col"}`}
         sx={{
           mx: { lg: 13, xs: 2 },
           my: { lg: 4, xs: 2 },
-          flexDirection: { xs: "column" },
         }}
       >
         <Typography
