@@ -32,7 +32,7 @@ class DataService {
 
     async deleteAnimal(id) {
         return await axios
-            .post(`${BASE_URL} ---- ${id}`, {}, {
+            .post(`${BASE_URL}animal/v1/remove/${id}`, {}, {
                 headers: authHeaderPhoto(),
             })
             .then((res) => res.data)

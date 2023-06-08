@@ -60,23 +60,6 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
   };
 
   const handleClickActive = () => {
-    // let bodyFromData = new FormData();
-    // let sex = getValues("sex") === "мальчик" ? 1 : 0;
-    // bodyFromData.append("name", getValues("nameAnimal"));
-    // bodyFromData.append("sex", sex);
-    // bodyFromData.append("age", Number(getValues("age")));
-    // bodyFromData.append("sterilized", isSterilized);
-    // bodyFromData.append("vaccinated", isVaccinated);
-    // bodyFromData.append("animals", [...files]);
-    // console.log(bodyFromData)
-    // axios
-    //   .post("http://localhost:8000/animal", bodyFromData, {
-    //     headers: { "Content-Type": "multipart/form-data" },
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data);
-    //   })
-    //   .catch((e) => console.log(e));
     setIsEditMode(true);
   };
 
