@@ -9,7 +9,7 @@ export const Label = ({ isEditMode, register, label, errors, validationDefaultPr
           <input
             {...register("label", {...validationDefaultProps})}
             type="text"
-            className={`outline-0 rounded-md h-100 pl-6 !border-solid !border-2 text-2xl font-semibold ${
+            className={`outline-0 rounded-md h-100 pl-6 !border-solid !border-2 text-xs md:text-2xl font-semibold ${
               errors
                 ? "border-red-300"
                 : "!border-gray-300"
@@ -20,7 +20,7 @@ export const Label = ({ isEditMode, register, label, errors, validationDefaultPr
           )}
         </>
       ) : (
-        <span className="text-2xl font-semibold">{label}</span>
+        <span className="text-xs md:text-2xl font-semibold">{label}</span>
       )}
     </>
   );

@@ -3,7 +3,7 @@ import React from "react";
 
 export const Age = ({ register, isEditMode, age, ageName, errors }) => {
   return (
-    <Typography sx={isEditMode ? { ml: "30px" } : { mt: "13px", ml: "30px" }}>
+    <Typography sx={isEditMode ? { ml: {md:"30px", xs: "10px"} } : { mt: "13px", ml: "30px" }}>
       {isEditMode ? (
         <>
           <input
@@ -22,7 +22,7 @@ export const Age = ({ register, isEditMode, age, ageName, errors }) => {
           {errors && <Box sx={{ color: "red", ml: 4 }}>{errors.message}</Box>}
         </>
       ) : (
-        <span className="text-sm text-gray-600">{`${age} ${ageName}`}</span>
+        <span className="text-xs md:text-sm text-gray-600">{`${age} ${ageName}`}</span>
       )}
     </Typography>
   );

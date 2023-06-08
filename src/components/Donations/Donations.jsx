@@ -12,15 +12,15 @@ export const Donations = () => {
   };
 
   const elements = donations.map((el) => (
-    <Card className="flex shadow m-10">
+    <Card className="flex shadow m-10" sx={{height: 90}}>
       <CardActionArea onClick={() => handleDonationsClick(el.id)}>
         <div className="flex flex-col items-center md:flex-row ">
-          <CardContent className="flex flex-col w-full">
+          <CardContent className="flex flex-col w-full h-50" sx={{height: 50}} style={{height:50}}>
             <Typography fontSize={24}>{el.label}</Typography>
           </CardContent>
         </div>
       </CardActionArea>
     </Card>
   ));
-  return <>{elements}</>;
+  return <div className="h-screen">{elements}</div>;
 };

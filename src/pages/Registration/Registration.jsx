@@ -82,7 +82,7 @@ export const Registration = ({ login }) => {
   };
 
   return (
-    <div className="grid place-content-center h-screen w-full flex-1">
+    <div className="grid place-content-center h-screen w-full flex-1 py-12 md:py-0">
       <Card
         sx={{
           width: { sm: "100%", lg: "900px", xs: "100%", borderRadius: "20px" },
@@ -103,16 +103,18 @@ export const Registration = ({ login }) => {
           <form onSubmit={handleSubmit(handleSubmitForm)}>
             <Box
               sx={{
-                display: "grid",
+                xs: {display : "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",},
+                md: {display : "grid"},
                 gridTemplateColumns: "200px 1fr",
                 gridTemplateRows: "1fr",
                 rowGap: "10px",
                 columnGap: "20px",
               }}
+              className="flex flex-col items-center justify-center md:grid"
             >
               {/* NAME */}
               <CustomLabelTag text={"Имя"} />
-              <Box className="flex flex-col">
+              <Box className="flex flex-col pt-6">
                 <TextField
                   sx={{ width: "222px" }}
                   variant="outlined"
@@ -142,9 +144,7 @@ export const Registration = ({ login }) => {
 
               {/* PASSWORD */}
               <CustomLabelTag text={"Пароль"} />
-              <Box className="flex">
-                <Box className="flex">
-                  <Box className="flex flex-col">
+                  <Box className="flex flex-col pt-6">
                     <FormControl sx={{ width: "222px" }} variant="outlined">
                       <InputLabel htmlFor="outlined-adornment-password">
                         Пароль
@@ -180,7 +180,8 @@ export const Registration = ({ login }) => {
                   </Box>
 
                   {/* REPEAT PASSWORD */}
-                  <Box className="flex flex-col !ml-16">
+                  <CustomLabelTag text={"Повторите пароль"} />
+                  <Box className="flex flex-col pt-6">
                     <FormControl sx={{ width: "222px" }} variant="outlined">
                       <InputLabel htmlFor="outlined-adornment-password-repeat">
                         Повтор пароля
@@ -220,8 +221,6 @@ export const Registration = ({ login }) => {
                         {errors["repeat-password"].message}
                       </Box>
                     )}
-                  </Box>
-                </Box>
               </Box>
 
               {/* EMAIL */}

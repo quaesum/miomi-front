@@ -22,10 +22,9 @@ export const Address = ({
           {errors && <Box sx={{ color: "red" }}>{errors.message}</Box>}
         </>
       ) : (
-        <Typography sx={{ color: "#6A6D76" }} fontSize={18}>
+        <Typography  sx={{ color: "#6A6D76", fontSize: {md: 22, sx: 14} }}>
           {address}
         </Typography>
-      )}
     </>
   );
 };
