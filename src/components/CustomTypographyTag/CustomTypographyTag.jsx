@@ -7,8 +7,6 @@ export const CustomTypographyTag = ({
   isEditMode,
   text,
   active,
-  color = "",
-  border = "",
   className = "",
   handleCustomTag,
 }) => {

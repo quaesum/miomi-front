@@ -53,12 +53,12 @@ const style = {
 
 const typesImage = ["image/png", "image/jpeg", "image/gif", "image/svg+xml"];
 
-export const CustomButton = ({ text, handleFileLoad, index, type = "" }) => {
+export const CustomButton = ({ className, text, handleFileLoad, index, type = "" }) => {
   return (
     <Box className="m-auto">
       <label
         style={type ? { ...style } : { ...styleBtn }}
-        className={`w-max ${
+        className={`${className} w-max ${
           type ? s.hoverEffectType : s.hoverEffect
         } !normal-case`}
         for={`upload-file-${index}`}

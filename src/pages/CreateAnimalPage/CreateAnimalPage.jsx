@@ -305,14 +305,18 @@ export const CreateAnimalPage = () => {
         <PlaceAnAd type={"Животные"} />
         <Box
           sx={{
-            ml: { lg: "10", xs: "5" },
-            my: { lg: "3" },
-            mr: { lg: "15" },
+            ml: { lg: 10 },
+            my: { lg: 3, xs: 3 },
+            mr: { lg: 15 },
           }}
         >
           {/* PHOTOS */}
           <div
-            className={`${isDragEnter ? "" : "flex justify-between"} w-full`}
+            className={
+              isMobile
+                ? "flex justify-center"
+                : `${isDragEnter ? "" : "flex justify-between"} w-full`
+            }
             onDragEnter={dragEnterHandler}
             onDragOver={dragOverHandler}
             onDragLeave={dragLeaveHandler}
@@ -343,11 +347,37 @@ export const CreateAnimalPage = () => {
               <>
                 {/* PHOTOS */}
                 <Box>
-                  <Typography fontSize={20} className="!font-semibold">
+                  <Typography
+                    fontSize={20}
+                    className={`!font-semibold ${
+                      isMobile && "flex justify-center"
+                    }`}
+                  >
                     Фотографии
                   </Typography>
+                  {isMobile && (
+                    <Box>
+                      <Typography className="flex justify-center" fontSize={18}>
+                        &nbsp;{`Загружено ${photos.length} из 3`}
+                      </Typography>
+                      {photos.length < 1 && (
+                        <Typography
+                          sx={{
+                            color: "red",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                          fontSize={18}
+                        >
+                          {errors?.photos?.message}
+                        </Typography>
+                      )}
+                    </Box>
+                  )}
                   <Box
-                    className={!isMobile && "grid grid-rows-2 grid-cols-2 gap-y-6"}
+                    className={
+                      !isMobile ? "grid grid-rows-2 grid-cols-2 gap-y-6" : "flex justify-center"
+                    }
                     sx={{ mt: 2 }}
                   >
                     <CustomButton
@@ -364,6 +394,7 @@ export const CreateAnimalPage = () => {
                           </Typography>
                         </>
                       }
+                      
                       index={1}
                       handleFileLoad={handleFileLoad}
                       type="create-animal"
@@ -390,60 +421,68 @@ export const CreateAnimalPage = () => {
                 </Box>
 
                 {/* VIEW PHOTOS */}
-                {!isMobile && <Box className={`min-w-100 ${isMobile ? "hidden" : ""}`}>
-                  <Box width={340} className="flex flex-row justify-between">
-                    {photoElements}
-                  </Box>
-                  <Box className="flex justify-center items-center !mt-10">
-                    <Box className="flex flex-col">
-                      <Box className="flex justify-center items-center">
-                        <img
-                          key={999}
-                          style={{
-                            height: "22px",
-                            width: "22px",
-                          }}
-                          src={nullPicture}
-                          alt={"null-puctire"}
-                          loading="lazy"
-                        />
-                        <Typography fontSize={18}>
-                          &nbsp;{`Загружено ${photos.length} из 3`}
-                        </Typography>
+                {!isMobile && (
+                  <Box className={`min-w-100 ${isMobile ? "hidden" : ""}`}>
+                    <Box width={340} className="flex flex-row justify-between">
+                      {photoElements}
+                    </Box>
+                    <Box className="flex justify-center items-center !mt-10">
+                      <Box className="flex flex-col">
+                        <Box className="flex justify-center items-center">
+                          <img
+                            key={999}
+                            style={{
+                              height: "22px",
+                              width: "22px",
+                            }}
+                            src={nullPicture}
+                            alt={"null-puctire"}
+                            loading="lazy"
+                          />
+                          <Typography fontSize={18}>
+                            &nbsp;{`Загружено ${photos.length} из 3`}
+                          </Typography>
+                        </Box>
+                        {photos.length < 1 && (
+                          <Typography
+                            sx={{
+                              color: "red",
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                            fontSize={18}
+                          >
+                            {errors?.photos?.message}
+                          </Typography>
+                        )}
                       </Box>
-                      {photos.length < 1 && (
-                        <Typography
-                          sx={{
-                            color: "red",
-                            display: "flex",
-                            justifyContent: "center",
-                          }}
-                          fontSize={18}
-                        >
-                          {errors?.photos?.message}
-                        </Typography>
-                      )}
                     </Box>
                   </Box>
-                </Box>}
+                )}
               </>
             )}
           </div>
 
           {/* MAIN INFORMATION */}
           <Box
-            sx={isMobile &&{
-              mt: 4,
-              gridTemplateRows: "repeat(8, 1fr)",
-              gridTemplateColumns: "200px 1fr",
-              display: "grid",
-              rowGap: "30px",
-            }}
+            sx={
+              !isMobile && {
+                mt: 4,
+                gridTemplateRows: "repeat(8, 1fr)",
+                gridTemplateColumns: "200px 1fr",
+                display: "grid",
+                rowGap: "30px",
+              }
+            }
           >
             {/* WANT SHARED || ANIMAL TYPE*/}
-            <CustomLabelTag text={"Хочу поделиться"} />
-            <Box className="flex">
+            <CustomLabelTag
+              className={isMobile && "flex justify-center my-4"}
+              text={"Хочу поделиться"}
+            />
+            <Box className={`flex ${isMobile && "flex-wrap justify-center"}`}>
               <CustomTag
+                className={isMobile && "!mb-6"}
                 text={"Котом"}
                 type={1}
                 active={activeAnimal === 1}
@@ -470,8 +509,11 @@ export const CreateAnimalPage = () => {
             </Box>
 
             {/* SEX */}
-            <CustomLabelTag text={"Пол"} />
-            <Box className="flex">
+            <CustomLabelTag
+              className={isMobile && "flex justify-center my-4"}
+              text={"Пол"}
+            />
+            <Box className={`flex ${isMobile && "justify-around"}`}>
               <CustomTag
                 type={1}
                 text={"Мужской"}
@@ -487,8 +529,15 @@ export const CreateAnimalPage = () => {
             </Box>
 
             {/* AGE */}
-            <CustomLabelTag text={"Возраст"} />
-            <Box className="flex items-center ml-10">
+            <CustomLabelTag
+              className={isMobile && "flex justify-center my-4"}
+              text={"Возраст"}
+            />
+            <Box
+              className={`flex items-center ${
+                isMobile ? "justify-center flex-col" : "ml-10"
+              }`}
+            >
               <input
                 {...register("age", {
                   required: "Обязательное поле",
@@ -498,18 +547,27 @@ export const CreateAnimalPage = () => {
                 type="number"
                 min={0}
                 max={30}
-                className={`outline-0 rounded-md w-40 h-full pl-6 !border-solid !border-2 ${
+                className={` outline-0 rounded-md w-40 h-full pl-6 !border-solid !border-2 ${
                   errors.age ? "border-red-300" : "!border-gray-300"
                 }`}
               />
               {errors.age && (
-                <Box sx={{ color: "red", ml: 4 }}>{errors.age.message}</Box>
+                <Box sx={{ color: "red", ml: { lg: 4 } }}>
+                  {errors.age.message}
+                </Box>
               )}
             </Box>
 
             {/* NAME */}
-            <CustomLabelTag text={"Имя"} />
-            <Box className="flex ml-10 items-center">
+            <CustomLabelTag
+              className={isMobile && "flex justify-center my-4"}
+              text={"Имя"}
+            />
+            <Box
+              className={`flex items-center ${
+                isMobile ? "justify-center flex-col" : "ml-10"
+              }`}
+            >
               <input
                 {...register("name", {
                   required: "Обязательное поле",
@@ -530,13 +588,22 @@ export const CreateAnimalPage = () => {
                 }`}
               />
               {errors.name && (
-                <Box sx={{ color: "red", ml: 4 }}>{errors.name.message}</Box>
+                <Box sx={{ color: "red", ml: { lg: 4 } }}>
+                  {errors.name.message}
+                </Box>
               )}
             </Box>
 
             {/* ADDRESS */}
-            <CustomLabelTag text={"Местоположение"} />
-            <Box className="flex ml-10 items-center">
+            <CustomLabelTag
+              className={isMobile && "flex justify-center my-4"}
+              text={"Местоположение"}
+            />
+            <Box
+              className={`flex ${
+                isMobile ? "my-10 mx-4 flex flex-col" : "ml-10"
+              } items-center`}
+            >
               <input
                 {...register("address", {
                   required: "Обязательное поле",
@@ -548,32 +615,37 @@ export const CreateAnimalPage = () => {
                 type="text"
                 min={0}
                 max={30}
-                className={`outline-0 rounded-md h-full pl-6 !border-solid !border-2 ${
+                className={` outline-0 rounded-md h-full pl-6 !border-solid !border-2 ${
                   errors.address
                     ? "border-red-300 w-6/12"
                     : "!border-gray-300 w-full"
                 }`}
               />
               {errors.address && (
-                <Box sx={{ color: "red", ml: 4 }}>{errors.address.message}</Box>
+                <Box sx={{ color: "red", ml: { lg: 4 } }}>
+                  {errors.address.message}
+                </Box>
               )}
             </Box>
 
             {/* INFO MEDIC */}
             <CustomLabelTag text={""} />
-            <Box className="flex ml-10">
+            <Box
+              className={`${isMobile ? "m-auto flex-col w-max" : "ml-10"} flex`}
+            >
               <CustomTypographyTag
                 register={register}
                 isEditMode={true}
                 type={"vaccinated"}
                 text={"Есть прививка"}
+                className={isMobile && "!mb-10"}
                 active={isVaccinated}
                 handleCustomTag={handleChangeMedic}
               />
               <CustomTypographyTag
                 register={register}
                 isEditMode={true}
-                className="!ml-10"
+                className={!isMobile && "!ml-10"}
                 handleCustomTag={handleChangeMedic}
                 type={"sterilized"}
                 text={getValues("sex") === 1 ? "Кастрирован" : "Кастрирована"}
@@ -583,12 +655,14 @@ export const CreateAnimalPage = () => {
 
             {/* DESCRIPTION */}
             <CustomLabelTag
-              className="!items-start"
+              className={`!items-start ${
+                isMobile && "flex justify-center my-4"
+              }`}
               text={"Доп. информация"}
               sx={{ gridRowStart: "7", gridRowEnd: "9" }}
             />
             <Box
-              className="flex ml-10 flex-col"
+              className={`flex ${isMobile ? "mx-10" : "ml-10"} flex-col`}
               sx={{ gridRowStart: "7", gridRowEnd: "9" }}
             >
               <textarea
