@@ -298,7 +298,7 @@ export const CreateAnimalPage = () => {
       <Card
         sx={{
           width: { lg: "1240px", xs: "full", minHeight: "80px" },
-          borderRadius: { lg: "20px", xs: "0" },
+          borderRadius: { lg: 20, xs: 0 },
         }}
         className="w-screen"
       >
@@ -376,7 +376,9 @@ export const CreateAnimalPage = () => {
                   )}
                   <Box
                     className={
-                      !isMobile ? "grid grid-rows-2 grid-cols-2 gap-y-6" : "flex justify-center"
+                      !isMobile
+                        ? "grid grid-rows-2 grid-cols-2 gap-y-6"
+                        : "flex justify-center"
                     }
                     sx={{ mt: 2 }}
                   >
@@ -394,7 +396,6 @@ export const CreateAnimalPage = () => {
                           </Typography>
                         </>
                       }
-                      
                       index={1}
                       handleFileLoad={handleFileLoad}
                       type="create-animal"
@@ -414,7 +415,7 @@ export const CreateAnimalPage = () => {
                           fontSize={18}
                         >
                           Максимальный размер 10 МБ
-                        </Typography>{" "}
+                        </Typography>
                       </>
                     )}
                   </Box>

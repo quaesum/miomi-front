@@ -9,6 +9,7 @@ import DataService from "../../auth/data.service";
 import { useNavigate } from "react-router";
 import { useAnimalContext } from "../../Context/AnimalContext";
 import { LoadingButton } from "@mui/lab";
+import { useMobile } from "../../hooks/useMobile";
 
 export const CustomTag = ({
   type,
@@ -53,6 +54,7 @@ export const CustomLabelTag = ({ text, sx, className }) => {
 };
 
 export const CreateNewsPage = () => {
+  const isMobile = useMobile();
   const navigate = useNavigate();
   const { updateNews } = useAnimalContext();
   const [photo, setPhoto] = useState(null);
@@ -199,15 +201,20 @@ export const CreateNewsPage = () => {
     >
       <Card
         sx={{
-          width: { lg: "1240px", borderRadius: "20px", minHeight: "80px" },
+          width: { lg: "1240px", xs: "full", minHeight: "80px" },
+          borderRadius: { lg: 20 },
         }}
         className="w-screen"
       >
         <PlaceAnAd type={"Новости"} />
-        <Box sx={{ ml: 10, my: 3, mr: 15 }}>
+        <Box sx={{ ml: { lg: 10 }, my: 3, mr: { lg: 15 } }}>
           {/* PHOTOS */}
           <div
-            className={`${isDragEnter ? "" : "flex justify-between"} w-full`}
+            className={
+              isMobile
+                ? "flex justify-center"
+                : `${isDragEnter ? "" : "flex justify-between"} w-full`
+            }
             onDragEnter={dragEnterHandler}
             onDragOver={dragOverHandler}
             onDragLeave={dragLeaveHandler}
@@ -219,7 +226,7 @@ export const CreateNewsPage = () => {
                 min: { value: 1, message: "Загрузите минимум 1 фотографию" },
               })}
             />
-            {isDragEnter ? (
+            {isDragEnter && !isMobile ? (
               <>
                 {/* DROP AREA */}
                 <Box
@@ -238,11 +245,41 @@ export const CreateNewsPage = () => {
               <>
                 {/* PHOTOS */}
                 <Box>
-                  <Typography fontSize={20} className="!font-semibold">
+                  <Typography
+                    fontSize={20}
+                    className={`!font-semibold ${
+                      isMobile && "flex justify-center"
+                    }`}
+                  >
                     Фотографии
                   </Typography>
+                  {isMobile && (
+                    <Box>
+                      <Typography className="flex justify-center" fontSize={18}>
+                        &nbsp;{`Загружено ${photo ? 1 : 0} из 1`}
+                      </Typography>
+                      {photo
+                        ? false
+                        : true && (
+                            <Typography
+                              sx={{
+                                color: "red",
+                                display: "flex",
+                                justifyContent: "center",
+                              }}
+                              fontSize={18}
+                            >
+                              {errors?.photos?.message}
+                            </Typography>
+                          )}
+                    </Box>
+                  )}
                   <Box
-                    className="grid grid-rows-2 grid-cols-2 gap-y-6"
+                    className={
+                      !isMobile
+                        ? "grid grid-rows-2 grid-cols-2 gap-y-6"
+                        : "flex justify-center"
+                    }
                     sx={{ mt: 2 }}
                   >
                     <CustomButton
@@ -263,79 +300,95 @@ export const CreateNewsPage = () => {
                       handleFileLoad={handleFileLoad}
                       type="create-animal"
                     />
-                    <Typography
-                      className="flex justify-center items-center"
-                      sx={{ color: "#6A6D76" }}
-                      fontSize={18}
-                    >
-                      Или перетащите сюда
-                    </Typography>
-                    <Typography
-                      className="flex justify-center items-center"
-                      sx={{ color: "#6A6D76" }}
-                      fontSize={18}
-                    >
-                      Максимальный размер 10 МБ
-                    </Typography>
+                    {!isMobile && (
+                      <>
+                        <Typography
+                          className="flex justify-center items-center"
+                          sx={{ color: "#6A6D76" }}
+                          fontSize={18}
+                        >
+                          Или перетащите сюда
+                        </Typography>
+                        <Typography
+                          className="flex justify-center items-center"
+                          sx={{ color: "#6A6D76" }}
+                          fontSize={18}
+                        >
+                          Максимальный размер 10 МБ
+                        </Typography>
+                      </>
+                    )}
                   </Box>
                 </Box>
 
                 {/* VIEW PHOTOS */}
-                <Box className="min-w-100 ">
-                  <Box width={340} className="flex flex-row justify-center">
-                    {photoElement}
-                  </Box>
-                  <Box className="flex justify-center items-center !mt-10">
-                    <Box className="flex flex-col">
-                      <Box className="flex justify-center items-center">
-                        <img
-                          key={999}
-                          style={{
-                            height: "22px",
-                            width: "22px",
-                          }}
-                          src={nullPicture}
-                          alt={"null-puctire"}
-                          loading="lazy"
-                        />
-                        <Typography fontSize={18}>
-                          &nbsp;{`Загружено ${photo !== null ? 1 : 0} из 1`}
-                        </Typography>
+
+                {!isMobile && (
+                  <Box className="min-w-100 ">
+                    <Box width={340} className="flex flex-row justify-center">
+                      {photoElement}
+                    </Box>
+                    <Box className="flex justify-center items-center !mt-10">
+                      <Box className="flex flex-col">
+                        <Box className="flex justify-center items-center">
+                          <img
+                            key={999}
+                            style={{
+                              height: "22px",
+                              width: "22px",
+                            }}
+                            src={nullPicture}
+                            alt={"null-puctire"}
+                            loading="lazy"
+                          />
+                          <Typography fontSize={18}>
+                            &nbsp;{`Загружено ${photo !== null ? 1 : 0} из 1`}
+                          </Typography>
+                        </Box>
+                        {photo
+                          ? false
+                          : true && (
+                              <Typography
+                                sx={{
+                                  color: "red",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                                fontSize={18}
+                              >
+                                {errors?.photos?.message}
+                              </Typography>
+                            )}
                       </Box>
-                      {photo
-                        ? false
-                        : true && (
-                            <Typography
-                              sx={{
-                                color: "red",
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                              fontSize={18}
-                            >
-                              {errors?.photos?.message}
-                            </Typography>
-                          )}
                     </Box>
                   </Box>
-                </Box>
+                )}
               </>
             )}
           </div>
 
           {/* MAIN INFORMATION */}
           <Box
-            sx={{
-              mt: 4,
-              gridTemplateRows: "repeat(3, 1fr)",
-              gridTemplateColumns: "200px 1fr",
-              display: "grid",
-              rowGap: "30px",
-            }}
+            sx={
+              !isMobile && {
+                mt: 4,
+                gridTemplateRows: "repeat(3, 1fr)",
+                gridTemplateColumns: "200px 1fr",
+                display: "grid",
+                rowGap: "30px",
+              }
+            }
           >
             {/* LABEL */}
-            <CustomLabelTag text={"Заголовок"} />
-            <Box className="flex ml-10 items-center">
+            <CustomLabelTag
+              text={"Заголовок"}
+              className={isMobile && "flex justify-center my-4"}
+            />
+            <Box
+              className={`flex items-center ${
+                isMobile ? "justify-center flex-col" : "ml-10"
+              }`}
+            >
               <input
                 {...register("label", {
                   required: "Обязательное поле",
@@ -354,18 +407,22 @@ export const CreateNewsPage = () => {
                 }`}
               />
               {errors.label && (
-                <Box sx={{ color: "red", ml: 4 }}>{errors.label.message}</Box>
+                <Box sx={{ color: "red", ml: { lg: 4 } }}>
+                  {errors.label.message}
+                </Box>
               )}
             </Box>
 
             {/* DESCRIPTION */}
             <CustomLabelTag
-              className="!items-start"
+              className={`!items-start ${
+                isMobile && "flex justify-center my-4"
+              }`}
               text={"Доп. информация"}
               sx={{ gridRowStart: "2", gridRowEnd: "4" }}
             />
             <Box
-              className="flex ml-10 flex-col"
+              className={`flex ${isMobile ? "mx-10" : "ml-10"} flex-col`}
               sx={{ gridRowStart: "2", gridRowEnd: "4" }}
             >
               <textarea
@@ -384,7 +441,7 @@ export const CreateNewsPage = () => {
                 }`}
               />
               {errors.description && (
-                <Box sx={{ color: "red" }}>{errors.description.message}</Box>
+                <Box sx={{ color: "red" }} className={isMobile && "flex justify-center"}>{errors.description.message}</Box>
               )}
             </Box>
           </Box>
