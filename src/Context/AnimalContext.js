@@ -15,9 +15,6 @@ export function AnimalContextProvider({ children }) {
     const [userKey, setUserKey] = useState()
 
     const baseURL = "http://miomi.by:9000"
-    const handleDeleteAnimal = (id) => {
-        console.log('Delete:' + id)
-    }
 
     useEffect(() => {
         setUserKey(localStorage.getItem("user"))
@@ -70,7 +67,7 @@ export function AnimalContextProvider({ children }) {
 
     return (
         <AnimalContext.Provider
-            value={{ animalsData, baseURL, isLogin, setIsLogin, handleDeleteAnimal, userData, newsData, logout, login, updateUserInfo, updateAnimals, updateNews }}
+            value={{ animalsData, baseURL, isLogin, setIsLogin, userData, newsData, logout, login, updateUserInfo, updateAnimals, updateNews }}
         >
             {children}
         </AnimalContext.Provider>

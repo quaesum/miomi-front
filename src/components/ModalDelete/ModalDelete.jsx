@@ -2,6 +2,7 @@ import { Box, Button, Card, Typography } from "@mui/material";
 import React from "react";
 import { useAnimalContext } from "../../Context/AnimalContext";
 import { useNavigate } from "react-router";
+import DataService from "../../auth/data.service";
 
 const btnStyle = {
   borderRadius: "8px",
@@ -10,13 +11,17 @@ const btnStyle = {
 };
 
 export const ModalDelete = ({ id, handleClose }) => {
-  const { handleDeleteAnimal } = useAnimalContext();
+  const { updateNews } = useAnimalContext();
   const navigate = useNavigate();
 
-  const handleDelete = () => {
+  const handleDelete =async () => {
     handleClose();
-    handleDeleteAnimal(id);
-    navigate("/");
+    await DataService.deleteAnimal(id)
+      .then((res) => {
+        updateNews();
+        navigate("/");
+      })
+      .catch((er) => {});
   };
 
   return (

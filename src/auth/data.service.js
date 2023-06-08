@@ -30,6 +30,14 @@ class DataService {
             .then((res) => res.data)
     }
 
+    async deleteAnimal(id) {
+        return await axios
+            .post(`${BASE_URL}news/v1/remove/${id}`, {}, {
+                headers: authHeaderPhoto(),
+            })
+            .then((res) => res.data)
+    }
+
 }
 
 export default new DataService();
