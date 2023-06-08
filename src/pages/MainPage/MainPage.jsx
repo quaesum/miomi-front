@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Card, Typography, Tabs, Tab, Box } from "@mui/material";
 import { NewsContainer } from "../../components/News/NewsContainer";
 import { UserContainer } from "../../components/User/UserContainer";
 import { AnimalsContainer } from "../../components/Animals/AnimalsContainer";
-import { useAnimalContext } from "../../Context/AnimalContext";
 import { Donations } from "../../components/Donations/Donations";
 
 function TabPanel(props) {

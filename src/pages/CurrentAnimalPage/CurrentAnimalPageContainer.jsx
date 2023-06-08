@@ -18,7 +18,6 @@ export const CurrentAnimalPageContainer = () => {
     if (tempCurrentAnimal) {
       setAnimal({
         ...tempCurrentAnimal,
-        // photos: [...tempCurrentAnimal?.photos.map((el) => `${baseURL}${el}`)],
       });
     }
   }, [animalsData, baseURL, id]);

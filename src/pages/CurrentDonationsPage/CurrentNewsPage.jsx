@@ -9,6 +9,7 @@ export const CurrentDonationsPage = () => {
 
   useEffect(() => {
     setDonat(donations[0]);
+    setIsEditMode(false)
   }, [donations]);
 
   return (
