@@ -9,6 +9,7 @@ import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
 import { useAnimalContext } from "../../Context/AnimalContext";
 import DataService from "../../auth/data.service";
 import { useNavigate } from "react-router";
+import { LoadingButton } from "@mui/lab";
 
 export const CustomTag = ({
   type,
@@ -74,7 +75,7 @@ export const CreateAnimalPage = () => {
   const [photos, setPhotos] = useState([]);
   const [isDragEnter, setIsDragEnter] = useState(false);
   const [photoElements, setPhotoElements] = useState([]);
-  const [errorRequest, setErrorRequest] = useState([]);
+  const [isRequest, setIsRequest] = useState(false);
   const [isRequestImages, setIsRequestImages] = useState(false);
   const [photosId, setPhotosId] = useState([]);
 
@@ -100,8 +101,12 @@ export const CreateAnimalPage = () => {
         .then((res) => {
           navigate("/");
           updateAnimals();
+          setIsRequest(false);
         })
-        .catch((er) => console.log(er.message));
+        .catch((er) => {
+          setIsRequest(false);
+          console.log(er.message);
+        });
     }
   }, [photosId, isRequestImages]);
 
@@ -182,6 +187,7 @@ export const CreateAnimalPage = () => {
   const getPhotosId = async () => {
     const tempPhotosId = [];
 
+    setIsRequest(true);
     setIsRequestImages(true);
 
     if (photos.length >= 1) {
@@ -189,21 +195,27 @@ export const CreateAnimalPage = () => {
         .then((res) => {
           tempPhotosId.push(res.data);
         })
-        .catch((er) => {});
+        .catch((er) => {
+          setIsRequest(false);
+        });
     }
     if (photos.length >= 2) {
       await DataService.addPhotoAnimal(photos[1])
         .then((res) => {
           tempPhotosId.push(res.data);
         })
-        .catch((er) => {});
+        .catch((er) => {
+          setIsRequest(false);
+        });
     }
     if (photos.length === 3) {
       await DataService.addPhotoAnimal(photos[2])
         .then((res) => {
           tempPhotosId.push(res.data);
         })
-        .catch((er) => {});
+        .catch((er) => {
+          setIsRequest(false);
+        });
     }
 
     if (tempPhotosId.length === photos.length) {
@@ -585,12 +597,14 @@ export const CreateAnimalPage = () => {
             </Box>
           </Box>
           <Box className="flex justify-center mt-20">
-            <Button
+            <LoadingButton
+              loading={isRequest}
               type="submit"
               variant="contained"
               sx={{
+                borderRadius: "8px",
+                padding: "5px 60px",
                 backgroundColor: "#EE7100",
-                borderRadius: "10px",
                 "&:hover": { backgroundColor: "#ee6f00d2" },
               }}
             >
@@ -600,7 +614,7 @@ export const CreateAnimalPage = () => {
               >
                 Сохранить
               </Typography>
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
       </Card>

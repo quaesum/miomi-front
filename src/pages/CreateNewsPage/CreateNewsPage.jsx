@@ -8,6 +8,7 @@ import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
 import DataService from "../../auth/data.service";
 import { useNavigate } from "react-router";
 import { useAnimalContext } from "../../Context/AnimalContext";
+import { LoadingButton } from "@mui/lab";
 
 export const CustomTag = ({
   type,
@@ -59,6 +60,7 @@ export const CreateNewsPage = () => {
   const [photoElement, setPhotoElement] = useState([]);
   const [isRequestImages, setIsRequestImages] = useState(false);
   const [photosId, setPhotosId] = useState([]);
+  const [isRequest, setIsRequest] = useState(false);
 
   useEffect(() => {
     if (!isRequestImages && photosId.length === 1 && getValues("label")) {
@@ -73,7 +75,10 @@ export const CreateNewsPage = () => {
           navigate("/");
           updateNews();
         })
-        .catch((er) => console.log(er.message));
+        .catch((er) => {
+          setIsRequest(false);
+          console.log(er.message);
+        });
     }
   }, [photosId, isRequestImages]);
 
@@ -129,13 +134,16 @@ export const CreateNewsPage = () => {
   const getPhotosId = async () => {
     let tempPhoto = [];
 
+    setIsRequest(true);
     setIsRequestImages(true);
 
     await DataService.addPhotoNews(photo)
       .then((res) => {
         tempPhoto.push(res.data);
       })
-      .catch((er) => {});
+      .catch((er) => {
+        setIsRequest(false);
+      });
     if (tempPhoto.length === 1) {
       setPhotosId(tempPhoto);
       setIsRequestImages(false);
@@ -381,12 +389,14 @@ export const CreateNewsPage = () => {
             </Box>
           </Box>
           <Box className="flex justify-center mt-20">
-            <Button
+            <LoadingButton
+              loading={isRequest}
               type="submit"
               variant="contained"
               sx={{
+                borderRadius: "8px",
+                padding: "5px 60px",
                 backgroundColor: "#EE7100",
-                borderRadius: "10px",
                 "&:hover": { backgroundColor: "#ee6f00d2" },
               }}
             >
@@ -396,7 +406,7 @@ export const CreateNewsPage = () => {
               >
                 Сохранить
               </Typography>
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
       </Card>
