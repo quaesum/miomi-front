@@ -9,12 +9,9 @@ export const User = ({ firstName, lastName, isAllAnimal, setIsAllAnimal }) => {
       <Box sx={{ p: {md: "25px", xs: "5px"}, mx: "10px" }} className="flex justify-between">
         <Box className="flex flex-row items-center">
           <Avatar sx={{ width: {lg:100, md:70, xs: 60}, height: {lg:100, md:70, xs: 60} }}></Avatar>
-          <Box className="flex flex-col mt-12 ml-10">
+          <Box className="flex flex-col ml-10">
             <Typography fontWeight={600} sx={{fontSize: {md: "1.5rem", xs: "1rem"}}}>
               {userName}
-            </Typography>
-            <Typography className="text-gray-600" sx={{fontSize: {xs: "0.8rem", md: "1.2rem"}}}>
-              Информация
             </Typography>
           </Box>
         </Box>
