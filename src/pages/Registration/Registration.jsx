@@ -82,7 +82,7 @@ export const Registration = ({ login }) => {
   };
 
   return (
-    <div className="grid place-content-center h-screen w-full flex-1 py-12 md:py-0">
+    <div className="grid place-content-center h-screen w-full flex-1 py-12 md:py-0 overflow-x-auto">
       <Card
         sx={{
           width: { sm: "100%", lg: "900px", xs: "100%", borderRadius: "20px" },
