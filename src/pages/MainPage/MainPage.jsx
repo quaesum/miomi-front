@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Card, Typography, Tabs, Tab, Box } from "@mui/material";
 import { NewsContainer } from "../../components/News/NewsContainer";
 import { UserContainer } from "../../components/User/UserContainer";
 import { AnimalsContainer } from "../../components/Animals/AnimalsContainer";
-import { useAnimalContext } from "../../Context/AnimalContext";
+import { Donations } from "../../components/Donations/Donations";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -26,13 +26,8 @@ function TabPanel(props) {
 }
 
 export const MainPage = () => {
-  const { updateAnimals } = useAnimalContext();
   const [tab, setTab] = useState(0);
   const [isAllAnimal, setIsAllAnimal] = useState(true);
-
-  useEffect(() => {
-    // updateAnimals();
-  }, []);
 
   const handleChangeTab = (event, newValue) => {
     setTab(newValue);
@@ -67,7 +62,7 @@ export const MainPage = () => {
           <NewsContainer />
         </TabPanel>
         <TabPanel value={tab} index={2}>
-          Item Three
+          <Donations />
         </TabPanel>
       </Card>
     </div>

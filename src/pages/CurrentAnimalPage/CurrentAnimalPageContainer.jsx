@@ -6,7 +6,8 @@ import { useParams } from "react-router-dom";
 export const CurrentAnimalPageContainer = () => {
   const [animal, setAnimal] = useState();
   const [isCanEdit, setIsCanEdit] = useState();
-  const { animalsData, baseURL, isLogin, userData } = useAnimalContext();
+  const { animalsData, baseURL, isLogin, userData, urlsImages } =
+    useAnimalContext();
   let { id } = useParams();
   const userShelterId = userData.shelter_id ? userData.shelter_id : "";
 
@@ -17,15 +18,22 @@ export const CurrentAnimalPageContainer = () => {
     if (tempCurrentAnimal) {
       setAnimal({
         ...tempCurrentAnimal,
-        photos: [...tempCurrentAnimal?.photos.map((el) => `${baseURL}${el}`)],
       });
     }
   }, [animalsData, baseURL, id]);
 
-  useEffect(()=>{
-    setIsCanEdit(isLogin && userShelterId === animal?.shelterId)
-  }, [animal, isLogin, userData])
+  useEffect(() => {
+    setIsCanEdit(isLogin && userShelterId === animal?.shelterId);
+  }, [animal, isLogin, userData]);
 
   if (!animal) return null;
-  return <CurrentAnimalPage animal={animal} id={id} isCanEdit={isCanEdit}/>;
+  return (
+    <CurrentAnimalPage
+      baseURL={baseURL}
+      urlsImages={urlsImages}
+      animal={animal}
+      id={id}
+      isCanEdit={isCanEdit}
+    />
+  );
 };

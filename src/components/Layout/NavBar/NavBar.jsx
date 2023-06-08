@@ -106,7 +106,7 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                         }}
                         className="flex justify-center"
                       >
-                        <Box className="grid grid-rows-3 gap-6">
+                        <Box className="grid grid-rows-2 gap-6">
                           <CustomButton
                             popupState={popupState}
                             text={"Животное"}
@@ -117,11 +117,11 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                             text={"Новость"}
                             url={"news/create-news"}
                           />
-                          <CustomButton
+                          {/* <CustomButton
                             popupState={popupState}
                             text={"Пожертвование"}
                             url={"donations/create-animal"}
-                          />
+                          /> */}
                         </Box>
                       </Box>
                     </Popover>
