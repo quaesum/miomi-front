@@ -6,21 +6,20 @@ export const User = ({ firstName, lastName, isAllAnimal, setIsAllAnimal }) => {
 
   return (
     <>
-      <Box sx={{ p: "25px", ml: "10px" }} className="flex justify-between">
-        <Box className="flex flex-row">
-          <Avatar sx={{ width: 100, height: 100 }}></Avatar>
+      <Box sx={{ p: {md: "25px", xs: "5px"}, mx: "10px" }} className="flex justify-between">
+        <Box className="flex flex-row items-center">
+          <Avatar sx={{ width: {lg:100, md:70, xs: 60}, height: {lg:100, md:70, xs: 60} }}></Avatar>
           <Box className="flex flex-col mt-12 ml-10">
-            <Typography fontWeight={600} fontSize={"1.5rem"}>
+            <Typography fontWeight={600} sx={{fontSize: {md: "1.5rem", xs: "1rem"}}}>
               {userName}
             </Typography>
-            <Typography className="text-gray-600" fontSize={"1.2rem"}>
+            <Typography className="text-gray-600" sx={{fontSize: {xs: "0.8rem", md: "1.2rem"}}}>
               Информация
             </Typography>
           </Box>
         </Box>
-        <Box className="flex items-center mr-80">
+        <Box className="flex items-center md:mr-80 xs:mr-10 text-center">
           <Typography
-            fontSize={20}
             onClick={() => setIsAllAnimal((prev) => !prev)}
             sx={[
               {
@@ -29,6 +28,7 @@ export const User = ({ firstName, lastName, isAllAnimal, setIsAllAnimal }) => {
                 pr: "15px",
                 borderRadius: "10px",
                 cursor: "pointer",
+                fontSize: {xs: "15px", md: "20px"},
                 boxShadow:
                   "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
                 transition: "0.2s",

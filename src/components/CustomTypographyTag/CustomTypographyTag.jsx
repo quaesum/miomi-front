@@ -14,12 +14,11 @@ export const CustomTypographyTag = ({
 }) => {
   return (
     <Typography
-      fontSize={18}
-      className={`${className} px-20`}
+      className={`${className} px-20 text-xs md:text-base`}
       {...register(type, { value: active })}
       onClick={isEditMode ? () => handleCustomTag(type, !active) : () => {}}
       sx={[
-        isEditMode ? { cursor: "pointer" } : { cursor: "default" },
+        isEditMode ? { cursor: "pointer", display: "flex", alignItems: "center" } : { cursor: "default", display: "flex", alignItems: "center" },
         {
           py: "5px",
           borderRadius: "10px",

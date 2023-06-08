@@ -144,22 +144,23 @@ export const CurrentAnimalPage = ({
           width: { sm: "100%", lg: "1024px", xs: "100%", borderRadius: "20px" },
         }}
       >
-        <Box sx={{ px: 10, py: 5 }} className="flex justify-between">
-          <Box className="flex">
+        <Box sx={{ px: {md:10, xs: 2}, py: {md:5, xs: 2} }} className="flex justify-between">
+          <Box className="flex items-center">
             <Typography>
               <Avatar
                 alt="avatar-animal"
                 src={filesURL[0]}
-                sx={{ width: 90, height: 90 }}
+                sx={{ width: {lg:100, md:70, xs: 60}, height: {lg:100, md:70, xs: 60} }}
               />
             </Typography>
-            <Box sx={{ mt: "10px" }} className="flex">
-              <Typography sx={{ ml: "20px" }} className="flex flex-col">
+            <Box sx={{ mt: {md:"10px", xs: "5px"}, width: "150px" }} className="flex flex-col md:flex-row">
+              <Typography sx={{ ml: {md: "20px", xs: "10px"} }} className="flex flex-col">
                 <Name
                   errors={errors.nameAnimal}
                   validationDefaultProps={validationDefaultProps}
                   {...defaultPropsForComponents}
                   name={getValues("nameAnimal")}
+                  className=""
                 />
                 <Sex
                   validationDefaultProps={validationDefaultProps}
@@ -178,7 +179,7 @@ export const CurrentAnimalPage = ({
           </Box>
 
           {isCanEdit && (
-            <Box className="flex flex-col" sx={{ mt: "23px" }}>
+            <Box className="flex flex-col" sx={{ mt: {md:"23px", xs:"40px"} }}>
               {isEditMode ? (
                 <button type="submit" className="h-max">
                   <Typography
@@ -224,7 +225,7 @@ export const CurrentAnimalPage = ({
           className="h-2 w-full"
           style={{ backgroundColor: "#DCDCDC" }}
         ></div>
-        <Box sx={{ px: 10, pt: 2, pb: 5 }} className="flex flex-col">
+        <Box sx={{ px: {md:10, xs:2}, pt: 2, pb: 5 }} className="flex flex-col">
           {/* PLACE */}
           <Box className="flex">
             <Box className={isEditMode ? "flex items-center" : ""}>
@@ -241,7 +242,7 @@ export const CurrentAnimalPage = ({
                 address={getValues("address")}
                 {...defaultPropsForComponents}
               />
-              <Typography sx={{ color: "#6A6D76" }} fontSize={18}>
+              <Typography sx={{ color: "#6A6D76", fontSize: {md: 18, xs: 12} }}>
                 {animal.address}
               </Typography>
             </Box>
@@ -273,8 +274,8 @@ export const CurrentAnimalPage = ({
             <ImageList
               sx={
                 !isEditMode
-                  ? { mt: "30px", width: "100%", height: "285px" }
-                  : { width: "100%", height: 285 }
+                  ? { mt: "30px", width: "100%", height: {md:"285px", xs:"150px"} }
+                  : { width: "100%", height: {md:285, xs: 150} }
               }
               variant="quilted"
               cols={3}
@@ -284,8 +285,8 @@ export const CurrentAnimalPage = ({
                   <img
                     style={{
                       borderRadius: "15px",
-                      height: "285px",
-                      width: "285px",
+                      height: {md: "285px", xs: "150"},
+                      width: {md: "285px", xs: "150"},
                     }}
                     src={item}
                     alt={"animal_image"}
