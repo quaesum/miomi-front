@@ -11,11 +11,14 @@ import { useForm } from "react-hook-form";
 import userService from "../../auth/user.service";
 import { useNavigate } from "react-router";
 import { LoadingButton } from "@mui/lab";
+import HomeIcon from '@mui/icons-material/Home';
+import {useMobile} from "../../hooks/useMobile"
 
 export default function ProfilePage({ data, updateUserInfo }) {
   const [edit, setEdit] = useState(false);
   const [requestError, setRequestError] = useState("");
   const [isRequest, setIsRequest] = useState(false);
+  const navigation = useNavigate();
 
   const {
     register,
@@ -72,6 +75,8 @@ export default function ProfilePage({ data, updateUserInfo }) {
     },
   };
 
+  const isMobile = useMobile()
+
   return (
     <div className="grid place-content-center h-screen w-full flex-1 pb-80">
       <Card
@@ -83,15 +88,14 @@ export default function ProfilePage({ data, updateUserInfo }) {
             borderRadius: "20px",
           },
         }}
-        className="w-screen"
+        className="!w-screen"
       >
         <Box className="flex justify-center items-center min-h-80">
           <Avatar sx={{ width: 100, height: 100 }} />
         </Box>
         <Box
-          className={`items-center min-h-80 pb-12 ${
-            edit ? "hidden" : "flex flex-col"
-          }`}
+          className={`items-center min-h-80 pb-12 ${edit ? "hidden" : "flex flex-col"
+            }`}
         >
           <Typography fontSize={24} fontWeight="bold">
             {data?.firstName} {data?.lastName}
@@ -112,9 +116,8 @@ export default function ProfilePage({ data, updateUserInfo }) {
           </Button>
         </Box>
         <Box
-          className={`${
-            edit ? "flex flex-col" : "hidden"
-          } items-center min-h-80 pb-12`}
+          className={`${edit ? "flex flex-col" : "hidden"
+            } items-center min-h-80 pb-12`}
         >
           <form onSubmit={handleSubmit(handleSubmitForm)}>
             <Box className="flex flex-col space-y-24">
@@ -173,6 +176,11 @@ export default function ProfilePage({ data, updateUserInfo }) {
           </form>
         </Box>
       </Card>
+      <Box className='md:hidden grid place-content-center pt-24'>
+        <Box className="bg-white rounded-full flex items-center justify-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-grey duration-300 " height={50} width={50} onClick={() => navigation('/')}>
+        <HomeIcon fontSize="large" />
+        </Box>
+      </Box>
     </div>
   );
 }
