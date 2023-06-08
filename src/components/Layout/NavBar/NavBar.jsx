@@ -45,18 +45,18 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
   return (
     <div className="p-0 max-h-40 h-40 relative bg-white">
       <div
-        className="hidden md:flex flex-1 px-16 absolute cursor-pointer"
+        className="flex flex-1 px-16 absolute cursor-pointer"
         onClick={() => navigate("/")}
       >
-        <img src={catSrc} alt="cat-icon" />
-        <Typography className="!mt-10 !font-semibold !text-3xl">
+        <img src={catSrc} alt="cat-icon" className="hidden md:flex"/>
+        <Typography className="!mt-10 !font-semibold !text-3xl hidden sm:flex">
           mio.mi
         </Typography>
       </div>
       <div className="flex items-center px-8 h-full justify-end">
         {firstName && (
           <>
-            <div className="mr-20">
+            <div className="sm: mr-5 md:mr-20">
               <PopupState variant="popover" popupId="demo-popup-popover">
                 {(popupState) => (
                   <>
@@ -78,8 +78,8 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                             }
                       }
                     >
-                      <img src={pawSrc} alt="paw-icon" />
-                      <Typography fontSize={16}>
+                      <img src={pawSrc} alt="paw-icon" className="hidden sm:flex"/>
+                      <Typography sx={{lineHeight: { xs: "1rem", sm: "1.5rem"}}}>
                         &nbsp; Подать объявление
                       </Typography>
                     </Button>
@@ -101,7 +101,7 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                       <Box
                         sx={{
                           p: 2,
-                          width: "248px;",
+                          width: {xs: '225px', sm: "248px", md: "248px", lg: "248px;"},
                           borderStartStartRadius: 0,
                         }}
                         className="flex justify-center"

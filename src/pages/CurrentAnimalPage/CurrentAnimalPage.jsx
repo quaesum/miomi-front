@@ -136,8 +136,8 @@ export const CurrentAnimalPage = ({
 
   return (
     <form
-      onSubmit={handleSubmit(handleFormSubmit)}
-      className="grid place-content-center h-full w-full flex-1"
+      onSubmit={(e) => e.preventDefault()}
+      className="grid place-content-center h-full w-full flex-1 pt-12"
     >
       <Card
         sx={{
