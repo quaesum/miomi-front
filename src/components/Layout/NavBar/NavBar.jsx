@@ -43,12 +43,12 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
   const userName = `${firstName} ${lastName}`;
 
   return (
-    <div className="p-0 max-h-40 h-40 relative bg-white">
+    <div className="p-0 max-h-40 h-40 relative bg-white overflow-hidden">
       <div
         className="flex flex-1 px-16 absolute cursor-pointer"
         onClick={() => navigate("/")}
       >
-        <img src={catSrc} alt="cat-icon" className="hidden md:flex"/>
+        <img src={catSrc} alt="cat-icon" className="hidden md:flex" />
         <Typography className="!mt-10 !font-semibold !text-3xl hidden sm:flex">
           mio.mi
         </Typography>
@@ -101,7 +101,7 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                       <Box
                         sx={{
                           p: 2,
-                          width: {xs: '225px', sm: "248px", md: "248px", lg: "248px;"},
+                          width: {xs: '172px', sm: "248px", md: "248px", lg: "248px;"},
                           borderStartStartRadius: 0,
                         }}
                         className="flex justify-center"
