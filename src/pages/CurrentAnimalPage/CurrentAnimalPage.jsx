@@ -17,32 +17,32 @@ import { Age } from "./componentsPage/Age";
 import { ModalPhotos } from "./componentsPage/ModalPhotos";
 import { ModalDelete } from "../../components/ModalDelete/ModalDelete";
 import { ageTransformation } from "../../components/Animals/Animals";
-import { Address } from "./componentsPage/Address";
 import DataService from "../../auth/data.service";
+import { Place } from "./componentsPage/Place";
+import { Address } from "./componentsPage/Address";
+import { useNavigate } from "react-router";
 
 export const CurrentAnimalPage = ({
   animal,
+  updateAnimals,
   id,
   isCanEdit,
   urlsImages,
   baseURL,
 }) => {
+  const navigate = useNavigate();
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isSterilized, setIsSterilized] = useState(animal.sterilized);
-  const [isVaccinated, setIsVaccinated] = useState(animal.vaccinated);
-  const [filesURL, setFilesURL] = useState(animal.photos);
+  const [isSterilized, setIsSterilized] = useState(animal?.sterilized);
+  const [isVaccinated, setIsVaccinated] = useState(animal?.vaccinated);
+  const [filesURL, setFilesURL] = useState(animal?.photos);
   const [filesID, setFilesID] = useState();
   const [files, setFiles] = useState([]);
 
-  console.log(animal);
-
   useEffect(() => {
-    console.log(urlsImages);
-    console.log(animal.photos);
-    const tempPhotosUrls = [...animal.photos.map((el) => `${baseURL}${el}`)];
+    const tempPhotosUrls = [...animal?.photos?.map((el) => `${baseURL}${el}`)];
     const tempPhotoID = [
-      ...animal.photos.map((defaultUrl) => {
-        const id = urlsImages.filter((el) => el.url === defaultUrl)[0].id;
+      ...animal?.photos?.map((defaultUrl) => {
+        let id = urlsImages.filter((el) => el.url === defaultUrl)[0].id;
         return id;
       }),
     ];
@@ -68,7 +68,8 @@ export const CurrentAnimalPage = ({
       age: animal.age,
       nameAnimal: animal.name,
       description: animal.description,
-      address: animal.shelter,
+      place: animal.shelter,
+      address: animal.address,
     },
   });
 
@@ -76,10 +77,6 @@ export const CurrentAnimalPage = ({
     register: register,
     isEditMode: isEditMode,
   };
-
-  useEffect(() => {
-    console.log(files);
-  }, [files]);
 
   const validationDefaultProps = {
     required: "Обязательное поле",
@@ -119,24 +116,56 @@ export const CurrentAnimalPage = ({
 
   const handleFormSubmit = async () => {
     setIsEditMode(false);
-    console.log(getValues());
+
     const tempPhotosId = []; //id photos
-    // for (let i = 0; i < files.length; i++) {
-    //   if (files[i]) {
-    //     await DataService.addPhotoAnimal(files[i])
-    //       .then((res) => {
-    //         tempPhotosId.push(res.data);
-    //       })
-    //       .catch((er) => {});
-    //   } else {
-    //     tempPhotosId.push(filesID[i]);
-    //   }
-    // }
+    for (let i = 0; i < filesURL.length; i++) {
+      if (files[i]) {
+        await DataService.addPhotoAnimal(files[i])
+          .then((res) => {
+            tempPhotosId.push(res.data);
+          })
+          .catch((er) => {});
+      } else {
+        tempPhotosId.push(filesID[i]);
+      }
+    }
+    setFilesID(tempPhotosId);
+    const type =
+      animal.type === "Кот"
+        ? 1
+        : animal.type === "Собака"
+        ? 2
+        : animal.type === "Птица"
+        ? 3
+        : 4;
+    const postData = {
+      age: Number(getValues("age")),
+      name: getValues("nameAnimal"),
+      sex: getValues("sex") === "мальчик" ? 1 : 0,
+      type: type,
+      shelterId: animal.shelterId,
+      description: getValues("description"),
+      sterilized: isSterilized,
+      vaccinated: isVaccinated,
+      onrainbow: animal.onrainbow,
+      onhappines: animal.onhappines,
+      photos: tempPhotosId,
+    };
+
+    console.log(postData)
+
+    await DataService.updateAnimal(postData, id)
+      .then((res) => {
+        console.log(res);
+        updateAnimals();
+        navigate("/");
+      })
+      .catch((er) => console.log(er));
   };
 
   return (
     <form
-      onSubmit={(e) => e.preventDefault()}
+      onSubmit={handleSubmit(handleFormSubmit)}
       className="grid place-content-center h-full w-full flex-1 pt-12"
     >
       <Card
@@ -149,7 +178,7 @@ export const CurrentAnimalPage = ({
             <Typography>
               <Avatar
                 alt="avatar-animal"
-                src={filesURL[0]}
+                src={filesURL?.[0]}
                 sx={{ width: 90, height: 90 }}
               />
             </Typography>
@@ -234,16 +263,19 @@ export const CurrentAnimalPage = ({
                 alt="point"
               />
             </Box>
-            <Box className="ml-10">
+            <Box className={isEditMode ? "flex flex-col" : "ml-10"}>
+              <Place
+                validationDefaultProps={validationDefaultProps}
+                errors={errors.place}
+                place={getValues("place")}
+                {...defaultPropsForComponents}
+              />
               <Address
                 validationDefaultProps={validationDefaultProps}
                 errors={errors.address}
                 address={getValues("address")}
                 {...defaultPropsForComponents}
               />
-              <Typography sx={{ color: "#6A6D76" }} fontSize={18}>
-                {animal.address}
-              </Typography>
             </Box>
           </Box>
           <Box
@@ -279,7 +311,7 @@ export const CurrentAnimalPage = ({
               variant="quilted"
               cols={3}
             >
-              {filesURL.map((item) => (
+              {filesURL?.map((item) => (
                 <ImageListItem key={item}>
                   <img
                     style={{

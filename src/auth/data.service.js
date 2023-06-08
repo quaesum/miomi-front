@@ -8,6 +8,10 @@ class DataService {
         return await axios.post(BASE_URL + 'animal/v1/add', { ...data }, { headers: authHeader() }).then(res => res.data);
     }
 
+    async updateAnimal(data, id) {
+        return await axios.post(`${BASE_URL}animal/v1/update/${id}`, { ...data }, { headers: authHeader() }).then(res => res.data);
+    }
+
     async addNewNews(data) {
         return await axios.post(BASE_URL + 'news/v1/add', { ...data }, { headers: authHeader() }).then(res => res.data);
     }
