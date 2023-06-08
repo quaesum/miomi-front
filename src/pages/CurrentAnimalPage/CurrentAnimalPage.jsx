@@ -110,8 +110,8 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
 
   return (
     <form
-      onSubmit={handleSubmit(handleFormSubmit)}
-      className="grid place-content-center h-full w-full flex-1"
+      onSubmit={(e) => e.preventDefault()}
+      className="grid place-content-center h-full w-full flex-1 pt-12"
     >
       <Card
         sx={{
@@ -123,8 +123,8 @@ export const CurrentAnimalPage = ({ animal, id, isCanEdit }) => {
             <Typography>
               <Avatar
                 alt="avatar-animal"
-                src={animal?.photos?.[0]}
-                sx={{ width: 90, height: 90 }}
+                src={animal?.photos[0]}
+                sx={{ width: {md:100, xs:80}, height: {md:100, sm:65, xs:80} }}
               />
             </Typography>
             <Box sx={{ mt: "10px" }} className="flex">
