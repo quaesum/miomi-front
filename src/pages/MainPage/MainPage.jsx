@@ -51,9 +51,9 @@ export const MainPage = () => {
           setIsAllAnimal={setIsAllAnimal}
         />
         <Tabs value={tab} onChange={handleChangeTab} variant="fullWidth">
-          <Tab label="Животные" {...a11yProps(0)} />
-          <Tab label="Новости" {...a11yProps(1)} />
-          <Tab label="Пожертвования" {...a11yProps(2)} />
+          <Tab label="Животные" sx={{fontSize: {xs: 12, sm: 16}}}{...a11yProps(0)} />
+          <Tab label="Новости"sx={{fontSize: {xs: 12,sm: 16}}} {...a11yProps(1)} />
+          <Tab label="Пожертвования" sx={{fontSize: {xs: 12,sm: 16}}} {...a11yProps(2)} />
         </Tabs>
         <TabPanel value={tab} index={0}>
           <AnimalsContainer isAllAnimal={isAllAnimal} />
