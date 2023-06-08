@@ -78,7 +78,7 @@ export default function ProfilePage({ data, updateUserInfo }) {
   const isMobile = useMobile()
 
   return (
-    <div className="grid place-content-center h-screen w-full flex-1 pb-80">
+    <div className={`grid place-content-center h-screen w-full flex-1 ${edit ? "pb-20" : "pb-80"}`}>
       <Card
         sx={{
           width: {
@@ -176,7 +176,7 @@ export default function ProfilePage({ data, updateUserInfo }) {
           </form>
         </Box>
       </Card>
-      <Box className='md:hidden grid place-content-center pt-24'>
+      <Box className={edit ? "hidden" :'md:hidden grid place-content-center pt-24'}>
         <Box className="bg-white rounded-full flex items-center justify-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-grey duration-300 " height={50} width={50} onClick={() => navigation('/')}>
         <HomeIcon fontSize="large" />
         </Box>
