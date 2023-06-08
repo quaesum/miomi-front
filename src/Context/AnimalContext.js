@@ -46,6 +46,18 @@ export function AnimalContextProvider({ children }) {
         setUserData([])
     }
 
+    const updateAnimals = async () => {
+        await axios.get(`http://miomi.by/api/animal/v1/`).then((res) => {
+            setAnimalsData(res.data);
+        });
+    }
+
+    const updateNews = async () => {
+        await axios.get(`http://miomi.by/api/news/v1/`).then((res) => {
+            setNewsData(res.data);
+        });
+    }
+
     const login = () => {
         setIsLogin(true)
         UserService.getUserInfo().then(res => setUserData(res.data.data)).catch(er => { })
@@ -58,7 +70,7 @@ export function AnimalContextProvider({ children }) {
 
     return (
         <AnimalContext.Provider
-            value={{ animalsData, baseURL, isLogin, setIsLogin, handleDeleteAnimal, userData, newsData, logout, login, updateUserInfo }}
+            value={{ animalsData, baseURL, isLogin, setIsLogin, handleDeleteAnimal, userData, newsData, logout, login, updateUserInfo, updateAnimals, updateNews }}
         >
             {children}
         </AnimalContext.Provider>

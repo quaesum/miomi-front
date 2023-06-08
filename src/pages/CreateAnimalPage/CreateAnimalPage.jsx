@@ -6,7 +6,9 @@ import { useForm } from "react-hook-form";
 import { CustomTypographyTag } from "../../components/CustomTypographyTag/CustomTypographyTag";
 import nullPicture from "../../assets/CreateAnimalPage/null-picture.png";
 import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
+import { useAnimalContext } from "../../Context/AnimalContext";
 import DataService from "../../auth/data.service";
+import { useNavigate } from "react-router";
 
 export const CustomTag = ({
   type,
@@ -62,8 +64,9 @@ export const CustomLabelTag = ({ text, sx, className }) => {
   );
 };
 
-
 export const CreateAnimalPage = () => {
+  const { userData, updateAnimals } = useAnimalContext();
+  const navigate = useNavigate();
   const [activeAnimal, setAcitveAnimal] = useState(1);
   const [isSterilized, setIsSterilized] = useState(false);
   const [isVaccinated, setIsVaccinated] = useState(false);
@@ -71,6 +74,36 @@ export const CreateAnimalPage = () => {
   const [photos, setPhotos] = useState([]);
   const [isDragEnter, setIsDragEnter] = useState(false);
   const [photoElements, setPhotoElements] = useState([]);
+  const [errorRequest, setErrorRequest] = useState([]);
+  const [isRequestImages, setIsRequestImages] = useState(false);
+  const [photosId, setPhotosId] = useState([]);
+
+  useEffect(() => {
+    if (
+      !isRequestImages &&
+      photosId.length === photos.length &&
+      getValues("age") > 0
+    ) {
+      const postData = {
+        age: Number(getValues("age")),
+        name: getValues("name"),
+        sex: getValues("sex"),
+        type: getValues("animalType"),
+        description: getValues("description"),
+        sterilized: getValues("sterilized"),
+        vaccinated: getValues("vaccinated"),
+        shelterId: userData.shelter_id,
+        photos: photosId,
+      };
+
+      DataService.addNewAnimal(postData)
+        .then((res) => {
+          navigate("/");
+          updateAnimals();
+        })
+        .catch((er) => console.log(er.message));
+    }
+  }, [photosId, isRequestImages]);
 
   useEffect(() => {
     let tempPhotoElements = [];
@@ -138,7 +171,6 @@ export const CreateAnimalPage = () => {
 
   const deleteFile = (i) => {
     let tempFiles = [...photos];
-    console.log(i);
     tempFiles = tempFiles.map((el, index) => {
       if (index !== i) return el;
       else return null;
@@ -147,20 +179,41 @@ export const CreateAnimalPage = () => {
     setPhotos(tempFiles);
   };
 
-  const handleSubmitForm = () => {
-    const postData = {
-      age: getValues("age"),
-      name: getValues("name"),
-      sex: getValues("sex"),
-      type: getValues("animalType"),
-      description: getValues("description"),
-      sterilized: getValues("sterilized"),
-      vaccinated: getValues("vaccinated"),
-      //shelterId:
-      //photos: [] 
-    };
-    //DataService.addNewAnimal(postData)
-    console.log(postData)
+  const getPhotosId = async () => {
+    const tempPhotosId = [];
+
+    setIsRequestImages(true);
+
+    if (photos.length >= 1) {
+      await DataService.addPhotoAnimal(photos[0])
+        .then((res) => {
+          tempPhotosId.push(res.data);
+        })
+        .catch((er) => {});
+    }
+    if (photos.length >= 2) {
+      await DataService.addPhotoAnimal(photos[1])
+        .then((res) => {
+          tempPhotosId.push(res.data);
+        })
+        .catch((er) => {});
+    }
+    if (photos.length === 3) {
+      await DataService.addPhotoAnimal(photos[2])
+        .then((res) => {
+          tempPhotosId.push(res.data);
+        })
+        .catch((er) => {});
+    }
+
+    if (tempPhotosId.length === photos.length) {
+      setPhotosId(tempPhotosId);
+      setIsRequestImages(false);
+    }
+  };
+
+  const handleSubmitForm = async () => {
+    getPhotosId();
   };
 
   const handleChangeAnimal = (type) => {

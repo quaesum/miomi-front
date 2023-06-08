@@ -14,6 +14,7 @@ export const CurrentAnimalPageContainer = () => {
     const tempCurrentAnimal = animalsData.filter(
       (el) => el.id === Number(id)
     )[0];
+    console.log(tempCurrentAnimal)
     if (tempCurrentAnimal) {
       setAnimal({
         ...tempCurrentAnimal,

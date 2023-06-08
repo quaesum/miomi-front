@@ -66,6 +66,7 @@ export const CustomButton = ({ text, handleFileLoad, index, type = "" }) => {
         {text}
       </label>
       <input
+        multiple={type !== ""}
         accept={typesImage.join(",")}
         id={`upload-file-${index}`}
         hidden
