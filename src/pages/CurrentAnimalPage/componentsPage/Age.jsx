@@ -1,9 +1,15 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 
 export const Age = ({ register, isEditMode, age, ageName, errors }) => {
   return (
-    <Typography sx={isEditMode ? { ml: {md:"30px", xs: "10px"} } : { mt: "13px", ml: "30px" }}>
+    <Typography
+      sx={
+        isEditMode
+          ? { ml: { md: 30, xs: 10 } }
+          : { mt: {md: 13, xs: 0}, ml: {md: 30, xs: 1} }
+      }
+    >
       {isEditMode ? (
         <>
           <input
@@ -22,7 +28,11 @@ export const Age = ({ register, isEditMode, age, ageName, errors }) => {
           {errors && <Box sx={{ color: "red", ml: 4 }}>{errors.message}</Box>}
         </>
       ) : (
-        <span className="text-xs md:text-sm text-gray-600">{`${age} ${ageName}`}</span>
+        <div className="text-xs md:text-sm text-gray-600">
+          <span>{age}</span>
+          &nbsp;
+          <span>{ageName}</span>
+        </div>
       )}
     </Typography>
   );

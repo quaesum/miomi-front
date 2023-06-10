@@ -277,9 +277,6 @@ export const CurrentAnimalPage = ({
                 address={getValues("address")}
                 {...defaultPropsForComponents}
               />
-              <Typography sx={{ color: "#6A6D76", fontSize: {md: 18, xs: 12} }}>
-                {animal.address}
-              </Typography>
             </Box>
           </Box>
           <Box
