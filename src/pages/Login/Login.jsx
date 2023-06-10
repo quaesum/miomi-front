@@ -18,6 +18,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
 import AuthService from "../../auth/auth.service";
 import { useNavigate } from "react-router";
+import { useMobile } from "../../hooks/useMobile";
 
 const btnStyle = {
   borderRadius: "10px",
@@ -26,6 +27,7 @@ const btnStyle = {
 };
 
 export const Login = ({ login, setIsLogin }) => {
+  const isMobile = useMobile();
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -72,10 +74,15 @@ export const Login = ({ login, setIsLogin }) => {
   } = useForm();
 
   return (
-    <div className="grid place-content-center h-screen w-full flex-1 pb-80">
+    <div
+      className={`grid place-content-center h-screen w-full flex-1 ${
+        isMobile ? "" : "pb-80"
+      } `}
+    >
       <Card
         sx={{
-          width: { sm: "100%", lg: "650px", xs: "100%", borderRadius: "20px" },
+          width: { sm: "100%", lg: "650px", xs: "100%" },
+          borderRadius: { lg: 10 },
         }}
         className="w-screen"
       >
@@ -93,9 +100,12 @@ export const Login = ({ login, setIsLogin }) => {
             onSubmit={handleSubmit(handleSubmitForm)}
           >
             {/* EMAIL */}
-            <Box className="flex flex-col !mb-10">
+            <Box
+              className="flex flex-col !mb-10"
+              sx={{ width: { lg: 400, xs: "100%" } }}
+            >
               <TextField
-                sx={{ width: "400px" }}
+                sx={{ width: "100%" }}
                 className="w-full"
                 id="outlined-basic"
                 label="Почтовый ящик"
@@ -115,8 +125,8 @@ export const Login = ({ login, setIsLogin }) => {
             </Box>
 
             {/* PASSWORD */}
-            <Box>
-              <FormControl sx={{ width: "400px" }} variant="outlined">
+            <Box sx={{ width: { lg: 400, xs: "100%" } }}>
+              <FormControl sx={{ width: "100%" }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">
                   Пароль
                 </InputLabel>
@@ -141,33 +151,6 @@ export const Login = ({ login, setIsLogin }) => {
               </FormControl>
               {errors.password && (
                 <Box sx={{ color: "red" }}>{errors.password.message}</Box>
-              )}
-            </Box>
-
-            {/* CHECKBOX */}
-            <Box className="flex flex-col justify-center">
-              <Box className="flex justify-center items-center">
-                <Checkbox
-                  label="Пользовательское соглашение"
-                  {...register("terms_of_use", {
-                    validate: (value) => {
-                      if (!value) return "Прочтите пользовательское соглашение";
-                    },
-                  })}
-                />
-                <Typography
-                  sx={{
-                    color: "#6A6D76",
-                    "&:hover": { color: "#EE7100" },
-                  }}
-                  className="cursor-pointer"
-                  onClick={() => navigate("/terms-of-use")}
-                >
-                  Согласен с пользовательским соглашением
-                </Typography>
-              </Box>
-              {errors.terms_of_use && (
-                <Box sx={{ color: "red" }}>{errors.terms_of_use.message}</Box>
               )}
             </Box>
 

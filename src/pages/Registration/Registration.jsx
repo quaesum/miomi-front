@@ -1,6 +1,7 @@
 import {
   Box,
   Card,
+  Checkbox,
   FormControl,
   IconButton,
   InputAdornment,
@@ -18,8 +19,13 @@ import AuthService from "../../auth/auth.service";
 import { CustomLabelTag } from "../CreateAnimalPage/CreateAnimalPage";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { useNavigate } from "react-router";
+import { useMobile } from "../../hooks/useMobile";
 
 export const Registration = ({ login }) => {
+  const navigate = useNavigate();
+  const isMobile = useMobile();
+
   const [showPassword, setShowPassword] = React.useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = React.useState(false);
   const [isRequest, setIsRequest] = useState(false);
@@ -82,10 +88,12 @@ export const Registration = ({ login }) => {
   };
 
   return (
-    <div className="grid place-content-center h-screen w-full flex-1 py-12 md:py-0">
+    <div className="grid place-content-center h-screen w-full flex-1">
       <Card
         sx={{
-          width: { sm: "100%", lg: "900px", xs: "100%", borderRadius: "20px" },
+          width: { sm: "100%", lg: "900px", xs: "100%" },
+          borderRadius: { lg: 10, xs: 0 },
+          marginTop: { xs: 0.45 },
           height: { lg: "800px" },
         }}
         className="w-screen"
@@ -103,8 +111,13 @@ export const Registration = ({ login }) => {
           <form onSubmit={handleSubmit(handleSubmitForm)}>
             <Box
               sx={{
-                xs: {display : "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",},
-                md: {display : "grid"},
+                xs: {
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                },
+                md: { display: "grid" },
                 gridTemplateColumns: "200px 1fr",
                 gridTemplateRows: "1fr",
                 rowGap: "10px",
@@ -144,83 +157,77 @@ export const Registration = ({ login }) => {
 
               {/* PASSWORD */}
               <CustomLabelTag text={"Пароль"} />
-                  <Box className="flex flex-col pt-6">
-                    <FormControl sx={{ width: "222px" }} variant="outlined">
-                      <InputLabel htmlFor="outlined-adornment-password">
-                        Пароль
-                      </InputLabel>
-                      <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? "text" : "password"}
-                        {...register("password", { ...validationDefaultProps })}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        label="Пароль"
-                      />
-                    </FormControl>
-                    {errors["password"] && (
-                      <Box sx={{ color: "red" }}>
-                        {errors["password"].message}
-                      </Box>
-                    )}
-                  </Box>
+              <Box className="flex flex-col pt-6">
+                <FormControl sx={{ width: "222px" }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Пароль
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={showPassword ? "text" : "password"}
+                    {...register("password", { ...validationDefaultProps })}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Пароль"
+                  />
+                </FormControl>
+                {errors["password"] && (
+                  <Box sx={{ color: "red" }}>{errors["password"].message}</Box>
+                )}
+              </Box>
 
-                  {/* REPEAT PASSWORD */}
-                  <CustomLabelTag text={"Повторите пароль"} />
-                  <Box className="flex flex-col pt-6">
-                    <FormControl sx={{ width: "222px" }} variant="outlined">
-                      <InputLabel htmlFor="outlined-adornment-password-repeat">
-                        Повтор пароля
-                      </InputLabel>
-                      <OutlinedInput
-                        id="outlined-adornment-password-repeat"
-                        type={showRepeatPassword ? "text" : "password"}
-                        {...register("repeat-password", {
-                          ...validationDefaultProps,
-                          validate: (value) => {
-                            if (watch("password") !== value) {
-                              return "Пароли не сопадают";
-                            }
-                          },
-                        })}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowRepeatPassword}
-                              onMouseDown={handleMouseDownRepeatPassword}
-                              edge="end"
-                            >
-                              {showRepeatPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
+              {/* REPEAT PASSWORD */}
+              <CustomLabelTag text={"Повторите пароль"} />
+              <Box className="flex flex-col pt-6">
+                <FormControl sx={{ width: "222px" }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password-repeat">
+                    Повтор пароля
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password-repeat"
+                    type={showRepeatPassword ? "text" : "password"}
+                    {...register("repeat-password", {
+                      ...validationDefaultProps,
+                      validate: (value) => {
+                        if (watch("password") !== value) {
+                          return "Пароли не сопадают";
                         }
-                        label="Повтор пароля"
-                      />
-                    </FormControl>
-                    {errors["repeat-password"] && (
-                      <Box sx={{ color: "red" }}>
-                        {errors["repeat-password"].message}
-                      </Box>
-                    )}
+                      },
+                    })}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowRepeatPassword}
+                          onMouseDown={handleMouseDownRepeatPassword}
+                          edge="end"
+                        >
+                          {showRepeatPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Повтор пароля"
+                  />
+                </FormControl>
+                {errors["repeat-password"] && (
+                  <Box sx={{ color: "red" }}>
+                    {errors["repeat-password"].message}
+                  </Box>
+                )}
               </Box>
 
               {/* EMAIL */}
@@ -282,6 +289,42 @@ export const Registration = ({ login }) => {
                 />
                 {errors.address && (
                   <Box sx={{ color: "red" }}>{errors.address.message}</Box>
+                )}
+              </Box>
+
+              {/* CHECKBOX */}
+              <Box
+                className="flex flex-col justify-center"
+                sx={!isMobile && { gridColumnStart: 1, gridColumnEnd: 3 }}
+              >
+                <Box className="flex justify-center items-center">
+                  <Checkbox
+                    label="Пользовательское соглашение"
+                    {...register("terms_of_use", {
+                      validate: (value) => {
+                        if (!value)
+                          return "Прочтите пользовательское соглашение";
+                      },
+                    })}
+                  />
+                  <Typography
+                    sx={{
+                      color: "#6A6D76",
+                      "&:hover": { color: "#EE7100" },
+                    }}
+                    className="cursor-pointer"
+                    onClick={() => navigate("/terms-of-use")}
+                  >
+                    Согласен с пользовательским соглашением
+                  </Typography>
+                </Box>
+                {errors.terms_of_use && (
+                  <Box
+                    className={isMobile && "flex justify-center"}
+                    sx={{ color: "red" }}
+                  >
+                    {errors.terms_of_use.message}
+                  </Box>
                 )}
               </Box>
             </Box>
