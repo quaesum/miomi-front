@@ -2,6 +2,7 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import UserService from "../auth/user.service";
 import { useNavigate } from "react-router";
+import AuthService from "../auth/auth.service";
 
 export const AnimalContext = createContext();
 
@@ -40,7 +41,7 @@ export function AnimalContextProvider({ children }) {
     useEffect(() => {
         if (userKey) {
             setIsLogin(true)
-            UserService.getUserInfo().then(res => setUserData(res.data.data)).catch(er => { })
+            UserService.getUserInfo().then(res => setUserData(res.data.data)).catch(er => logout())
         }
         else {
             setIsLogin(false)
@@ -78,7 +79,10 @@ export function AnimalContextProvider({ children }) {
     }
 
     const updateUserInfo = () => {
-        UserService.getUserInfo().then(res => setUserData(res.data.data)).catch(er => { })
+        UserService.getUserInfo().then(res => setUserData(res.data.data)).catch(er => {
+            AuthService.logout()
+            logout()
+        })
     }
 
     return (

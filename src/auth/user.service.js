@@ -5,7 +5,9 @@ const BASE_URL = "http://miomi.by/api/"
 
 class UserService {
     getUserInfo() {
-        return axios.get(BASE_URL + 'user/v1/info', { headers: authHeader() });
+        return axios.get(BASE_URL + 'user/v1/info', { headers: authHeader() }).catch(er => {
+            localStorage.removeItem("user")
+        });
     }
 
     chageUserIformation(values) {
