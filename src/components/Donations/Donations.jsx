@@ -8,14 +8,14 @@ export const Donations = () => {
   const navigate = useNavigate();
 
   const handleDonationsClick = (id) => {
-    navigate("donations/"+id);
+    navigate("donations/" + id);
   };
 
   const elements = donations.map((el) => (
-    <Card className="flex shadow m-10" sx={{height: 90}}>
+    <Card className="flex shadow m-10" sx={{ height: 90 }}>
       <CardActionArea onClick={() => handleDonationsClick(el.id)}>
         <div className="flex flex-col items-center md:flex-row ">
-          <CardContent className="flex flex-col w-full h-50" sx={{height: 50}} style={{height:50}}>
+          <CardContent className="flex flex-col w-full">
             <Typography fontSize={24}>{el.label}</Typography>
           </CardContent>
         </div>

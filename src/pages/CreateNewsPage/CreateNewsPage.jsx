@@ -202,7 +202,7 @@ export const CreateNewsPage = () => {
       <Card
         sx={{
           width: { lg: "1240px", xs: "full", minHeight: "80px" },
-          borderRadius: { lg: 20 },
+          borderRadius: { lg: 7, xs: 0 },
         }}
         className="w-screen"
       >
@@ -386,7 +386,7 @@ export const CreateNewsPage = () => {
             />
             <Box
               className={`flex items-center ${
-                isMobile ? "justify-center flex-col" : "ml-10"
+                isMobile ? "justify-center flex-col px-10" : "ml-10"
               }`}
             >
               <input

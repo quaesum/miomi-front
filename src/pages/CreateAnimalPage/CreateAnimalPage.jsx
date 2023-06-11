@@ -298,7 +298,7 @@ export const CreateAnimalPage = () => {
       <Card
         sx={{
           width: { lg: "1240px", xs: "full", minHeight: "80px" },
-          borderRadius: { lg: 20, xs: 0 },
+          borderRadius: { lg: 7, xs: 0 },
         }}
         className="w-screen"
       >
@@ -682,7 +682,7 @@ export const CreateAnimalPage = () => {
                 }`}
               />
               {errors.description && (
-                <Box sx={{ color: "red" }}>{errors.description.message}</Box>
+                <Box sx={[{ color: "red" }, isMobile && {margin: "0 auto"}]}>{errors.description.message}</Box>
               )}
             </Box>
           </Box>
