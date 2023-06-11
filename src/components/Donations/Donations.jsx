@@ -22,5 +22,5 @@ export const Donations = () => {
       </CardActionArea>
     </Card>
   ));
-  return <div className="h-screen">{elements}</div>;
+  return <div>{elements}</div>;
 };

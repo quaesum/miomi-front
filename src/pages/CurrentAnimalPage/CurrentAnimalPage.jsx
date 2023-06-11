@@ -41,23 +41,15 @@ export const CurrentAnimalPage = ({
   const [filesID, setFilesID] = useState();
   const [files, setFiles] = useState([]);
 
-  useEffect(() => {
-    const tempPhotosUrls = [...animal?.photos?.map((el) => `${baseURL}${el}`)];
-    const tempPhotoID = [
-      ...animal?.photos?.map((defaultUrl) => {
-        let id = urlsImages?.filter((el) => el?.url === defaultUrl)?.[0]?.id;
-        return id;
-      }),
-    ];
-    setFilesURL(tempPhotosUrls);
-    setFilesID(tempPhotoID);
-  }, [animal]);
-
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const sex = animal.sex ? "девочка" : "мальчик";
+
+  useEffect(() => {
+    setDefaultFiles();
+  }, [animal]);
 
   const {
     register,
@@ -84,6 +76,18 @@ export const CurrentAnimalPage = ({
   const validationDefaultProps = {
     required: "Обязательное поле",
     minLength: { value: 3, message: "Минимальная длина 3 символа" },
+  };
+
+  const setDefaultFiles = () => {
+    const tempPhotosUrls = [...animal?.photos?.map((el) => `${baseURL}${el}`)];
+    const tempPhotoID = [
+      ...animal?.photos?.map((defaultUrl) => {
+        let id = urlsImages?.filter((el) => el?.url === defaultUrl)?.[0]?.id;
+        return id;
+      }),
+    ];
+    setFilesURL(tempPhotosUrls);
+    setFilesID(tempPhotoID);
   };
 
   const handleClickActive = () => {
@@ -159,7 +163,22 @@ export const CurrentAnimalPage = ({
       .then((res) => {
         updateAnimals();
       })
-      .catch((er) => {console.log(`Post update animal: ${er}`)});
+      .catch((er) => {
+        console.log(`Post update animal: ${er}`);
+      });
+  };
+
+  const handleCancel = () => {
+    setIsEditMode(false);
+    setValue("sex", sex);
+    setValue("age", animal?.age);
+    setValue("address", animal?.address);
+    setValue("place", animal?.shelter);
+    setValue("description", animal?.description);
+    setValue("nameAnimal", animal?.name);
+    setIsSterilized(animal?.sterilized);
+    setIsVaccinated(animal?.vaccinated);
+    setDefaultFiles();
   };
 
   return (
@@ -201,7 +220,6 @@ export const CurrentAnimalPage = ({
                   validationDefaultProps={validationDefaultProps}
                   {...defaultPropsForComponents}
                   name={getValues("nameAnimal")}
-                  className=""
                 />
                 <Sex
                   validationDefaultProps={validationDefaultProps}
@@ -243,12 +261,12 @@ export const CurrentAnimalPage = ({
                 </Typography>
               )}
               <Typography
-                onClick={handleOpen}
+                onClick={isEditMode ? handleCancel : handleOpen}
                 fontSize={18}
                 className="cursor-pointer !ml-auto w-max"
                 sx={{ color: "#EE7100" }}
               >
-                Удалить
+                {isEditMode ? "Отменить" : "Удалить"}
               </Typography>
               <Modal
                 open={open}
@@ -298,7 +316,9 @@ export const CurrentAnimalPage = ({
             </Box>
           </Box>
           <Box
-            className={`flex ${isMobile && "flex-col"} ${isEditMode && "justify-center"}`}
+            className={`flex ${isMobile && "flex-col"} ${
+              isEditMode && "justify-center"
+            }`}
             sx={{ mt: "25px" }}
           >
             <CustomTypographyTag
