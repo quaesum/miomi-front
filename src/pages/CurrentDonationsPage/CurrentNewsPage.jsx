@@ -13,7 +13,7 @@ export const CurrentDonationsPage = () => {
   }, [donations]);
 
   return (
-    <form className="grid place-content-center h-full w-full flex-1">
+    <form className="grid place-content-center h-fit w-full flex-1">
       <Card
         sx={{
           width: {

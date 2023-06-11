@@ -75,7 +75,7 @@ export const Login = ({ login, setIsLogin }) => {
 
   return (
     <div
-      className={`grid place-content-center h-screen w-full flex-1 ${
+      className={`grid place-content-center h-fit w-full flex-1 ${
         isMobile ? "" : "pb-80"
       } `}
     >

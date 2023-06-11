@@ -27,7 +27,7 @@ export const Sex = ({
           {errors && <Box sx={{ color: "red", ml: 4 }}>{errors.message}</Box>}
         </>
       ) : (
-        <span className="text-gray-600 xs:text-xs md:text-sm">{sex}</span>
+        <span className="text-gray-600 text-xs md:text-sm">{sex}</span>
       )}
     </>
   );

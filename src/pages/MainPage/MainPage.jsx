@@ -41,9 +41,9 @@ export const MainPage = () => {
   }
 
   return (
-    <div className="grid place-content-center h-screen w-full flex-1 py-12">
+    <div className="grid place-content-center h-fit w-full flex-1 py-12">
       <Card
-        sx={{ width: { lg: "1240px", borderRadius: "20px" } }}
+        sx={{ width: { lg: "1240px" }, borderRadius: { lg: 7, xs: 0 } }}
         className="w-screen"
       >
         <UserContainer
@@ -51,9 +51,21 @@ export const MainPage = () => {
           setIsAllAnimal={setIsAllAnimal}
         />
         <Tabs value={tab} onChange={handleChangeTab} variant="fullWidth">
-          <Tab label="Животные" sx={{fontSize: {xs: 12, sm: 16}}}{...a11yProps(0)} />
-          <Tab label="Новости"sx={{fontSize: {xs: 12,sm: 16}}} {...a11yProps(1)} />
-          <Tab label="Пожертвования" sx={{fontSize: {xs: 12,sm: 16}}} {...a11yProps(2)} />
+          <Tab
+            label="Животные"
+            sx={{ fontSize: { xs: 12, sm: 16 } }}
+            {...a11yProps(0)}
+          />
+          <Tab
+            label="Новости"
+            sx={{ fontSize: { xs: 12, sm: 16 } }}
+            {...a11yProps(1)}
+          />
+          <Tab
+            label="Пожертвования"
+            sx={{ fontSize: { xs: 12, sm: 16 } }}
+            {...a11yProps(2)}
+          />
         </Tabs>
         <TabPanel value={tab} index={0}>
           <AnimalsContainer isAllAnimal={isAllAnimal} />

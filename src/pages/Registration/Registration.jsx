@@ -88,7 +88,7 @@ export const Registration = ({ login }) => {
   };
 
   return (
-    <div className="grid place-content-center h-screen w-full flex-1">
+    <div className="grid place-content-center h-fit w-full flex-1">
       <Card
         sx={{
           width: { sm: "100%", lg: "900px", xs: "100%" },

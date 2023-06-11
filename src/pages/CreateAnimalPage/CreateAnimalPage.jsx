@@ -293,7 +293,7 @@ export const CreateAnimalPage = () => {
   return (
     <form
       onSubmit={handleSubmit(handleSubmitForm)}
-      className="grid place-content-center h-screen w-full flex-1 !py-20"
+      className="grid place-content-center h-fit w-full flex-1 !py-20"
     >
       <Card
         sx={{

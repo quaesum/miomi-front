@@ -28,7 +28,7 @@ export const Age = ({ register, isEditMode, age, ageName, errors }) => {
           {errors && <Box sx={{ color: "red", ml: 4 }}>{errors.message}</Box>}
         </>
       ) : (
-        <div className="text-xs md:text-sm text-gray-600">
+        <div className="text-xs md:text-sm text-gray-600 ml-2">
           <span>{age}</span>
           &nbsp;
           <span>{ageName}</span>

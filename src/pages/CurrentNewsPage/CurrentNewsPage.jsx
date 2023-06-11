@@ -1,18 +1,13 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Card,
-  ImageList,
-  ImageListItem,
-  Modal,
-  Typography,
-} from "@mui/material";
+import { Box, Card, ImageListItem, Modal, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { ModalDelete } from "../../components/ModalDelete/ModalDelete";
 import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
 import { Label } from "./componentsPage/Label";
+import { useMobile } from "../../hooks/useMobile";
 
 export const CurrentNewsPage = ({ news, id }) => {
+  const isMobile = useMobile();
   const [isEditMode, setIsEditMode] = useState(false);
   const [filesURL, setFilesURL] = useState(news.photos);
 
@@ -67,7 +62,7 @@ export const CurrentNewsPage = ({ news, id }) => {
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className="grid place-content-center h-full w-full flex-1 pt-12"
+      className="grid place-content-center h-fit flex-1 py-12"
     >
       <Card
         sx={{
@@ -75,12 +70,14 @@ export const CurrentNewsPage = ({ news, id }) => {
             sm: "100%",
             lg: "1024px",
             xs: "100%",
-            borderRadius: "20px",
-            pb: 10,
           },
+          borderRadius: { lg: 7, xs: 0 },
         }}
       >
-        <Box sx={{ px: {md:10, xs:3}, py: 3 }} className="flex justify-between h-min-80">
+        <Box
+          sx={{ px: { md: 10, xs: 3 }, py: 3 }}
+          className="flex justify-between h-min-80"
+        >
           <Box className="flex flex-col justify-center w-full pr-12 md:pr-60">
             <Label
               errors={errors.label}
@@ -89,7 +86,7 @@ export const CurrentNewsPage = ({ news, id }) => {
               {...defaultPropsForComponents}
             />
             <Typography
-              sx={{fontSize: {xs: 16, md: 18}}}
+              sx={{ fontSize: { xs: 16, md: 18 } }}
               className="text-grey-600 cursor-default !mt-4"
             >
               {news.created_at}
@@ -97,7 +94,7 @@ export const CurrentNewsPage = ({ news, id }) => {
           </Box>
           <Box
             className="flex flex-col md:flex-row justify-center items-center"
-            sx={{ mt: {md: "15px", xs: 0} }}
+            sx={{ mt: { md: "15px", xs: 0 } }}
           >
             {isEditMode ? (
               <button type="submit" className="h-max">
@@ -139,7 +136,10 @@ export const CurrentNewsPage = ({ news, id }) => {
           className="h-2 w-full"
           style={{ backgroundColor: "#DCDCDC" }}
         ></div>
-        <Box sx={{ px: {md: 10, xs: 5}, pt: 2, pb: 5 }} className="flex flex-col">
+        <Box
+          sx={{ px: { md: 10, xs: 5 }, pt: 2, pb: 5 }}
+          className="flex flex-col"
+        >
           <Box className="flex flex-col">
             {isEditMode && (
               <CustomButton

@@ -22,7 +22,7 @@ export const Name = ({ isEditMode, register, name, errors, validationDefaultProp
           )}
         </div>
       ) : (
-        <span className="xs:text-sm md:text-2xl font-semibold">{name}</span>
+        <span className="text-sm md:text-2xl font-semibold">{name}</span>
       )}
     </>
   );

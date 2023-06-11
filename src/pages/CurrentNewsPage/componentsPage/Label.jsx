@@ -20,7 +20,7 @@ export const Label = ({ isEditMode, register, label, errors, validationDefaultPr
           )}
         </>
       ) : (
-        <span className="text-xs md:text-2xl font-semibold">{label}</span>
+        <span className="text-base md:text-2xl font-semibold">{label}</span>
       )}
     </>
   );

@@ -165,11 +165,11 @@ export const CurrentAnimalPage = ({
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className="grid place-content-center h-full w-full flex-1 pt-12"
+      className="grid place-content-center h-fit w-full flex-1 py-12"
     >
       <Card
         sx={{
-          width: { sm: "100%", lg: "1024px", xs: "100%" },
+          width: { sm: "100%", lg: "1024px", xs: "100vw" },
           borderRadius: { lg: 7, xs: 0 },
         }}
       >

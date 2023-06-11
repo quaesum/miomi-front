@@ -78,7 +78,7 @@ export default function ProfilePage({ data, updateUserInfo }) {
   const isMobile = useMobile()
 
   return (
-    <div className={`grid place-content-center h-screen w-full flex-1 ${edit ? "pb-20" : "pb-80"}`}>
+    <div className={`grid place-content-center h-fit w-full flex-1 ${edit ? "pb-20" : "pb-80"}`}>
       <Card
         sx={{
           width: {
