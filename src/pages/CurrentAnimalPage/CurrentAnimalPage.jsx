@@ -45,7 +45,7 @@ export const CurrentAnimalPage = ({
     const tempPhotosUrls = [...animal?.photos?.map((el) => `${baseURL}${el}`)];
     const tempPhotoID = [
       ...animal?.photos?.map((defaultUrl) => {
-        let id = urlsImages.filter((el) => el.url === defaultUrl)[0].id;
+        let id = urlsImages?.filter((el) => el?.url === defaultUrl)?.[0]?.id;
         return id;
       }),
     ];
@@ -102,7 +102,7 @@ export const CurrentAnimalPage = ({
 
   const handleFileLoad = (e, index) => {
     let tempIndex = Number(index.split("-")[2]);
-    if (e.target.files) {
+    if (e.target.files.length > 0) {
       let image = e.target.files[0];
 
       let path = URL.createObjectURL(image);
@@ -155,15 +155,11 @@ export const CurrentAnimalPage = ({
       photos: tempPhotosId,
     };
 
-    console.log(postData);
-
     await DataService.updateAnimal(postData, id)
       .then((res) => {
-        console.log(res);
         updateAnimals();
-        navigate("/");
       })
-      .catch((er) => console.log(er));
+      .catch((er) => {console.log(`Post update animal: ${er}`)});
   };
 
   return (
@@ -226,7 +222,7 @@ export const CurrentAnimalPage = ({
           {isCanEdit && (
             <Box
               className="flex flex-col"
-              sx={{ mt: { md: "23px", xs: "40px" } }}
+              sx={{ mt: { md: "23px", xs: "20px" } }}
             >
               {isEditMode ? (
                 <button type="submit" className="h-max">
@@ -302,7 +298,7 @@ export const CurrentAnimalPage = ({
             </Box>
           </Box>
           <Box
-            className={isEditMode ? "flex justify-center" : "flex"}
+            className={`flex ${isMobile && "flex-col"} ${isEditMode && "justify-center"}`}
             sx={{ mt: "25px" }}
           >
             <CustomTypographyTag
@@ -314,7 +310,7 @@ export const CurrentAnimalPage = ({
             />
             <CustomTypographyTag
               {...defaultPropsForComponents}
-              className="!ml-10"
+              className={`${isMobile ? "!mt-10" : "!ml-10"}`}
               handleCustomTag={handleCustomTag}
               type={"sterilized"}
               text={
@@ -339,9 +335,9 @@ export const CurrentAnimalPage = ({
                     ? {
                         mt: "30px",
                         width: "100%",
-                        height: { md: 285, xs: 150 },
+                        height: 285,
                       }
-                    : { width: "100%", height: { md: 285, xs: 150 } }
+                    : { width: "100%", height: 285 }
                 }
                 variant="quilted"
                 cols={3}
@@ -351,8 +347,8 @@ export const CurrentAnimalPage = ({
                     <img
                       style={{
                         borderRadius: "15px",
-                        height: { md: "285px", xs: "150" },
-                        width: { md: "285px", xs: "150" },
+                        height: 285,
+                        width: 285,
                       }}
                       src={item}
                       alt={"animal_image"}

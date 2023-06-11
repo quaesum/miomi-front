@@ -16,11 +16,16 @@ export const CustomTypographyTag = ({
       {...register(type, { value: active })}
       onClick={isEditMode ? () => handleCustomTag(type, !active) : () => {}}
       sx={[
-        isEditMode ? { cursor: "pointer", display: "flex", alignItems: "center" } : { cursor: "default", display: "flex", alignItems: "center" },
+        isEditMode
+          ? { cursor: "pointer" }
+          : { cursor: "default" },
         {
           py: "5px",
+          justifyContent: "center",
           borderRadius: "10px",
           transition: "0.2s",
+          display: "flex",
+          alignItems: "center",
         },
         active
           ? !isEditMode
