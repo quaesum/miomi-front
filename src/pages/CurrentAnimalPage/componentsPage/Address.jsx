@@ -15,7 +15,7 @@ export const Address = ({
           <input
             {...register("address", { ...validationDefaultProps })}
             type="text"
-            className={`mt-6 outline-0 rounded-md h-100 pl-6 !border-solid !border-2 text-lg ${
+            className={`mt-6 outline-0 rounded-md h-100 pl-6 !border-solid !border-2 md:text-lg ${
               errors ? "border-red-300" : "!border-gray-300"
             }`}
           />

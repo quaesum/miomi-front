@@ -16,7 +16,7 @@ export const Sex = ({
         <>
           <select
             {...register("sex", { ...validationDefaultProps })}
-            className={` mt-6 outline-0 rounded-md h-100 pl-6 !border-solid !border-2 text-base ${
+            className={` mt-6 outline-0 rounded-md h-100 pl-6 !border-solid !border-2 md:text-base ${
               errors ? "border-red-300 w-6/12" : "!border-gray-300 w-full"
             }`}
             onChange={handleChangeSex}

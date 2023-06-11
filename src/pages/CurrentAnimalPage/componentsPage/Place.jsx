@@ -16,7 +16,7 @@ export const Place = ({
             {...register("place", { ...validationDefaultProps })}
             type="text"
             
-            className={`outline-0 rounded-md h-100 pl-6 !border-solid !border-2 text-lg ${
+            className={`outline-0 rounded-md h-100 pl-6 !border-solid !border-2 md:text-lg ${
               errors ? "border-red-300" : "!border-gray-300"
             }`}
           />

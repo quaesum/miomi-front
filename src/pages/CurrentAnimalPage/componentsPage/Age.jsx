@@ -6,8 +6,8 @@ export const Age = ({ register, isEditMode, age, ageName, errors }) => {
     <Typography
       sx={
         isEditMode
-          ? { ml: { md: 30, xs: 10 } }
-          : { mt: {md: 13, xs: 0}, ml: {md: 30, xs: 1} }
+          ? { ml: { md: 5, xs: 1 } }
+          : { mt: {lg: 1.5, xs: 0}, ml: {lg: 5, xs: 1} }
       }
     >
       {isEditMode ? (
@@ -21,7 +21,7 @@ export const Age = ({ register, isEditMode, age, ageName, errors }) => {
             type="number"
             min={0}
             max={30}
-            className={`outline-0 mt-6 rounded-md w-40 pl-6 !border-solid !border-2 text-base ${
+            className={`outline-0 mt-6 rounded-md w-40 pl-6 !border-solid !border-2 md:text-base ${
               errors ? "border-red-300" : "!border-gray-300"
             }`}
           />
