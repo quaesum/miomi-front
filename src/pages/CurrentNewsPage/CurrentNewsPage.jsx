@@ -6,7 +6,7 @@ import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
 import { Label } from "./componentsPage/Label";
 import { useMobile } from "../../hooks/useMobile";
 
-export const CurrentNewsPage = ({ news, id }) => {
+export const CurrentNewsPage = ({ news, id, isCanEdit }) => {
   const isMobile = useMobile();
   const [isEditMode, setIsEditMode] = useState(false);
   const [filesURL, setFilesURL] = useState(news.photos);
@@ -92,45 +92,47 @@ export const CurrentNewsPage = ({ news, id }) => {
               {news.created_at}
             </Typography>
           </Box>
-          <Box
-            className="flex flex-col md:flex-row justify-center items-center"
-            sx={{ mt: { md: "15px", xs: 0 } }}
-          >
-            {isEditMode ? (
-              <button type="submit" className="h-max">
+          {isCanEdit && (
+            <Box
+              className="flex flex-col md:flex-row justify-center items-center"
+              sx={{ mt: { md: "15px", xs: 0 } }}
+            >
+              {isEditMode ? (
+                <button type="submit" className="h-max">
+                  <Typography
+                    fontSize={18}
+                    className="text-grey-600 cursor-pointer !mr-16"
+                  >
+                    Сохранить
+                  </Typography>
+                </button>
+              ) : (
                 <Typography
                   fontSize={18}
                   className="text-grey-600 cursor-pointer !mr-16"
+                  onClick={handleClickActive}
                 >
-                  Сохранить
+                  Изменить
                 </Typography>
-              </button>
-            ) : (
+              )}
               <Typography
+                onClick={handleOpen}
                 fontSize={18}
-                className="text-grey-600 cursor-pointer !mr-16"
-                onClick={handleClickActive}
+                className="cursor-pointer !mr-16 md:!ml-auto w-max"
+                sx={{ color: "#EE7100" }}
               >
-                Изменить
+                Удалить
               </Typography>
-            )}
-            <Typography
-              onClick={handleOpen}
-              fontSize={18}
-              className="cursor-pointer !mr-16 md:!ml-auto w-max"
-              sx={{ color: "#EE7100" }}
-            >
-              Удалить
-            </Typography>
-            <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <ModalDelete id={id} handleClose={handleClose} />
-            </Modal>
-          </Box>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <ModalDelete id={id} handleClose={handleClose} />
+              </Modal>
+            </Box>
+          )}
         </Box>
         <div
           className="h-2 w-full"

@@ -5,7 +5,8 @@ import { CurrentNewsPage } from "./CurrentNewsPage";
 
 export const CurrentNewsPageContainer = () => {
   const [news, setNews] = useState();
-  const { newsData, baseURL } = useAnimalContext();
+  const { newsData, baseURL, isLogin } = useAnimalContext();
+  
   let { id } = useParams();
 
   useEffect(() => {
@@ -22,5 +23,5 @@ export const CurrentNewsPageContainer = () => {
 
   
   if(!news) return null
-  return <CurrentNewsPage news={news} id={id} />;
+  return <CurrentNewsPage news={news} id={id} isCanEdit={isLogin}/>;
 };
