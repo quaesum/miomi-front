@@ -334,7 +334,7 @@ export const CurrentAnimalPage = ({
               handleCustomTag={handleCustomTag}
               type={"sterilized"}
               text={
-                getValues("sex") === "мальчик" ? "Кастрирован" : "Кастрирована"
+                getValues("sex") === "мальчик" ? "Кастрирован" : "Стерелизована"
               }
               active={isSterilized}
             />
