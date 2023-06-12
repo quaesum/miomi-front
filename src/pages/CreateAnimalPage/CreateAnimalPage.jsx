@@ -70,6 +70,7 @@ export const CreateAnimalPage = () => {
   const isMobile = useMobile();
   const { userData, updateAnimals } = useAnimalContext();
   const navigate = useNavigate();
+
   const [activeAnimal, setAcitveAnimal] = useState(1);
   const [isSterilized, setIsSterilized] = useState(false);
   const [isVaccinated, setIsVaccinated] = useState(false);
@@ -80,6 +81,7 @@ export const CreateAnimalPage = () => {
   const [isRequest, setIsRequest] = useState(false);
   const [isRequestImages, setIsRequestImages] = useState(false);
   const [photosId, setPhotosId] = useState([]);
+  const [requestErrors, setRequestErrors] = useState("123");
 
   useEffect(() => {
     if (
@@ -107,6 +109,7 @@ export const CreateAnimalPage = () => {
         })
         .catch((er) => {
           setIsRequest(false);
+          setRequestErrors("Final request: " + er.message);
           console.log(er.message);
         });
     }
@@ -198,6 +201,7 @@ export const CreateAnimalPage = () => {
           tempPhotosId.push(res.data);
         })
         .catch((er) => {
+          setRequestErrors("Photo 1 request: " + er.message);
           setIsRequest(false);
         });
     }
@@ -207,6 +211,7 @@ export const CreateAnimalPage = () => {
           tempPhotosId.push(res.data);
         })
         .catch((er) => {
+          setRequestErrors("Photo 2 request: " + er.message);
           setIsRequest(false);
         });
     }
@@ -216,6 +221,7 @@ export const CreateAnimalPage = () => {
           tempPhotosId.push(res.data);
         })
         .catch((er) => {
+          setRequestErrors("Photo 3 request: " + er.message);
           setIsRequest(false);
         });
     }
@@ -632,7 +638,9 @@ export const CreateAnimalPage = () => {
             {/* INFO MEDIC */}
             <CustomLabelTag text={""} />
             <Box
-              className={`${isMobile ? "m-auto flex-col w-max my-12" : "ml-10"} flex`}
+              className={`${
+                isMobile ? "m-auto flex-col w-max my-12" : "ml-10"
+              } flex`}
             >
               <CustomTypographyTag
                 register={register}
@@ -682,11 +690,18 @@ export const CreateAnimalPage = () => {
                 }`}
               />
               {errors.description && (
-                <Box sx={[{ color: "red" }, isMobile && {margin: "0 auto"}]}>{errors.description.message}</Box>
+                <Box sx={[{ color: "red" }, isMobile && { margin: "0 auto" }]}>
+                  {errors.description.message}
+                </Box>
               )}
             </Box>
           </Box>
-          <Box className="flex justify-center mt-20">
+          <Box className={`flex flex-col justify-center mt-20 ${isMobile && "mx-10"}`}>
+            {requestErrors && (
+              <Box sx={[{ color: "red" }, isMobile && { margin: "0 auto" }]}>
+                {requestErrors}
+              </Box>
+            )}
             <LoadingButton
               loading={isRequest}
               type="submit"
