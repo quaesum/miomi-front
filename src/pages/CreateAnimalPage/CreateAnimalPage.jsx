@@ -81,7 +81,9 @@ export const CreateAnimalPage = () => {
   const [isRequest, setIsRequest] = useState(false);
   const [isRequestImages, setIsRequestImages] = useState(false);
   const [photosId, setPhotosId] = useState([]);
-  const [requestErrors, setRequestErrors] = useState("123");
+  const [requestErrors, setRequestErrors] = useState("");
+
+  const [info, setInfo] = useState("")
 
   useEffect(() => {
     if (
@@ -194,42 +196,43 @@ export const CreateAnimalPage = () => {
 
     setIsRequest(true);
     setIsRequestImages(true);
+    console.log(photos[0])
+    setInfo(`Name: ${photos[0].name}, Type: ${photos[0].type}, Size: ${photos[0].size},`)
+    // if (photos.length >= 1) {
+    //   await DataService.addPhotoAnimal(photos[0])
+    //     .then((res) => {
+    //       tempPhotosId.push(res.data);
+    //     })
+    //     .catch((er) => {
+    //       setRequestErrors("Photo 1 request: " + er.message);
+    //       setIsRequest(false);
+    //     });
+    // }
+    // if (photos.length >= 2) {
+    //   await DataService.addPhotoAnimal(photos[1])
+    //     .then((res) => {
+    //       tempPhotosId.push(res.data);
+    //     })
+    //     .catch((er) => {
+    //       setRequestErrors("Photo 2 request: " + er.message);
+    //       setIsRequest(false);
+    //     });
+    // }
+    // if (photos.length === 3) {
+    //   await DataService.addPhotoAnimal(photos[2])
+    //     .then((res) => {
+    //       tempPhotosId.push(res.data);
+    //     })
+    //     .catch((er) => {
+    //       setRequestErrors("Photo 3 request: " + er.message);
+    //       setIsRequest(false);
+    //     });
+    // }
 
-    if (photos.length >= 1) {
-      await DataService.addPhotoAnimal(photos[0])
-        .then((res) => {
-          tempPhotosId.push(res.data);
-        })
-        .catch((er) => {
-          setRequestErrors("Photo 1 request: " + er.message);
-          setIsRequest(false);
-        });
-    }
-    if (photos.length >= 2) {
-      await DataService.addPhotoAnimal(photos[1])
-        .then((res) => {
-          tempPhotosId.push(res.data);
-        })
-        .catch((er) => {
-          setRequestErrors("Photo 2 request: " + er.message);
-          setIsRequest(false);
-        });
-    }
-    if (photos.length === 3) {
-      await DataService.addPhotoAnimal(photos[2])
-        .then((res) => {
-          tempPhotosId.push(res.data);
-        })
-        .catch((er) => {
-          setRequestErrors("Photo 3 request: " + er.message);
-          setIsRequest(false);
-        });
-    }
-
-    if (tempPhotosId.length === photos.length) {
-      setPhotosId(tempPhotosId);
-      setIsRequestImages(false);
-    }
+    // if (tempPhotosId.length === photos.length) {
+    //   setPhotosId(tempPhotosId);
+    //   setIsRequestImages(false);
+    // }
   };
 
   const handleSubmitForm = async () => {
@@ -720,6 +723,9 @@ export const CreateAnimalPage = () => {
                 Сохранить
               </Typography>
             </LoadingButton>
+          </Box>
+          <Box>
+            {info}
           </Box>
         </Box>
       </Card>
