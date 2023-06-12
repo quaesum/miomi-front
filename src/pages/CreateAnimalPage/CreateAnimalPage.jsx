@@ -73,7 +73,7 @@ export const CreateAnimalPage = () => {
   const [activeAnimal, setAcitveAnimal] = useState(1);
   const [isSterilized, setIsSterilized] = useState(false);
   const [isVaccinated, setIsVaccinated] = useState(false);
-  const [sex, setSex] = useState(1);
+  const [sex, setSex] = useState(0);
   const [photos, setPhotos] = useState([]);
   const [isDragEnter, setIsDragEnter] = useState(false);
   const [photoElements, setPhotoElements] = useState([]);
@@ -516,15 +516,15 @@ export const CreateAnimalPage = () => {
             />
             <Box className={`flex ${isMobile && "justify-around"}`}>
               <CustomTag
-                type={1}
+                type={0}
                 text={"Мужской"}
-                active={sex === 1}
+                active={sex === 0}
                 handleCustomTag={handleChangeSex}
               />
               <CustomTag
                 text={"Женский"}
-                type={0}
-                active={sex === 0}
+                type={1}
+                active={sex === 1}
                 handleCustomTag={handleChangeSex}
               />
             </Box>
@@ -596,7 +596,7 @@ export const CreateAnimalPage = () => {
             </Box>
 
             {/* ADDRESS */}
-            <CustomLabelTag
+            {/*<CustomLabelTag
               className={isMobile && "flex justify-center my-4"}
               text={"Местоположение"}
             />
@@ -627,7 +627,7 @@ export const CreateAnimalPage = () => {
                   {errors.address.message}
                 </Box>
               )}
-            </Box>
+              </Box>*/}
 
             {/* INFO MEDIC */}
             <CustomLabelTag text={""} />
@@ -649,7 +649,7 @@ export const CreateAnimalPage = () => {
                 className={!isMobile && "!ml-10"}
                 handleCustomTag={handleChangeMedic}
                 type={"sterilized"}
-                text={getValues("sex") === 1 ? "Кастрирован" : "Кастрирована"}
+                text={getValues("sex") === 1 ? "Стерелизована" : "Кастрирован"}
                 active={isSterilized}
               />
             </Box>
