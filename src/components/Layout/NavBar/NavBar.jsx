@@ -10,7 +10,7 @@ const CustomButton = ({ text, url, popupState }) => {
 
   const handleClick = () => {
     navigate(url);
-    console.log(popupState.close());
+    popupState.close()
   };
 
   return (
@@ -102,7 +102,6 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                         vertical: "bottom",
                         horizontal: "center",
                       }}
-                      anchorPosition={{ top: 0 }}
                       transformOrigin={{
                         vertical: "top",
                         horizontal: "center",
@@ -112,7 +111,7 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                         sx={{
                           p: 2,
                           width: {
-                            xs: "172px",
+                            xs: "185px",
                             sm: "248px",
                             md: "248px",
                             lg: "248px;",
