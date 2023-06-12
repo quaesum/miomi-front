@@ -28,7 +28,7 @@ function TabPanel(props) {
 
 export const MainPage = () => {
   const { currentTab, setCurrentTab } = useAnimalContext();
-  const [isAllAnimal, setIsAllAnimal] = useState(true);
+  const [isAllAnimal, setIsAllAnimal] = useState(false);
 
   const handleChangeTab = (event, newValue) => {
     setCurrentTab(newValue);

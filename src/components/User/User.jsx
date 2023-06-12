@@ -2,7 +2,6 @@ import { Avatar, Box, Typography } from "@mui/material";
 import React from "react";
 
 export const User = ({ firstName, lastName, isAllAnimal, setIsAllAnimal }) => {
-
   return (
     <>
       <Box
