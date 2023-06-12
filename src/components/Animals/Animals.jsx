@@ -25,6 +25,7 @@ export const Animals = ({
 }) => {
   const navigate = useNavigate();
   const page = `Страница ${currentPage}`;
+
   const classNameRightArrow = `${
     maxPages === currentPage ? "opacity-30" : "cursor-pointer"
   }`;
@@ -42,7 +43,7 @@ export const Animals = ({
   };
 
   const handleClickRightArrow = () => {
-    if (currentPage <= maxPages) handleIncrementPage();
+    if (currentPage < maxPages) handleIncrementPage();
   };
 
   const animalsElements = animals.map((el) => (
