@@ -469,7 +469,7 @@ export const CreateAnimalPage = () => {
             sx={
               !isMobile && {
                 mt: 4,
-                gridTemplateRows: "repeat(8, 1fr)",
+                gridTemplateRows: "repeat(7, 1fr)",
                 gridTemplateColumns: "200px 1fr",
                 display: "grid",
                 rowGap: "30px",
@@ -660,11 +660,11 @@ export const CreateAnimalPage = () => {
                 isMobile && "flex justify-center my-4"
               }`}
               text={"Доп. информация"}
-              sx={{ gridRowStart: "7", gridRowEnd: "9" }}
+              sx={{ gridRowStart: "6", gridRowEnd: "8" }}
             />
             <Box
               className={`flex ${isMobile ? "mx-10" : "ml-10"} flex-col`}
-              sx={{ gridRowStart: "7", gridRowEnd: "9" }}
+              sx={{ gridRowStart: "6", gridRowEnd: "8" }}
             >
               <textarea
                 rows={2}
