@@ -3,34 +3,33 @@ import React from "react";
 import { useAnimalContext } from "../../Context/AnimalContext";
 import { useNavigate } from "react-router";
 import DataService from "../../auth/data.service";
+import { useMobile } from "../../hooks/useMobile";
 
 const btnStyle = {
   borderRadius: "8px",
-  padding: "5px 50px",
   width: "100%",
 };
 
 export const ModalDelete = ({ id, handleClose, type }) => {
+  const isMobile = useMobile();
   const { updateNews, updateAnimals } = useAnimalContext();
   const navigate = useNavigate();
 
-  const handleDelete =async () => {
+  const handleDelete = async () => {
     handleClose();
-    if(type === "animal"){
+    if (type === "animal") {
       await DataService.deleteAnimal(id)
-      .then((res) => {
-        updateAnimals();
-        navigate("/");
-      })
-      .catch((er) => {});
+        .then((res) => {
+          updateAnimals();
+          navigate("/");
+        })
+        .catch((er) => {});
     } else {
-      await DataService.deleteNews(id)
-      .then((res) => {
+      await DataService.deleteNews(id).then((res) => {
         updateNews();
         navigate("/");
-      })
+      });
     }
-    
   };
 
   return (
@@ -42,7 +41,9 @@ export const ModalDelete = ({ id, handleClose, type }) => {
         className="w-screen"
       >
         <Box className="flex justify-center items-center min-h-60">
-          <Typography className="!font-semibold !text-3xl">
+          <Typography
+            className={`!font-semibold ${isMobile ? "!text-2xl" : "!text-3xl"}`}
+          >
             Вы уверены?
           </Typography>
         </Box>
@@ -50,7 +51,11 @@ export const ModalDelete = ({ id, handleClose, type }) => {
           className="h-2 w-full"
           style={{ backgroundColor: "#DCDCDC" }}
         ></div>
-        <Box className="flex justify-center items-center px-100 pb-20 pt-10">
+        <Box
+          className={`flex justify-center items-center px-100 pb-20 pt-10 ${
+            isMobile && "px-10"
+          }`}
+        >
           <Box sx={{ width: "300px" }}>
             <Typography
               sx={{ color: "#6A6D76" }}
@@ -60,10 +65,11 @@ export const ModalDelete = ({ id, handleClose, type }) => {
               <p>Обратно восстановить будет</p>
               <p>невозможно</p>
             </Typography>
-            <Box>
+            <Box className={`${isMobile && "flex items-center flex-col"}`}>
               <Button
                 sx={{
                   ...btnStyle,
+                  ...(isMobile ? { width: "250px" } : {}),
                   "&:hover": {
                     backgroundColor: "#DCDCDC",
                     border: "3px solid #DCDCDC",
@@ -71,7 +77,7 @@ export const ModalDelete = ({ id, handleClose, type }) => {
                   color: "#6A6D76",
                   border: "3px solid #DCDCDC",
                 }}
-                className="!mt-12 !text-sm !normal-case"
+                className="!mt-12 !text-xs md:!text-sm !normal-case"
                 type="submit"
                 variant="outlined"
                 onClick={handleClose}
@@ -81,10 +87,11 @@ export const ModalDelete = ({ id, handleClose, type }) => {
               <Button
                 sx={{
                   ...btnStyle,
+                  ...(isMobile ? { width: "250px" } : {}),
                   "&:hover": { backgroundColor: "#ee6f00d2" },
                   backgroundColor: "#EE7100",
                 }}
-                className="!mt-6 !text-sm !normal-case"
+                className="!mt-6 !text-xs md:!text-sm !normal-case"
                 type="submit"
                 variant="contained"
                 onClick={handleDelete}
