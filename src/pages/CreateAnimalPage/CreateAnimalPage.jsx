@@ -632,7 +632,7 @@ export const CreateAnimalPage = () => {
             {/* INFO MEDIC */}
             <CustomLabelTag text={""} />
             <Box
-              className={`${isMobile ? "m-auto flex-col w-max" : "ml-10"} flex`}
+              className={`${isMobile ? "m-auto flex-col w-max my-12" : "ml-10"} flex`}
             >
               <CustomTypographyTag
                 register={register}
