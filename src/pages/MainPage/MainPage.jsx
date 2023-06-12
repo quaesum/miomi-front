@@ -4,6 +4,7 @@ import { NewsContainer } from "../../components/News/NewsContainer";
 import { UserContainer } from "../../components/User/UserContainer";
 import { AnimalsContainer } from "../../components/Animals/AnimalsContainer";
 import { Donations } from "../../components/Donations/Donations";
+import { useAnimalContext } from "../../Context/AnimalContext";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -26,11 +27,11 @@ function TabPanel(props) {
 }
 
 export const MainPage = () => {
-  const [tab, setTab] = useState(0);
+  const { currentTab, setCurrentTab } = useAnimalContext();
   const [isAllAnimal, setIsAllAnimal] = useState(true);
 
   const handleChangeTab = (event, newValue) => {
-    setTab(newValue);
+    setCurrentTab(newValue);
   };
 
   function a11yProps(index) {
@@ -50,7 +51,7 @@ export const MainPage = () => {
           isAllAnimal={isAllAnimal}
           setIsAllAnimal={setIsAllAnimal}
         />
-        <Tabs value={tab} onChange={handleChangeTab} variant="fullWidth">
+        <Tabs value={currentTab} onChange={handleChangeTab} variant="fullWidth">
           <Tab
             label="Животные"
             sx={{ fontSize: { xs: 12, sm: 16 } }}
@@ -67,13 +68,13 @@ export const MainPage = () => {
             {...a11yProps(2)}
           />
         </Tabs>
-        <TabPanel value={tab} index={0}>
+        <TabPanel value={currentTab} index={0}>
           <AnimalsContainer isAllAnimal={isAllAnimal} />
         </TabPanel>
-        <TabPanel value={tab} index={1}>
+        <TabPanel value={currentTab} index={1}>
           <NewsContainer />
         </TabPanel>
-        <TabPanel value={tab} index={2}>
+        <TabPanel value={currentTab} index={2}>
           <Donations />
         </TabPanel>
       </Card>

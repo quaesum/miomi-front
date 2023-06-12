@@ -10,6 +10,7 @@ export function AnimalContextProvider({ children }) {
     const navigate = useNavigate()
 
     const [isLogin, setIsLogin] = useState(false)
+    const [currentTab, setCurrentTab] = useState(0)
     const [animalsData, setAnimalsData] = useState([]);
     const [newsData, setNewsData] = useState([]);
     const [userData, setUserData] = useState({})
@@ -92,7 +93,8 @@ export function AnimalContextProvider({ children }) {
                 baseURL, isLogin, setIsLogin,
                 userData, newsData, logout,
                 login, updateUserInfo, updateAnimals,
-                updateNews, updateUrls, urlsImages, donations
+                updateNews, updateUrls, urlsImages, donations,
+                currentTab, setCurrentTab
             }}
         >
             {children}
