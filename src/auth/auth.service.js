@@ -1,11 +1,10 @@
 import axios from "axios";
-
-const BASE_URL = "http://miomi.by/api/"
+import { LOGIN_ENDPOINT, SIGNUP_ENDPOINT } from "../endpoints";
 
 class AuthService {
     login(email, password) {
         return axios
-            .post(BASE_URL + "login", {
+            .post(LOGIN_ENDPOINT, {
                 email,
                 password
             })
@@ -19,7 +18,7 @@ class AuthService {
     }
 
     signup(first_name, last_name, password, email, phone, address) {
-        return axios.post(BASE_URL + "signup", {
+        return axios.post(SIGNUP_ENDPOINT, {
             first_name, last_name,
             password, email,
             phone, address

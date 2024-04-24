@@ -4,6 +4,7 @@ import { AnimalCard } from "./AnimalCard";
 import { Box, Typography } from "@mui/material";
 import leftArrowSVG from "../../assets/CurrentAnimalPage/left-arrow.svg";
 import rightArrowSVG from "../../assets/CurrentAnimalPage/right-arrow.svg";
+import { SERVICE_STORAGE_URL } from "../../endpoints";
 
 export const ageTransformation = (ageAnimal) => {
   let age = "";
@@ -50,7 +51,7 @@ export const Animals = ({
     <AnimalCard
       key={el.id}
       {...el}
-      photo={`${baseURL}${el?.photos?.[0]}`}
+      photo={`${SERVICE_STORAGE_URL}${el?.photos?.[0]}`}
       handleAnimalClick={handleAnimalClick}
       ageText={ageTransformation(el.age)}
     />

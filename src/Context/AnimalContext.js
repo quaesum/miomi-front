@@ -1,8 +1,10 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import UserService from "../auth/user.service";
-import { useNavigate } from "react-router";
+import { json, useNavigate } from "react-router";
 import AuthService from "../auth/auth.service";
+import authHeader from '../auth/auth.headers';
+import { GET_ALL_NEWS_ENDPOINT, GET_ANIMALS_ENDPOINT, GET_FILE_NAMES_AND_IDS_ENDPOINT, SERVICE_FILES_URL, SERVICE_STORAGE_URL } from "../endpoints";
 
 export const AnimalContext = createContext();
 
@@ -12,6 +14,7 @@ export function AnimalContextProvider({ children }) {
     const [isLogin, setIsLogin] = useState(false)
     const [currentTab, setCurrentTab] = useState(0)
     const [animalsData, setAnimalsData] = useState([]);
+    const [maxPages, setMaxPages] = useState(1);
     const [newsData, setNewsData] = useState([]);
     const [userData, setUserData] = useState({})
     const [donations, setDonations] = useState([
@@ -24,18 +27,16 @@ export function AnimalContextProvider({ children }) {
     const [urlsImages, setUrlsImages] = useState([])
     const [userKey, setUserKey] = useState()
 
-    const baseURL = "http://miomi.by:9000" //images
-    const BASE_URL = "http://miomi.by/api/"
-
     useEffect(() => {
         setUserKey(localStorage.getItem("user"))
-        axios.get(`${BASE_URL}animal/v1/`).then((res) => {
-            setAnimalsData(res.data);
+        axios.post(GET_ANIMALS_ENDPOINT, { headers: authHeader(), request: "", page: currentTab + 1, per_page: 21}).then((res) => {
+            setAnimalsData(res.data.animals);
+            setMaxPages(res.data.max_page)
         });
-        axios.get(`${BASE_URL}news/v1/`).then((res) => {
+        axios.get(GET_ALL_NEWS_ENDPOINT,  {headers: authHeader}).then((res) => {
             setNewsData(res.data);
         });
-        axios.get(`${BASE_URL}file/v1/getUrl`).then((res) =>
+        axios.get(GET_FILE_NAMES_AND_IDS_ENDPOINT, {headers: authHeader}).then((res) =>
             setUrlsImages(res.data))
     }, [])
 
@@ -56,20 +57,20 @@ export function AnimalContextProvider({ children }) {
         setUserData([])
     }
 
-    const updateAnimals = async () => {
-        await axios.get(`${BASE_URL}animal/v1/`).then((res) => {
-            setAnimalsData(res.data);
+    const updateAnimals = async (page) => {
+        await axios.post(GET_ANIMALS_ENDPOINT, { headers: authHeader(), request: "", page: page, per_page: 21}).then((res) => {
+            setAnimalsData(res.data.animals);
         });
     }
 
     const updateNews = async () => {
-        await axios.get(`${BASE_URL}news/v1/`).then((res) => {
+        await axios.get(GET_ALL_NEWS_ENDPOINT).then((res) => {
             setNewsData(res.data);
         });
     }
 
     const updateUrls = async () => {
-        await axios.get(`${BASE_URL}file/v1/getUrl`).then((res) =>
+        await axios.get(GET_FILE_NAMES_AND_IDS_ENDPOINT, {headers: authHeader}).then((res) =>
             setUrlsImages(res.data))
     }
 
@@ -89,12 +90,12 @@ export function AnimalContextProvider({ children }) {
     return (
         <AnimalContext.Provider
             value={{
-                animalsData,
-                baseURL, isLogin, setIsLogin,
+                animalsData, setAnimalsData,
+                SERVICE_STORAGE_URL, isLogin, setIsLogin,
                 userData, newsData, logout,
                 login, updateUserInfo, updateAnimals,
                 updateNews, updateUrls, urlsImages, donations,
-                currentTab, setCurrentTab
+                currentTab, setCurrentTab, maxPages, setMaxPages
             }}
         >
             {children}

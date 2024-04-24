@@ -67,6 +67,16 @@ export const MainPage = () => {
             sx={{ fontSize: { xs: 12, sm: 16 } }}
             {...a11yProps(2)}
           />
+           <Tab
+            label="Магазин"
+            sx={{ fontSize: { xs: 12, sm: 16 } }}
+            {...a11yProps(3)}
+          />
+           <Tab
+            label="Услуги"
+            sx={{ fontSize: { xs: 12, sm: 16 } }}
+            {...a11yProps(4)}
+          />
         </Tabs>
         <TabPanel value={currentTab} index={0}>
           <AnimalsContainer isAllAnimal={isAllAnimal} />

@@ -1,18 +1,17 @@
 import axios from 'axios';
 import authHeader from './auth.headers';
-
-const BASE_URL = "http://miomi.by/api/"
+import { GET_USER_INFO_ENDPOINT, UPDATE_USER_ENDPOINT } from '../endpoints';
 
 class UserService {
     getUserInfo() {
-        return axios.get(BASE_URL + 'user/v1/info', { headers: authHeader() }).catch(er => {
+        return axios.get(GET_USER_INFO_ENDPOINT, { headers: authHeader() }).catch(er => {
             localStorage.removeItem("user")
         });
     }
 
     chageUserIformation(values) {
         return axios.post(
-            `${BASE_URL}user/v1/update`,
+            UPDATE_USER_ENDPOINT,
             { ...values },
             { headers: authHeader() }
         )

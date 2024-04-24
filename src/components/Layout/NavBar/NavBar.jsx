@@ -54,7 +54,7 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
           className="hidden md:flex"
         />
         <Typography className="!mt-10 !font-semibold !text-3xl hidden sm:flex">
-          mio.mi
+          MioMi
         </Typography>
       </div>
       <div className="flex items-center px-8 h-full justify-end">
