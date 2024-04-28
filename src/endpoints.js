@@ -11,8 +11,8 @@ export const UPDATE_USER_ENDPOINT = SERVICE_USER_URL + 'update'
 //==========ANIMALS==============
 const SERVICE_ANIMAL_URL = SERVICE_URL + 'animal/v1/'
 export const ADD_ANIMAL_ENDPOINT = SERVICE_ANIMAL_URL + 'add'
-export const UPDATE_ANIMAL_ENDPOINt = SERVICE_ANIMAL_URL + 'update/'
-export const REMOVE_ANIMAL_ENDPOINT = SERVICE_ANIMAL_URL + 'remove/'
+export const UPDATE_ANIMAL_ENDPOINt = SERVICE_ANIMAL_URL + 'update'
+export const REMOVE_ANIMAL_ENDPOINT = SERVICE_ANIMAL_URL + 'remove'
 export const GET_ANIMALS_ENDPOINT = SERVICE_ANIMAL_URL
 
 //==========NEWS==========

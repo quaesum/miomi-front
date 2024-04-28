@@ -5,7 +5,7 @@ import { CurrentNewsPage } from "./CurrentNewsPage";
 
 export const CurrentNewsPageContainer = () => {
   const [news, setNews] = useState();
-  const { newsData, baseURL, isLogin } = useAnimalContext();
+  const { newsData, SERVICE_STORAGE_URL, isLogin } = useAnimalContext();
   
   let { id } = useParams();
 
@@ -16,10 +16,10 @@ export const CurrentNewsPageContainer = () => {
     if (tempCurrentNews) {
       setNews({
         ...tempCurrentNews,
-        photos: [`${baseURL}${tempCurrentNews.photo}`],
+        photos: [`${SERVICE_STORAGE_URL}${tempCurrentNews.photo}`],
       });
     }
-  }, [newsData, baseURL, id]);
+  }, [newsData, SERVICE_STORAGE_URL, id]);
 
   
   if(!news) return null

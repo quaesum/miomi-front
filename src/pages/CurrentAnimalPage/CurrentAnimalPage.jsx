@@ -23,6 +23,7 @@ import { Address } from "./componentsPage/Address";
 import { useNavigate } from "react-router";
 import { useMobile } from "../../hooks/useMobile";
 import { MobilePhotos } from "./componentsPage/MobilePhotos";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export const CurrentAnimalPage = ({
   animal,
@@ -30,8 +31,9 @@ export const CurrentAnimalPage = ({
   id,
   isCanEdit,
   urlsImages,
-  baseURL,
+  baseUrl,
 }) => {
+  console.log(animal)
   const navigate = useNavigate();
   const isMobile = useMobile();
   const [isEditMode, setIsEditMode] = useState(false);
@@ -79,7 +81,7 @@ export const CurrentAnimalPage = ({
   };
 
   const setDefaultFiles = () => {
-    const tempPhotosUrls = [...animal?.photos?.map((el) => `${baseURL}${el}`)];
+    const tempPhotosUrls = [...animal?.photos?.map((el) => `${baseUrl}${el}`)];
     const tempPhotoID = [
       ...animal?.photos?.map((defaultUrl) => {
         let id = urlsImages?.filter((el) => el?.url === defaultUrl)?.[0]?.id;
@@ -197,7 +199,16 @@ export const CurrentAnimalPage = ({
           className="flex justify-between"
         >
           <Box className="flex items-center">
-            <Typography>
+            <Typography className="flex items-center">
+              <ArrowBackIcon
+              onClick={() => navigate("/")}
+              className="cursor-pointer transition ease-in-out delay-150 hover:bg-gray-200 rounded-full hover:scale-110 hover:duration-300"
+              sx={{
+                width: {xs: 30, md: 50},
+                height: {xs: 30, md:50},
+                marginRight: {xs: "12px", md: "24px"},
+              }}
+              />
               <Avatar
                 alt="avatar-animal"
                 src={filesURL[0]}

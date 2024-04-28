@@ -42,7 +42,7 @@ export const MainPage = () => {
   }
 
   return (
-    <div className="grid place-content-center h-fit w-full flex-1 py-12">
+    <div className="grid place-content-center h-fit w-full flex-1 pb-12 pt-24">
       <Card
         sx={{ width: { lg: "1240px" }, borderRadius: { lg: 7, xs: 0 } }}
         className="w-screen"
