@@ -19,20 +19,20 @@ export const ageTransformation = (ageAnimal) => {
 export const Animals = ({
   animals,
   baseURL,
-  currentPage,
+  currentAnimalPage,
   handleIncrementPage,
   handleDecrementPage,
-  maxPages,
+  maxAnimalsPages,
 }) => {
   const navigate = useNavigate();
-  const page = `Страница ${currentPage}`;
+  const page = `Страница ${currentAnimalPage}`;
 
   const classNameRightArrow = `${
-    maxPages === currentPage ? "opacity-30" : "cursor-pointer"
+    maxAnimalsPages === currentAnimalPage ? "opacity-30" : "cursor-pointer"
   }`;
 
   const classNameLeftArrow = `${
-    currentPage === 1 ? "opacity-30" : "cursor-pointer"
+    currentAnimalPage === 1 ? "opacity-30" : "cursor-pointer"
   }`;
 
   const handleAnimalClick = (id) => {
@@ -40,12 +40,18 @@ export const Animals = ({
   };
 
   const handleClickLeftArrow = () => {
-    if (currentPage !== 1) handleDecrementPage();
+    if (currentAnimalPage !== 1) handleDecrementPage();
   };
 
   const handleClickRightArrow = () => {
-    if (currentPage < maxPages) handleIncrementPage();
+    if (currentAnimalPage < maxAnimalsPages) handleIncrementPage();
   };
+
+  if (animals == null) {
+    return (
+      <Typography>Зверушек не найдено :(</Typography>
+    )
+  }
 
   const animalsElements = animals.map((el) => (
     <AnimalCard
@@ -59,10 +65,20 @@ export const Animals = ({
 
   return (
     <>
-      <div className={`grid sm:grid-cols-1 md:grid-cols-3 `}>
+      <div className={`grid sm:grid-cols-1 md:grid-cols-3`}>
         {animalsElements}
       </div>
-      <Box className="m-auto w-max flex">
+      <Box className="m-auto w-max flex"
+      sx={{
+        position: 'fixed',
+        bottom: 40,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        backgroundColor: '#fff',
+        padding: '15px',
+        borderRadius: '10px',
+        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
+      }}>
         <img
           src={leftArrowSVG}
           alt="left-arrow"

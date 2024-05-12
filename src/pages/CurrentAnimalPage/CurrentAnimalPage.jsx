@@ -133,7 +133,7 @@ export const CurrentAnimalPage = ({
           .then((res) => {
             tempPhotosId.push(res.data);
           })
-          .catch((er) => {});
+          .catch((er) => { });
       } else {
         tempPhotosId.push(filesID[i]);
       }
@@ -143,10 +143,10 @@ export const CurrentAnimalPage = ({
       animal.type === "Кот"
         ? 1
         : animal.type === "Собака"
-        ? 2
-        : animal.type === "Птица"
-        ? 3
-        : 4;
+          ? 2
+          : animal.type === "Птица"
+            ? 3
+            : 4;
     const postData = {
       age: Number(getValues("age")),
       name: getValues("nameAnimal"),
@@ -186,28 +186,29 @@ export const CurrentAnimalPage = ({
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className="grid place-content-center h-fit w-full flex-1 py-12"
+      className="grid place-content-center h-fit w-full flex-1 py-24 bg-transparent"
     >
       <Card
         sx={{
-          width: { sm: "100%", lg: "1024px", xs: "100vw" },
+          width: { sm: "100%", lg: "content", xs: "100vw" },
           borderRadius: { lg: 7, xs: 0 },
+          background: "transparent"
         }}
       >
         <Box
           sx={{ px: { md: 10, xs: 2 }, py: { md: 5, xs: 2 } }}
-          className="flex justify-between"
+          className="flex justify-between bg-white"
         >
           <Box className="flex items-center">
             <Typography className="flex items-center">
               <ArrowBackIcon
-              onClick={() => navigate("/")}
-              className="cursor-pointer transition ease-in-out delay-150 hover:bg-gray-200 rounded-full hover:scale-110 hover:duration-300"
-              sx={{
-                width: {xs: 30, md: 50},
-                height: {xs: 30, md:50},
-                marginRight: {xs: "12px", md: "24px"},
-              }}
+                onClick={() => navigate("/")}
+                className="cursor-pointer transition ease-in-out delay-150 hover:bg-gray-200 rounded-full hover:scale-110 hover:duration-300 hover:border-4 border-gray-200"
+                sx={{
+                  width: { xs: 30, md: 35 },
+                  height: { xs: 30, md: 35 },
+                  marginRight: { xs: "12px", md: "24px" },
+                }}
               />
               <Avatar
                 alt="avatar-animal"
@@ -295,104 +296,114 @@ export const CurrentAnimalPage = ({
           )}
         </Box>
         <div
-          className="h-2 w-full"
-          style={{ backgroundColor: "#DCDCDC" }}
+          className="h-2 w-full bg-transparent"
         ></div>
         <Box
           sx={{ px: { md: 10, xs: 2 }, pt: 2, pb: 5 }}
-          className="flex flex-col"
+          className="flex flex-col bg-white"
         >
           {/* PLACE */}
-          <Box className="flex">
-            <Box>
-              <img
-                src={pointSrc}
-                style={{ width: "17px", height: "26px" }}
-                alt="point"
-              />
-            </Box>
-            <Box className={`${isEditMode ? "flex flex-col" : ""} ml-6`}>
-              <Place
-                validationDefaultProps={validationDefaultProps}
-                errors={errors.place}
-                place={getValues("place")}
-                {...defaultPropsForComponents}
-              />
-              <Address
-                validationDefaultProps={validationDefaultProps}
-                errors={errors.address}
-                address={getValues("address")}
-                {...defaultPropsForComponents}
-              />
-            </Box>
-          </Box>
-          <Box
-            className={`flex ${isMobile && "flex-col"} ${
-              isEditMode && "justify-center"
-            }`}
-            sx={{ mt: "25px" }}
-          >
-            <CustomTypographyTag
-              {...defaultPropsForComponents}
-              type={"vaccinated"}
-              text={"Есть прививка"}
-              active={isVaccinated}
-              handleCustomTag={handleCustomTag}
-            />
-            <CustomTypographyTag
-              {...defaultPropsForComponents}
-              className={`${isMobile ? "!mt-10" : "!ml-10"}`}
-              handleCustomTag={handleCustomTag}
-              type={"sterilized"}
-              text={
-                getValues("sex") === "мальчик" ? "Кастрирован" : "Стерелизована"
-              }
-              active={isSterilized}
-            />
-          </Box>
-
-          {isMobile ? (
-            <MobilePhotos
-              isEditMode={isEditMode}
-              handleFileLoad={handleFileLoad}
-              files={filesURL}
-            />
-          ) : (
-            <Box className="flex flex-col">
-              {isEditMode && <ModalPhotos handleFileLoad={handleFileLoad} />}
-              <ImageList
-                sx={
-                  !isEditMode
-                    ? {
-                        mt: "30px",
-                        width: "100%",
-                        height: 285,
-                      }
-                    : { width: "100%", height: 285 }
-                }
-                variant="quilted"
-                cols={3}
+          <div className={`flex ${isMobile ? "flex-col" : "flex-row"} w-full items-center justify-center`}>
+            <div>
+              <Box className="flex">
+                <Box>
+                  <img
+                    src={pointSrc}
+                    style={{ width: "17px", height: "26px" }}
+                    alt="point"
+                  />
+                </Box>
+                <Box className={`${isEditMode ? "flex flex-col" : ""} ml-6`}>
+                  <Place
+                    validationDefaultProps={validationDefaultProps}
+                    errors={errors.place}
+                    place={getValues("place")}
+                    {...defaultPropsForComponents}
+                  />
+                  <Address
+                    validationDefaultProps={validationDefaultProps}
+                    errors={errors.address}
+                    address={getValues("address")}
+                    {...defaultPropsForComponents}
+                  />
+                </Box>
+              </Box>
+              <Box
+                className={`flex ${isMobile && "flex-col"} ${isEditMode && "justify-center"
+                  }`}
+                sx={{ mt: "25px" }}
               >
-                {filesURL?.map((item) => (
-                  <ImageListItem key={item}>
-                    <img
-                      style={{
-                        borderRadius: "15px",
-                        height: 285,
-                        width: 285,
-                      }}
-                      src={item}
-                      alt={"animal_image"}
-                      loading="lazy"
-                    />
-                  </ImageListItem>
-                ))}
-              </ImageList>
-            </Box>
-          )}
+                <CustomTypographyTag
+                  {...defaultPropsForComponents}
+                  type={"vaccinated"}
+                  text={"Есть прививка"}
+                  active={isVaccinated}
+                  handleCustomTag={handleCustomTag}
+                />
+                <CustomTypographyTag
+                  {...defaultPropsForComponents}
+                  className={`${isMobile ? "!mt-10" : "!ml-10"}`}
+                  handleCustomTag={handleCustomTag}
+                  type={"sterilized"}
+                  text={
+                    getValues("sex") === "мальчик" ? "Кастрирован" : "Стерелизована"
+                  }
+                  active={isSterilized}
+                />
+              </Box>
+            </div>
+
+            {isMobile ? (
+              <MobilePhotos
+                isEditMode={isEditMode}
+                handleFileLoad={handleFileLoad}
+                files={filesURL}
+              />
+            ) : (
+              <Box className="flex flex-col" sx={{ marginLeft: { xs: 0, md: "24px", lg: "36px" } }}>
+                {isEditMode && <ModalPhotos handleFileLoad={handleFileLoad} />}
+                <ImageList
+                  sx={
+                    !isEditMode
+                      ? {
+                        width: "100%",
+                        height: 128,
+                      }
+                      : { width: "100%", height: 128 }
+                  }
+                  variant="quilted"
+                  cols={3}
+                >
+                  {filesURL?.map((item) => (
+                    <ImageListItem key={item}>
+                      <img
+                        style={{
+                          borderRadius: "15px",
+                          height: 128,
+                          width: 128,
+                        }}
+                        src={item}
+                        alt={"animal_image"}
+                        loading="lazy"
+                      />
+                    </ImageListItem>
+                  ))}
+                </ImageList>
+              </Box>
+            )}
+          </div>
           <Box sx={{ mt: "30px", color: "#6A6D76", fontSize: "18px" }}>
             <textarea
-              rows={3}
+            ref={(element) => {
+              if (element) {
+                element.style.height = "auto";
+                element.style.height = `${element.scrollHeight}px`;
+              }
+            }}
+            onInput={(e) => {
+              e.target.style.height = "auto";
+              e.target.style.height = `${e.target.scrollHeight}px`;
+            }}
               readOnly={!isEditMode}
               {...register("description", {
                 required: "Обязательное поле",
@@ -401,13 +412,11 @@ export const CurrentAnimalPage = ({
                   message: "Минимальная длина 5 символа",
                 },
               })}
-              className={`resize-none w-full outline-0 rounded-md px-6 cursor-default font-normal leading-6 ${
-                isEditMode ? "border-2 border-gray-300" : ""
-              } ${
-                errors.description
+              className={`resize-none w-full outline-0 rounded-md px-6 cursor-default font-normal leading-6 rounded-full bg-gray-200 ${isEditMode ? "border-2 border-gray-300" : ""
+                } ${errors.description
                   ? "border-red-300 w-6/12"
                   : "!border-gray-300 w-full"
-              }`}
+                }`}
             />
             {errors.description && (
               <Box sx={{ color: "red" }}>{errors.description.message}</Box>

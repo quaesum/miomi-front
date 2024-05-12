@@ -18,8 +18,8 @@ export const MobilePhotos = ({ isEditMode, handleFileLoad, files }) => {
           className="mt-6"
             style={{
               borderRadius: "15px",
-              width: 200,
-              height: 200,
+              width: 128,
+              height: 128,
             }}
             src={item}
             alt={"animal_image"}

@@ -5,6 +5,12 @@ import {
   Avatar,
   TextField,
   Button,
+  Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -12,13 +18,37 @@ import userService from "../../auth/user.service";
 import { useNavigate } from "react-router";
 import { LoadingButton } from "@mui/lab";
 import HomeIcon from '@mui/icons-material/Home';
-import {useMobile} from "../../hooks/useMobile"
+import { useMobile } from "../../hooks/useMobile"
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import { EMAIL_CONFIRM_ENDPOINT } from "../../endpoints";
+import authHeader from "../../auth/auth.headers";
+import axios from "axios";
+import authService from "../../auth/auth.service";
 
-export default function ProfilePage({ data, updateUserInfo }) {
+export default function ProfilePage({ data, updateUserInfo, logout }) {
   const [edit, setEdit] = useState(false);
   const [requestError, setRequestError] = useState("");
   const [isRequest, setIsRequest] = useState(false);
   const navigation = useNavigate();
+  const [open, setOpen] = useState(false);
+
+  const handleClickExit = () => {
+      authService.logout();
+      logout()
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleAccept = () => {
+    setOpen(false);
+     axios.post(EMAIL_CONFIRM_ENDPOINT, {}, {headers: authHeader()})
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const {
     register,
@@ -65,8 +95,6 @@ export default function ProfilePage({ data, updateUserInfo }) {
     setEdit(e, state);
   };
 
-  console.log(errors);
-
   const validationDefaultProps = {
     required: "Обяазательное поле",
     minLength: {
@@ -78,7 +106,7 @@ export default function ProfilePage({ data, updateUserInfo }) {
   const isMobile = useMobile()
 
   return (
-    <div className={`grid place-content-center h-fit w-full flex-1 ${edit ? "pb-20" : "pb-80"}`}>
+    <div className={`grid place-content-center h-fit w-full mt-24 flex-1 ${edit ? "pb-20" : "pb-80"}`}>
       <Card
         sx={{
           width: {
@@ -100,7 +128,13 @@ export default function ProfilePage({ data, updateUserInfo }) {
           <Typography fontSize={24} fontWeight="bold">
             {data?.firstName} {data?.lastName}
           </Typography>
-          <Typography fontSize={20}>{data?.email}</Typography>
+          <Typography fontSize={20} className="flex fustify-center items-center">{data?.email}
+            {!data?.isVerified && <Tooltip title="Требуется подтверждение" onClick={() => handleClickOpen()}>
+              <WarningAmberIcon className="pl-4 text-orange cursor-pointer" sx={{ width: "32px", height: "32px" }} />
+            </Tooltip>}
+          </Typography>
+          <Typography fontSize={20}>{data?.phone}</Typography>
+          <Typography fontSize={20}>{data?.addres}</Typography>
           <Button
             className={`${edit ? "hidden" : "block"} !mt-20`}
             onClick={() => handleChangeEdit(true)}
@@ -113,6 +147,20 @@ export default function ProfilePage({ data, updateUserInfo }) {
             }}
           >
             <Typography fontSize={18}>Изменить</Typography>
+          </Button>
+          <Button
+            className={`${edit ? "hidden" : "block"} !mt-8`}
+            onClick={() => handleClickExit()}
+            variant="contained"
+            sx={{
+              borderRadius: "8px",
+              padding: "5px 60px",
+              color: "black",
+              backgroundColor: "white",
+              "&:hover": { backgroundColor: "gray" },
+            }}
+          >
+            <Typography fontSize={18}>Выйти</Typography>
           </Button>
         </Box>
         <Box
@@ -174,11 +222,32 @@ export default function ProfilePage({ data, updateUserInfo }) {
               </LoadingButton>
             </Box>
           </form>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {`Отправить подтверждение на почту?`}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                После принятия, проверьте входящие на {data.email}, в том числе папку "спам"
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleAccept}>Принять</Button>
+              <Button onClick={handleClose} autoFocus>
+                Отмена
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Box>
       </Card>
-      <Box className={edit ? "hidden" :'md:hidden grid place-content-center pt-24'}>
+      <Box className={edit ? "hidden" : 'md:hidden grid place-content-center pt-24'}>
         <Box className="bg-white rounded-full flex items-center justify-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-grey duration-300 " height={50} width={50} onClick={() => navigation('/')}>
-        <HomeIcon fontSize="large" />
+          <HomeIcon fontSize="large" />
         </Box>
       </Box>
     </div>

@@ -11,6 +11,10 @@ import { RegistrationContainer } from "./pages/Registration/RegistrationContaine
 import { LoginContainer } from "./pages/Login/LoginContainer";
 import { CreateNewsPage } from "./pages/CreateNewsPage/CreateNewsPage";
 import { CurrentDonationsPage } from "./pages/CurrentDonationsPage/CurrentNewsPage";
+import { CurrentServicePageContainer } from "./pages/CurrentServicePage/CurrentServicePageContainer";
+import { CreateServicePage } from "./pages/CreateServicePage/CreateServicePage";
+import { Restricted } from "./pages/EmailConfirmation/Restricted";
+import { Success } from "./pages/EmailConfirmation/Success";
 
 export const App = () => {
   return (
@@ -20,12 +24,16 @@ export const App = () => {
         <Route path="animals/:id" element={<CurrentAnimalPageContainer />} />
         <Route path="news/:id" element={<CurrentNewsPageContainer />} />
         <Route path="donations/:id" element={<CurrentDonationsPage />} />
+        <Route path="services/:id" element={<CurrentServicePageContainer/>} />
         <Route path="login" element={<LoginContainer />} />
         <Route path="profile" element={<ProfilePageContainer/>}/>
         <Route path="animals/create-animal" element={<CreateAnimalPage/>}/>
+        <Route path="services/create-service" element={<CreateServicePage/>} />
         <Route path="registration" element={<RegistrationContainer />}/>
         <Route path="terms-of-use" element={<TermsOfUse />}/>
         <Route path="news/create-news" element={<CreateNewsPage />}/>
+        <Route path="email-restricted" element={<Restricted/>} />
+        <Route path="email-confirmed" element={<Success/>} />
         <Route path="*" element={<Navigate to={"/"} />} />
       </Route>
     </Routes>

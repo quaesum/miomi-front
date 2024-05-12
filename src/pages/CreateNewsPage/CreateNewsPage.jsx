@@ -3,7 +3,7 @@ import { Box, Button, Card, Typography } from "@mui/material";
 import { PlaceAnAd } from "../../components/PlaceAnAd/PlaceAnAd";
 import arrowUp from "../../assets/CreateAnimalPage/arrow-up.png";
 import { useForm } from "react-hook-form";
-import nullPicture from "../../assets/CreateAnimalPage/null-picture.png";
+import nullPicture from "../../assets/null_picture.svg";
 import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
 import DataService from "../../auth/data.service";
 import { useNavigate } from "react-router";

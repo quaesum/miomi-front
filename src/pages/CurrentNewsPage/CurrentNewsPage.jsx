@@ -5,8 +5,12 @@ import { ModalDelete } from "../../components/ModalDelete/ModalDelete";
 import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
 import { Label } from "./componentsPage/Label";
 import { useMobile } from "../../hooks/useMobile";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from "react-router";
+
 
 export const CurrentNewsPage = ({ news, id, isCanEdit }) => {
+  const navigate = useNavigate();
   const isMobile = useMobile();
   const [isEditMode, setIsEditMode] = useState(false);
   const [filesURL, setFilesURL] = useState(news.photos);
@@ -62,13 +66,13 @@ export const CurrentNewsPage = ({ news, id, isCanEdit }) => {
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className="grid place-content-center h-fit flex-1 py-12"
+      className="grid place-content-center h-fit flex-1 py-24"
     >
       <Card
         sx={{
           width: {
             sm: "100%",
-            lg: "1024px",
+            lg: "1240px",
             xs: "100%",
           },
           borderRadius: { lg: 7, xs: 0 },
@@ -78,6 +82,15 @@ export const CurrentNewsPage = ({ news, id, isCanEdit }) => {
           sx={{ px: { md: 10, xs: 3 }, py: 3 }}
           className="flex justify-between h-min-80"
         >
+          <ArrowBackIcon
+              onClick={() => navigate("/")}
+              className="cursor-pointer transition ease-in-out delay-150 hover:bg-gray-200 rounded-full hover:scale-110 hover:duration-300 self-center"
+              sx={{
+                width: {xs: 30, md: 35},
+                height: {xs: 30, md:35},
+                marginRight: {xs: "12px", md: "24px"},
+              }}
+              />
           <Box className="flex flex-col justify-center w-full pr-12 md:pr-60">
             <Label
               errors={errors.label}
@@ -86,7 +99,7 @@ export const CurrentNewsPage = ({ news, id, isCanEdit }) => {
               {...defaultPropsForComponents}
             />
             <Typography
-              sx={{ fontSize: { xs: 16, md: 18 } }}
+              sx={{ fontSize: { xs: 16, md: 18 }}}
               className="text-grey-600 cursor-default !mt-4"
             >
               {news.created_at}
@@ -129,7 +142,7 @@ export const CurrentNewsPage = ({ news, id, isCanEdit }) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
-                <ModalDelete id={id} handleClose={handleClose} />
+                <ModalDelete id={id} handleClose={handleClose} type={"news"} />
               </Modal>
             </Box>
           )}

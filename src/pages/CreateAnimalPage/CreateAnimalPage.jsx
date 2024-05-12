@@ -4,7 +4,7 @@ import { PlaceAnAd } from "../../components/PlaceAnAd/PlaceAnAd";
 import arrowUp from "../../assets/CreateAnimalPage/arrow-up.png";
 import { useForm } from "react-hook-form";
 import { CustomTypographyTag } from "../../components/CustomTypographyTag/CustomTypographyTag";
-import nullPicture from "../../assets/CreateAnimalPage/null-picture.png";
+import nullPicture from "../../assets/null_picture.svg";
 import { CustomButton } from "../CurrentAnimalPage/componentsPage/ModalPhotos";
 import { useAnimalContext } from "../../Context/AnimalContext";
 import DataService from "../../auth/data.service";
@@ -449,7 +449,7 @@ export const CreateAnimalPage = () => {
                             loading="lazy"
                           />
                           <Typography fontSize={18}>
-                            &nbsp;{`Загружено ${photos.length} из 3`}
+                            &nbsp;{`Загружено ${photos?.length} из 3`}
                           </Typography>
                         </Box>
                         {photos.length < 1 && (

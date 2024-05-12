@@ -3,22 +3,20 @@ import { Animals } from "./Animals";
 import { useAnimalContext } from "../../Context/AnimalContext";
 
 export const AnimalsContainer = ({ isAllAnimal }) => {
-  const { baseURL, animalsData, maxPages, updateAnimals } = useAnimalContext();
-  const [currentPage, setCurrentPage] = useState(1);
-
+  const { baseURL, animalsData, maxAnimalsPages, updateAnimals, currentAnimalPage, setCurrentAnimalPage } = useAnimalContext();
 
   useEffect(() => {
-    setCurrentPage(1);
+    setCurrentAnimalPage(1);
   }, [isAllAnimal]);
 
   const handleIncrementPage = () => {
-    setCurrentPage((prev) => (prev += 1));
-    updateAnimals(currentPage + 1)
+    setCurrentAnimalPage((prev) => (prev += 1));
+    updateAnimals(currentAnimalPage + 1)
   };
 
   const handleDecrementPage = () => {
-    setCurrentPage((prev) => (prev -= 1));
-    updateAnimals(currentPage - 1)
+    setCurrentAnimalPage((prev) => (prev -= 1));
+    updateAnimals(currentAnimalPage - 1)
   };
 
   return (
@@ -27,8 +25,8 @@ export const AnimalsContainer = ({ isAllAnimal }) => {
       baseURL={baseURL}
       handleIncrementPage={handleIncrementPage}
       handleDecrementPage={handleDecrementPage}
-      currentPage={currentPage}
-      maxPages={maxPages}
+      currentAnimalPage={currentAnimalPage}
+      maxAnimalsPages={maxAnimalsPages}
     />
   );
 };

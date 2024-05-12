@@ -6,13 +6,18 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+
 }
 
-.layout-default>*:last-child {
-  background-color: #DCDCDC;
+.content-container {
+  position: relative;
+  flex: 1;
+  background: url("./assets/background-opacity.png") repeat;
 }
 
-input.form-control{
+input.form-control {
   width: 222px !important;
   height: 56px !important;
 }

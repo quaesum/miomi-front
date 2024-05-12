@@ -66,7 +66,12 @@ export const Registration = ({ login }) => {
       })
       .catch((er) => {
         setIsRequest(false);
-        setRequestError(er.message);
+        if (er.response.data.error == "user exist") {
+          setRequestError("Почтовый адрес уже зарегестрирован")
+        } else {
+          setRequestError(er.message);
+        }
+        console.log(er)
       });
   };
 
@@ -88,26 +93,27 @@ export const Registration = ({ login }) => {
   };
 
   return (
-    <div className="grid place-content-center h-fit w-full flex-1 overflow-scroll">
+    <div className="grid place-content-center h-fit w-full flex-1 overflow-scroll py-24">
       <Card
         sx={{
           width: { sm: "100%", lg: "900px", xs: "100%" },
           borderRadius: { lg: 10, xs: 0 },
           marginTop: { xs: 0.45 },
           height: { lg: "800px" },
+          background: "transparent"
         }}
         className="w-screen"
       >
-        <Box className="flex justify-center items-center min-h-80">
+        <Box className="flex justify-center items-center min-h-80 bg-white">
           <Typography className="!font-semibold !text-3xl">
             Регистрация
           </Typography>
         </Box>
         <div
           className="h-2 w-full"
-          style={{ backgroundColor: "#DCDCDC" }}
+          style={{ backgroundColor: "transparent" }}
         ></div>
-        <Box className="flex justify-center min-h-80" sx={{ py: 5, px: 10 }}>
+        <Box className="flex justify-center min-h-80 bg-white" sx={{ py: 5, px: 10 }}>
           <form onSubmit={handleSubmit(handleSubmitForm)}>
             <Box
               sx={{
@@ -328,7 +334,7 @@ export const Registration = ({ login }) => {
                 )}
               </Box>
             </Box>
-            <Box className="flex justify-center items-center !mt-20 flex-col">
+            <Box className="flex justify-center items-center !mt-20 flex-col pb-24">
               {requestError && <Box sx={{ color: "red" }}>{requestError}</Box>}
               <LoadingButton
                 loading={isRequest}

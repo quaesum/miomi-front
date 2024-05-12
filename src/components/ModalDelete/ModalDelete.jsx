@@ -12,23 +12,29 @@ const btnStyle = {
 
 export const ModalDelete = ({ id, handleClose, type }) => {
   const isMobile = useMobile();
-  const { updateNews, updateAnimals } = useAnimalContext();
+  const { updateNews, updateAnimals, updateServices } = useAnimalContext();
   const navigate = useNavigate();
 
   const handleDelete = async () => {
     handleClose();
-    if (type === "animal") {
-      await DataService.deleteAnimal(id)
-        .then((res) => {
-          updateAnimals();
+    switch (type) {
+      case "animal":
+        await DataService.deleteAnimal(id)
+          .then((res) => {
+            updateAnimals();
+            navigate("/");
+          })
+          .catch((er) => { });
+      case "news":
+        await DataService.deleteNews(id).then((res) => {
+          updateNews();
           navigate("/");
-        })
-        .catch((er) => {});
-    } else {
-      await DataService.deleteNews(id).then((res) => {
-        updateNews();
-        navigate("/");
-      });
+        });
+      case "services":
+        await DataService.deleteService(id).then((res) => {
+          updateServices();
+          navigate("/");
+        });
     }
   };
 
@@ -52,9 +58,8 @@ export const ModalDelete = ({ id, handleClose, type }) => {
           style={{ backgroundColor: "#DCDCDC" }}
         ></div>
         <Box
-          className={`flex justify-center items-center px-100 pb-20 pt-10 ${
-            isMobile && "px-10"
-          }`}
+          className={`flex justify-center items-center px-100 pb-20 pt-10 ${isMobile && "px-10"
+            }`}
         >
           <Box sx={{ width: "300px" }}>
             <Typography

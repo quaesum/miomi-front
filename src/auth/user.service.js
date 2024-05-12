@@ -3,13 +3,19 @@ import authHeader from './auth.headers';
 import { GET_USER_INFO_ENDPOINT, UPDATE_USER_ENDPOINT } from '../endpoints';
 
 class UserService {
-    getUserInfo() {
+    async getUserInfo() {
         return axios.get(GET_USER_INFO_ENDPOINT, { headers: authHeader() }).catch(er => {
             localStorage.removeItem("user")
         });
     }
 
-    chageUserIformation(values) {
+    async getUserInfoByID (id){
+        return axios.get(`${GET_USER_INFO_ENDPOINT}/${id}`, { headers: authHeader() }).catch( er => {
+            
+        })
+    }
+
+    async chageUserIformation(values) {
         return axios.post(
             UPDATE_USER_ENDPOINT,
             { ...values },

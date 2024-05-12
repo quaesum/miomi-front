@@ -38,12 +38,12 @@ const CustomButton = ({ text, url, popupState }) => {
   );
 };
 
-export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
+export const NavBar = ({ firstName, lastName, isLogin, handleClickExit, isVerified }) => {
   const navigate = useNavigate();
   const userName = `${firstName} ${lastName}`;
 
   return (
-    <div className="p-0 max-h-40 h-40 relative bg-white">
+    <div className="p-0 max-h-40 h-40 relative bg-white z-10">
       <div
         className="flex flex-1 px-16 absolute cursor-pointer"
         onClick={() => navigate("/")}
@@ -58,9 +58,9 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
         </Typography>
       </div>
       <div className="flex items-center px-8 h-full justify-end">
-        {firstName && (
+        {isLogin && (
           <>
-            <div className="sm: mr-5 md:mr-20">
+            {isVerified && (<div className="sm: mr-5 md:mr-20">
               <PopupState variant="popover" popupId="demo-popup-popover">
                 {(popupState) => (
                   <>
@@ -70,16 +70,16 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                       sx={
                         popupState.isOpen
                           ? {
-                              borderEndEndRadius: "0px",
-                              borderEndStartRadius: "0px",
-                              backgroundColor: "#EE7100",
-                              boxShadow: "0",
-                              "&:hover": { backgroundColor: "#ee6f00d2" },
-                            }
+                            borderEndEndRadius: "0px",
+                            borderEndStartRadius: "0px",
+                            backgroundColor: "#EE7100",
+                            boxShadow: "0",
+                            "&:hover": { backgroundColor: "#ee6f00d2" },
+                          }
                           : {
-                              backgroundColor: "#EE7100",
-                              "&:hover": { backgroundColor: "#ee6f00d2" },
-                            }
+                            backgroundColor: "#EE7100",
+                            "&:hover": { backgroundColor: "#ee6f00d2" },
+                          }
                       }
                     >
                       <img
@@ -131,18 +131,18 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                             text={"Новость"}
                             url={"news/create-news"}
                           />
-                          {/* <CustomButton
+                          <CustomButton
                             popupState={popupState}
-                            text={"Пожертвование"}
-                            url={"donations/create-animal"}
-                          /> */}
+                            text={"Услугу"}
+                            url={"services/create-service"}
+                          />
                         </Box>
                       </Box>
                     </Popover>
                   </>
                 )}
               </PopupState>
-            </div>
+            </div>)}
             <div className="mr-7">
               <Button
                 onClick={() => navigate("/profile")}
@@ -165,20 +165,24 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit }) => {
                 <Avatar className="md:mx-4"></Avatar>
               </Button>
             </div>
-            <div
-              className="w-2 h-full"
-              style={{ backgroundColor: "#DCDCDC" }}
-            ></div>
+            {!isLogin && (
+              <div
+                className="w-2 h-full"
+                style={{ backgroundColor: "#DCDCDC" }}
+              ></div>
+            )}
           </>
         )}
-        <Button
-          style={{ backgroundColor: "transparent" }}
-          className="min-h-40 min-w-40 px-0 md:px-16 py-0 md:py-6 !ml-7"
-          color="inherit"
-          onClick={handleClickExit}
-        >
-          {isLogin ? "Выйти" : "Войти"}
-        </Button>
+        {!isLogin && (
+          <Button
+            style={{ backgroundColor: "transparent" }}
+            className="min-h-40 min-w-40 px-0 md:px-16 py-0 md:py-6 !ml-7"
+            color="inherit"
+            onClick={handleClickExit}
+          >
+            {isLogin ? "Выйти" : "Войти"}
+          </Button>
+        )}
       </div>
     </div>
   );
