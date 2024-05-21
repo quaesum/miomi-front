@@ -59,7 +59,7 @@ export const Login = ({ login, setIsLogin }) => {
   };
 
   const validationDefaultProps = {
-    required: "Обяазательное поле",
+    required: "Обязательное поле",
     minLength: {
       value: 3,
       message: "Минимальная длина 3 символа",
@@ -75,7 +75,7 @@ export const Login = ({ login, setIsLogin }) => {
 
   return (
     <div
-      className={`grid place-content-center h-fit w-full flex-1 ${
+      className={`grid place-content-center h-fit w-full flex-1 pt-24 ${
         isMobile ? "" : "pb-80"
       } `}
     >

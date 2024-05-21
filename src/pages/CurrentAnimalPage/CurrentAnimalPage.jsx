@@ -32,6 +32,7 @@ export const CurrentAnimalPage = ({
   isCanEdit,
   urlsImages,
   baseUrl,
+  shelter,
 }) => {
   console.log(animal)
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ export const CurrentAnimalPage = ({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const sex = animal.sex ? "девочка" : "мальчик";
+  const sex = animal.sex == "0" ? "мальчик" : "девочка";
 
   useEffect(() => {
     setDefaultFiles();
@@ -65,8 +66,6 @@ export const CurrentAnimalPage = ({
       age: animal.age,
       nameAnimal: animal.name,
       description: animal.description,
-      place: animal.shelter,
-      address: animal.address,
     },
   });
 
@@ -152,7 +151,7 @@ export const CurrentAnimalPage = ({
       name: getValues("nameAnimal"),
       sex: getValues("sex") === "мальчик" ? 1 : 0,
       type: type,
-      shelterId: animal.shelterId,
+      shelterId: Number(animal.shelterId),
       description: getValues("description"),
       sterilized: isSterilized,
       vaccinated: isVaccinated,
@@ -174,8 +173,6 @@ export const CurrentAnimalPage = ({
     setIsEditMode(false);
     setValue("sex", sex);
     setValue("age", animal?.age);
-    setValue("address", animal?.address);
-    setValue("place", animal?.shelter);
     setValue("description", animal?.description);
     setValue("nameAnimal", animal?.name);
     setIsSterilized(animal?.sterilized);
@@ -314,18 +311,15 @@ export const CurrentAnimalPage = ({
                   />
                 </Box>
                 <Box className={`${isEditMode ? "flex flex-col" : ""} ml-6`}>
-                  <Place
-                    validationDefaultProps={validationDefaultProps}
-                    errors={errors.place}
-                    place={getValues("place")}
-                    {...defaultPropsForComponents}
-                  />
-                  <Address
-                    validationDefaultProps={validationDefaultProps}
-                    errors={errors.address}
-                    address={getValues("address")}
-                    {...defaultPropsForComponents}
-                  />
+                  <Typography name={22} sx={{ color: "#6A6D76" }}>
+                    {shelter?.place}
+                  </Typography>
+                  <Typography sx={{ color: "#6A6D76" }} fontSize={22}>
+                    {shelter?.address}
+                  </Typography>
+                  <Typography fontSize={22} sx={{ color: "#6A6D76" }}>
+                    {shelter?.phone}
+                  </Typography>
                 </Box>
               </Box>
               <Box
@@ -394,16 +388,16 @@ export const CurrentAnimalPage = ({
           </div>
           <Box sx={{ mt: "30px", color: "#6A6D76", fontSize: "18px" }}>
             <textarea
-            ref={(element) => {
-              if (element) {
-                element.style.height = "auto";
-                element.style.height = `${element.scrollHeight}px`;
-              }
-            }}
-            onInput={(e) => {
-              e.target.style.height = "auto";
-              e.target.style.height = `${e.target.scrollHeight}px`;
-            }}
+              ref={(element) => {
+                if (element) {
+                  element.style.height = "auto";
+                  element.style.height = `${element.scrollHeight}px`;
+                }
+              }}
+              onInput={(e) => {
+                e.target.style.height = "auto";
+                e.target.style.height = `${e.target.scrollHeight}px`;
+              }}
               readOnly={!isEditMode}
               {...register("description", {
                 required: "Обязательное поле",

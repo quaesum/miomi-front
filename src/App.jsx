@@ -15,6 +15,7 @@ import { CurrentServicePageContainer } from "./pages/CurrentServicePage/CurrentS
 import { CreateServicePage } from "./pages/CreateServicePage/CreateServicePage";
 import { Restricted } from "./pages/EmailConfirmation/Restricted";
 import { Success } from "./pages/EmailConfirmation/Success";
+import ShelterPageContainer from "./pages/ShelterPage/ShelterPageContainer";
 
 export const App = () => {
   return (
@@ -27,6 +28,7 @@ export const App = () => {
         <Route path="services/:id" element={<CurrentServicePageContainer/>} />
         <Route path="login" element={<LoginContainer />} />
         <Route path="profile" element={<ProfilePageContainer/>}/>
+        <Route path="my-shelter" element={<ShelterPageContainer/>}/>
         <Route path="animals/create-animal" element={<CreateAnimalPage/>}/>
         <Route path="services/create-service" element={<CreateServicePage/>} />
         <Route path="registration" element={<RegistrationContainer />}/>

@@ -25,16 +25,19 @@ export const ModalDelete = ({ id, handleClose, type }) => {
             navigate("/");
           })
           .catch((er) => { });
+           break
       case "news":
         await DataService.deleteNews(id).then((res) => {
           updateNews();
           navigate("/");
         });
+        break
       case "services":
         await DataService.deleteService(id).then((res) => {
           updateServices();
           navigate("/");
         });
+        break
     }
   };
 

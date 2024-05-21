@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import authService from "../../../auth/auth.service";
 
 export const NavBarContainer = () => {
-  const { userData, isLogin, logout, isVerified } = useAnimalContext();
+  const { userData, isLogin, logout, isVerified, avatarUrl } = useAnimalContext();
   const navigate = useNavigate();
   
   const handleClickExit = () => {
@@ -18,6 +18,6 @@ export const NavBarContainer = () => {
   };
 
   return (
-    <NavBar {...userData} isLogin={isLogin} handleClickExit={handleClickExit} isVerified={isVerified} />
+    <NavBar {...userData} isLogin={isLogin} handleClickExit={handleClickExit} isVerified={isVerified} avatarUrl={avatarUrl} />
   );
 };

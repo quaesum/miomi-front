@@ -31,7 +31,7 @@ export const AnimalCard = ({
           </CardContent>
           <CardContent className="flex flex-col justify-items-center">
             <Typography fontSize={24}>{name}</Typography>
-            <Typography>{sex === 0 ? "мальчик" : "девочка"}</Typography>
+            <Typography>{sex === "0" ? "мальчик" : "девочка"}</Typography>
             <Typography>{`${age} ${ageText}`}</Typography>
           </CardContent>
         </div>

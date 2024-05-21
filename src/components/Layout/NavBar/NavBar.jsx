@@ -4,11 +4,19 @@ import catSrc from "../../../assets/NavBar/cat.png";
 import pawSrc from "../../../assets/NavBar/paw.png";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 import { useNavigate } from "react-router-dom";
+import { MenuItem } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { useState } from "react";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const CustomButton = ({ text, url, popupState }) => {
   const navigate = useNavigate();
 
-  const handleClick = () => {
+   const handleClick = () => {
     navigate(url);
     popupState.close()
   };
@@ -38,7 +46,7 @@ const CustomButton = ({ text, url, popupState }) => {
   );
 };
 
-export const NavBar = ({ firstName, lastName, isLogin, handleClickExit, isVerified }) => {
+export const NavBar = ({ firstName, lastName, isLogin, handleClickExit, isVerified, avatarUrl }) => {
   const navigate = useNavigate();
   const userName = `${firstName} ${lastName}`;
 
@@ -60,8 +68,8 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit, isVerifi
       <div className="flex items-center px-8 h-full justify-end">
         {isLogin && (
           <>
-            {isVerified && (<div className="sm: mr-5 md:mr-20">
-              <PopupState variant="popover" popupId="demo-popup-popover">
+            <div className="sm: mr-5 md:mr-20">
+              <PopupState variant="popover" popupId="profile-popup-popover">
                 {(popupState) => (
                   <>
                     <Button
@@ -122,49 +130,83 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit, isVerifi
                       >
                         <Box className="grid grid-rows-2 gap-6">
                           <CustomButton
+                            isVerified={true}
                             popupState={popupState}
                             text={"Животное"}
                             url={"animals/create-animal"}
                           />
-                          <CustomButton
+
+                          {isVerified && ( <><CustomButton
+                            isVerified={isVerified}
                             popupState={popupState}
                             text={"Новость"}
                             url={"news/create-news"}
                           />
                           <CustomButton
+                            isVerified={isVerified}
                             popupState={popupState}
-                            text={"Услугу"}
+                            text={"Услуга"}
                             url={"services/create-service"}
                           />
+                          </>)}
                         </Box>
                       </Box>
                     </Popover>
                   </>
                 )}
               </PopupState>
-            </div>)}
-            <div className="mr-7">
-              <Button
-                onClick={() => navigate("/profile")}
-                className="min-h-40 min-w-40 px-0 md:px-16 py-0 md:py-6"
-                color="inherit"
-              >
-                <div className="hidden md:flex flex-col mx-4 items-end">
-                  <Typography
-                    fontSize={18}
-                    component="span"
-                    className="font-semibold flex !normal-case"
-                  >
-                    {userName}
-                  </Typography>
-                  <Typography
-                    className="text-11 font-medium capitalize"
-                    color="text.secondary"
-                  ></Typography>
-                </div>
-                <Avatar className="md:mx-4"></Avatar>
-              </Button>
             </div>
+            <div className="mr-7">
+              <PopupState variant="popover" popupId="profile-menu-popover">
+                {(popupState) => (
+                  <>
+                    <Button
+                      {...bindTrigger(popupState)}
+                      className="min-h-40 min-w-40 px-0 md:px-16 py-0 md:py-6"
+                      color="inherit"
+                    >
+                      <div className="hidden md:flex flex-col mx-4 items-end">
+                        <Typography
+                          fontSize={18}
+                          component="span"
+                          className="font-semibold flex !normal-case"
+                        >
+                          {userName}
+                        </Typography>
+                        <Typography
+                          className="text-11 font-medium capitalize"
+                          color="text.secondary"
+                        ></Typography>
+                      </div>
+                      <Avatar className="md:mx-4" src={`${avatarUrl}`}></Avatar>
+                    </Button>
+                    <Popover
+                      {...bindPopover(popupState)}
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "center",
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          p: 2,
+                          width: "150px",
+                        }}
+                      >
+                        <MenuItem onClick={() => { navigate("/profile"); popupState.close() }}>Профиль</MenuItem>
+                        <MenuItem onClick={() => { navigate("/my-shelter"); popupState.close() }}>Приют</MenuItem>
+                        <MenuItem onClick={() => { handleClickExit(); popupState.close() }}>Выйти</MenuItem>
+                      </Box>
+                    </Popover>
+                  </>
+                )}
+              </PopupState>
+            </div>
+
             {!isLogin && (
               <div
                 className="w-2 h-full"
@@ -180,7 +222,7 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit, isVerifi
             color="inherit"
             onClick={handleClickExit}
           >
-            {isLogin ? "Выйти" : "Войти"}
+            {!isLogin && "Войти"}
           </Button>
         )}
       </div>

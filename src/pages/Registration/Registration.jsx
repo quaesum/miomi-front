@@ -85,7 +85,7 @@ export const Registration = ({ login }) => {
   } = useForm();
 
   const validationDefaultProps = {
-    required: "Обяазательное поле",
+    required: "Обязательное поле",
     minLength: {
       value: 3,
       message: "Минимальная длина 3 символа",
