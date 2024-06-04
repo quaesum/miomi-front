@@ -25,7 +25,7 @@ export const AnimalCard = ({
               src={photo}
               component="img"
               alt={id}
-              className="rounded-full ml-6"
+              className="rounded-xl ml-6"
               sx={{ width: 125, height: 125 }}
             />
           </CardContent>

@@ -10,7 +10,7 @@ const btnStyle = {
   width: "100%",
 };
 
-export const ModalDelete = ({ id, handleClose, type }) => {
+export const ModalDelete = ({ id, handleClose, type, prev }) => {
   const isMobile = useMobile();
   const { updateNews, updateAnimals, updateServices } = useAnimalContext();
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export const ModalDelete = ({ id, handleClose, type }) => {
         await DataService.deleteAnimal(id)
           .then((res) => {
             updateAnimals();
-            navigate("/");
+            navigate(prev);
           })
           .catch((er) => { });
            break
