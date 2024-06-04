@@ -16,6 +16,7 @@ import { CreateServicePage } from "./pages/CreateServicePage/CreateServicePage";
 import { Restricted } from "./pages/EmailConfirmation/Restricted";
 import { Success } from "./pages/EmailConfirmation/Success";
 import ShelterPageContainer from "./pages/ShelterPage/ShelterPageContainer";
+import AboutUs from "./pages/AboutUs/AboutUs";
 
 export const App = () => {
   return (
@@ -36,6 +37,7 @@ export const App = () => {
         <Route path="news/create-news" element={<CreateNewsPage />}/>
         <Route path="email-restricted" element={<Restricted/>} />
         <Route path="email-confirmed" element={<Success/>} />
+        <Route path="about-us" element={<AboutUs/>} />
         <Route path="*" element={<Navigate to={"/"} />} />
       </Route>
     </Routes>

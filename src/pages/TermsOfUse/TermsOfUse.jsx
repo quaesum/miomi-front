@@ -1,11 +1,19 @@
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, IconButton } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
+import { useNavigate } from "react-router";
 export default function TermsOfUse() {
+  const navigation = useNavigate()
   return (
-    <Box className="flex flex-col w-screen h-fit items-center pt-6">
-      <Box className="flex flex-col w-3/4 items-center space-y-5">
-        <Typography className="flex w-fit" fontSize={24} fontWeight="bold">
-          Пользовательское Соглашение
-        </Typography>
+    <Box className="flex flex-col w-screen h-fit items-center pt-6 ">
+      <Box className="flex flex-col w-3/4 items-center space-y-5 bg-white p-12 rounded">
+        <div className="flex flex-row items-center">
+          <IconButton className="text-black" onClick={() => navigation("/registration")}>
+            <ArrowBack />
+          </IconButton>
+          <Typography className="flex w-max h-max items-center text-center" fontSize={24} fontWeight="bold">
+            Пользовательское Соглашение
+          </Typography>
+        </div>
         <Typography>
           Настоящее Пользовательское Соглашение (Далее Соглашение) регулирует
           отношения между владельцем miomi.by (далее MioMi или Администрация) с

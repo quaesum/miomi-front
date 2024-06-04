@@ -17,6 +17,7 @@ export const ageTransformation = (ageAnimal) => {
 };
 
 export const Animals = ({
+  prev,
   animals,
   baseURL,
   currentAnimalPage,
@@ -28,15 +29,15 @@ export const Animals = ({
   const page = `Страница ${currentAnimalPage}`;
 
   const classNameRightArrow = `${
-    maxAnimalsPages === currentAnimalPage ? "opacity-30" : "cursor-pointer"
+    maxAnimalsPages == currentAnimalPage ? "opacity-30" : "cursor-pointer"
   }`;
 
   const classNameLeftArrow = `${
-    currentAnimalPage === 1 ? "opacity-30" : "cursor-pointer"
+    currentAnimalPage == 1 ? "opacity-30" : "cursor-pointer"
   }`;
 
   const handleAnimalClick = (id) => {
-    navigate(`/animals/${id}`);
+    navigate(`/animals/${id}?prev=${prev}`);
   };
 
   const handleClickLeftArrow = () => {
@@ -57,7 +58,7 @@ export const Animals = ({
     <AnimalCard
       key={el.id}
       {...el}
-      photo={`${SERVICE_STORAGE_URL}${el?.photos?.[0]}`}
+      photo={`${el?.photos?.[0].startsWith("http") ? "" : SERVICE_STORAGE_URL}${el?.photos?.[0]}`}
       handleAnimalClick={handleAnimalClick}
       ageText={ageTransformation(el.age)}
     />

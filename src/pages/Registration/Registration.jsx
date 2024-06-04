@@ -10,6 +10,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from "@mui/lab";
 import React, { useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
@@ -25,6 +27,31 @@ import { useMobile } from "../../hooks/useMobile";
 export const Registration = ({ login }) => {
   const navigate = useNavigate();
   const isMobile = useMobile();
+
+  const schema = yup.object().shape({
+  name: yup.string().required('Введите имя.').min(2, 'Минимально 2 символа'),
+	secondName: yup.string().required('Введите фамилию.').min(2, 'Минимально 2 символа'),
+	email: yup
+		.string()
+		.required('Введите адрес электронной почты.')
+    .test('Email', 'Неверный формат (example@post.com).', value =>
+      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu.test(value)
+    ),
+	password: yup
+		.string()
+		.required('Введите пароль.')
+		.min(8, 'Не менее 8 симв.')
+		.matches(/(?=.*[!@#$%^&*_0-9])[0-9a-zA-Z!@#$%^&*]/g, 'Используйте цифры (0-9) или символы.')
+		.test('Letters1', 'Используйте строчные и заглавные буквы (a-zA-Z).', value =>
+			/(?=.*[a-z])(?=.*[A-Z])[a-zA-Z]/.test(value)
+		),
+	passwordConfim: yup.string().oneOf([yup.ref('password'), null], 'Пароли не совпадают.'),
+	phone: yup.string().length(12, 'Введите 12 цифр.').required('Введите номер.'),
+  address: yup.string().required('Введите адрес.'),
+  acceptTermsConditions: yup
+		.boolean()
+		.oneOf([true], 'Условия пользования и Политика конфиденциальности должны быть приняты.')
+});
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = React.useState(false);
@@ -46,10 +73,10 @@ export const Registration = ({ login }) => {
     setIsRequest(true);
     const postData = {
       first_name: getValues("name"),
-      last_name: getValues("second-name"),
+      last_name: getValues("secondName"),
       password: getValues("password"),
       email: getValues("email"),
-      phone: `+${getValues("phone-number")}`,
+      phone: `+${getValues("phone")}`,
       address: getValues("address"),
     };
     console.log(postData);
@@ -75,14 +102,20 @@ export const Registration = ({ login }) => {
       });
   };
 
+  const methods = useForm({
+		mode: 'onChange',
+		defaultValues: '',
+		resolver: yupResolver(schema),
+		criteriaMode: 'all'
+	});
+
   const {
     register,
     handleSubmit,
     getValues,
     formState: { errors },
-    watch,
     setValue,
-  } = useForm();
+  } = methods;
 
   const validationDefaultProps = {
     required: "Обязательное поле",
@@ -93,13 +126,13 @@ export const Registration = ({ login }) => {
   };
 
   return (
-    <div className="grid place-content-center h-fit w-full flex-1 overflow-scroll py-24">
+    <div className="grid place-content-center w-full flex-1 overflow-scroll py-24 md:max-w-900">
       <Card
         sx={{
-          width: { sm: "100%", lg: "900px", xs: "100%" },
+          width: { sm: "100%", md: "900px", xs: "100%" },
           borderRadius: { lg: 10, xs: 0 },
           marginTop: { xs: 0.45 },
-          height: { lg: "800px" },
+          minHeight: { lg: "800px" },
           background: "transparent"
         }}
         className="w-screen"
@@ -123,7 +156,7 @@ export const Registration = ({ login }) => {
                   alignItems: "center",
                   justifyContent: "center",
                 },
-                md: { display: "grid" },
+                md: { display: "grid"},
                 gridTemplateColumns: "200px 1fr",
                 gridTemplateRows: "1fr",
                 rowGap: "10px",
@@ -138,7 +171,7 @@ export const Registration = ({ login }) => {
                   sx={{ width: "222px" }}
                   variant="outlined"
                   label="Имя"
-                  {...register("name", { ...validationDefaultProps })}
+                  {...register("name")}
                 />
                 {errors.name && (
                   <Box sx={{ color: "red" }}>{errors.name.message}</Box>
@@ -152,18 +185,18 @@ export const Registration = ({ login }) => {
                   sx={{ width: "222px" }}
                   variant="outlined"
                   label="Фамилия"
-                  {...register("second-name", { ...validationDefaultProps })}
+                  {...register("secondName")}
                 />
-                {errors["second-name"] && (
+                {errors["secondName"] && (
                   <Box sx={{ color: "red" }}>
-                    {errors["second-name"].message}
+                    {errors["secondName"].message}
                   </Box>
                 )}
               </Box>
 
               {/* PASSWORD */}
               <CustomLabelTag text={"Пароль"} />
-              <Box className="flex flex-col pt-6">
+              <Box className="flex flex-col pt-6" sx={{ width: "222px" }}>
                 <FormControl sx={{ width: "222px" }} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-password">
                     Пароль
@@ -171,7 +204,7 @@ export const Registration = ({ login }) => {
                   <OutlinedInput
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
-                    {...register("password", { ...validationDefaultProps })}
+                    {...register("password")}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -194,7 +227,7 @@ export const Registration = ({ login }) => {
 
               {/* REPEAT PASSWORD */}
               <CustomLabelTag text={"Повторите пароль"} />
-              <Box className="flex flex-col pt-6">
+              <Box className="flex flex-col pt-6" sx={{ width: "222px" }}>
                 <FormControl sx={{ width: "222px" }} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-password-repeat">
                     Повтор пароля
@@ -202,14 +235,7 @@ export const Registration = ({ login }) => {
                   <OutlinedInput
                     id="outlined-adornment-password-repeat"
                     type={showRepeatPassword ? "text" : "password"}
-                    {...register("repeat-password", {
-                      ...validationDefaultProps,
-                      validate: (value) => {
-                        if (watch("password") !== value) {
-                          return "Пароли не сопадают";
-                        }
-                      },
-                    })}
+                    {...register("passwordConfim")}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -229,16 +255,16 @@ export const Registration = ({ login }) => {
                     label="Повтор пароля"
                   />
                 </FormControl>
-                {errors["repeat-password"] && (
+                {errors["passwordConfim"] && (
                   <Box sx={{ color: "red" }}>
-                    {errors["repeat-password"].message}
+                    {errors["passwordConfim"].message}
                   </Box>
                 )}
               </Box>
 
               {/* EMAIL */}
               <CustomLabelTag text={"Почтовый ящик"} />
-              <Box className="flex flex-col">
+              <Box className="flex flex-col pt-6" sx={{ width: "222px" }}>
                 <TextField
                   type="email"
                   sx={{ width: "222px" }}
@@ -263,22 +289,18 @@ export const Registration = ({ login }) => {
               <Box className="flex flex-col">
                 <PhoneInput
                   country="by"
+                  countryCodeEditable={false}
+                  onlyCountries={["by"]}
                   placeholder="375 (29) 000-00-00"
-                  {...register("phone-number", {
-                    ...validationDefaultProps,
-                    minLength: {
-                      value: 11,
-                      message: "Номер должен состоять минимум из 11 символов",
-                    },
-                  })}
+                  {...register("phone")}
                   onChange={(e) => {
                     setPhone(e);
-                    setValue("phone-number", e);
+                    setValue("phone", e);
                   }}
                 />
-                {phone.length < 11 && (
+                {errors.phone && (
                   <Box sx={{ color: "red" }}>
-                    {errors["phone-number"]?.message}
+                    {errors["phone"]?.message}
                   </Box>
                 )}
               </Box>
@@ -288,7 +310,7 @@ export const Registration = ({ login }) => {
               <Box className="flex flex-col">
                 <TextField
                   sx={{ width: "222px" }}
-                  {...register("address", { ...validationDefaultProps })}
+                  {...register("address")}
                   type="text"
                   variant="outlined"
                   label="Адрес"
@@ -301,17 +323,12 @@ export const Registration = ({ login }) => {
               {/* CHECKBOX */}
               <Box
                 className="flex flex-col justify-center"
-                sx={!isMobile && { gridColumnStart: 1, gridColumnEnd: 3 }}
+                sx={!isMobile && { gridColumnStart: 1, gridColumnEnd: 3, maxWidth: 440, textAlign: "center" }}
               >
                 <Box className="flex justify-center items-center">
                   <Checkbox
                     label="Пользовательское соглашение"
-                    {...register("terms_of_use", {
-                      validate: (value) => {
-                        if (!value)
-                          return "Прочтите пользовательское соглашение";
-                      },
-                    })}
+                    {...register("acceptTermsConditions")}
                   />
                   <Typography
                     sx={{
@@ -324,12 +341,12 @@ export const Registration = ({ login }) => {
                     Согласен с пользовательским соглашением
                   </Typography>
                 </Box>
-                {errors.terms_of_use && (
+                {errors.acceptTermsConditions && (
                   <Box
                     className={isMobile && "flex justify-center"}
                     sx={{ color: "red" }}
                   >
-                    {errors.terms_of_use.message}
+                    {errors.acceptTermsConditions.message}
                   </Box>
                 )}
               </Box>

@@ -19,15 +19,15 @@ export const ModalInvitation = ({ isOpen, handleClose, handleAccept, handleRejec
           overflow: 'auto',
         }}
       >
-        {data && data.data.map((invitation) => (
-          <Box key={invitation.id} mb={4}>
-            <Typography variant="h6">Приглашение от: {invitation.from.firstName} {invitation.from.lastName}</Typography>
-            <Typography>в приют: {invitation.invitedTo.name}</Typography>
-            <Typography>Адрес: {invitation.invitedTo.address}</Typography>
-            <Typography>Телефон: {invitation.invitedTo.phone}</Typography>
+        {data && data?.data?.map((invitation) => (
+          <Box key={invitation?.id} mb={4}>
+            <Typography variant="h6">Приглашение от: {invitation?.from.firstName} {invitation?.from?.lastName}</Typography>
+            <Typography>в приют: {invitation?.invitedTo.name}</Typography>
+            <Typography>Адрес: {invitation?.invitedTo.address}</Typography>
+            <Typography>Телефон: {invitation?.invitedTo.phone}</Typography>
             <Box mt={2} display="flex" justifyContent="flex-end">
-              <Button onClick={() => handleAccept(invitation.id)} variant="contained" sx={{ mr: 2 }}>Принять</Button>
-              <Button onClick={() => handleReject(invitation.id)} variant="contained" color="error">Отклонить</Button>
+              <Button onClick={() => handleAccept(invitation?.id)} variant="contained" sx={{ mr: 2 }}>Принять</Button>
+              <Button onClick={() => handleReject(invitation?.id)} variant="contained" color="error">Отклонить</Button>
             </Box>
           </Box>
         ))}

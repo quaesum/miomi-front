@@ -6,12 +6,13 @@ export const SERVICE_STORAGE_URL = 'http://localhost:9000'
 //=========USER=================
 const SERVICE_USER_URL = SERVICE_URL + 'user/v1/'
 export const GET_USER_INFO_ENDPOINT = SERVICE_USER_URL + 'info'
-export const UPDATE_USER_ENDPOINT = SERVICE_USER_URL + 'update/'
+export const UPDATE_USER_ENDPOINT = SERVICE_USER_URL + 'update'
 export const EMAIL_CONFIRM_ENDPOINT = SERVICE_USER_URL + "verify_email"
 export const GET_ALL_USERS_INFO_HANDLER = SERVICE_USER_URL + "all/info"
 export const GET_ALL_INVITATIONS = SERVICE_USER_URL + "invitation"
 export const ACCEPT_INVITATION_ENDPOINT = SERVICE_USER_URL + "invitation/accept/"
 export const REJECT_INVITATION_ENDPOINT = SERVICE_USER_URL + "invitation/reject/"
+export const ADD_REPORT_ENDPOINT = SERVICE_USER_URL + "reports/add"
 
 //==========ANIMALS==============
 const SERVICE_ANIMAL_URL = SERVICE_URL + 'animal/v1/'
@@ -55,6 +56,7 @@ export const GET_ALL_SERVICE_ENDPOINT = SERVICE_SERVICES_URL
 //=========SHELTERS==========
 const SERVICE_SHELTERS_URL = SERVICE_URL + 'shelter/v1/'
 export const GET_ALL_SHELTERS_INFO = SERVICE_SHELTERS_URL + "all-info"
+export const GET_ANIMALS_ON_SHELTER = SERVICE_SHELTERS_URL + "animals"
 export const CREATE_SHELTER_REQUEST_ENPOINT = SERVICE_SHELTERS_URL + "create_request"
 export const EXIT_FROM_SHELTER = SERVICE_SHELTERS_URL + 'exit'
 export const GET_USERS_ON_SHELTER_ENDPOINT = SERVICE_SHELTERS_URL + "user/"
@@ -66,6 +68,11 @@ export const GET_SHELTER_BY_ID = SERVICE_SHELTERS_URL
 export const LOGIN_ENDPOINT = SERVICE_URL + "login"
 export const SIGNUP_ENDPOINT = SERVICE_URL + "signup"
 
+//==========REPORTS===========
+const SERVICE_REPORTS_URL = SERVICE_URL + 'reports/v1/'
+export const GET_ALL_REPORTS_ENDPOINT = SERVICE_REPORTS_URL
+export const GET_REPORT_BY_ID_ENDPOINT = SERVICE_REPORTS_URL
+export const REMOVE_REPORT_BY_ID_ENDPOINT = SERVICE_REPORTS_URL + 'remove/'
 
 //==========ADMIN=============
 const SERVICE_ADMIN_URL = SERVICE_URL + 'admin/v1/'

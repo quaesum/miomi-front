@@ -12,7 +12,8 @@ export default function authHeader() {
 export const authHeaderPhoto = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
-        return { Authorization: user.data, "Content-Type": "multipart/form-data",
+        return { Authorization: user.data, 
+        "Content-Type": "multipart/form-data",
         'Access-Control-Allow-Origin': 'http://localhost:3000' };
     } else {
         return {};

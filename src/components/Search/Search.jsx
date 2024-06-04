@@ -29,9 +29,10 @@ export const SearchBar = () => {
       ageMax: 20,
     },
   });
-  const { handleSearch, setAnimalsFilters, currentTab } = useAnimalContext();
+  const { handleSearch, setAnimalsFilters, currentTab, handleSetRequest } = useAnimalContext();
 
   const handleSubmitForm = async () => {
+    let request = getValues('request')
     let postData = {
       sex: getValues("gender"),
       type: getValues("type"),
@@ -42,7 +43,7 @@ export const SearchBar = () => {
       shelterId: getValues("sheltersIds")
     }
     console.log(postData)
-    handleSearch(postData)
+    handleSearch(postData, request)
   }
 
   useEffect(() => {

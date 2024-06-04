@@ -17,7 +17,9 @@ import { FormControl, Typography } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-export default function CustomizedInputBase({ register,
+export default function CustomizedInputBase({ 
+  register,
+  handleSubmit,
   handleSubmitForm,
   currentTab,
   setValue,
@@ -101,14 +103,16 @@ export default function CustomizedInputBase({ register,
     <Paper
       component="form"
       className='shadow-lg'
+      onSubmit={handleSubmit(handleSubmitForm)}
       sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: { md: "80%", xs: "100%" }, height: { md: "70px", xs: "60px" } }}
     >
-      <IconButton type="button" sx={{ p: '10px' }} aria-label="search" disabled={currentTab == 1}>
+      <IconButton type="submit" sx={{ p: '10px' }} aria-label="search" disabled={currentTab == 1}>
         <SearchIcon />
       </IconButton>
       <InputBase
         disabled={currentTab == 1}
         {...register("request")}
+        onChange={(e, val) => {setValue('request', e.target.value)}}
         sx={{ ml: 1, flex: 1 }}
         placeholder="Поиск"
         inputProps='aria-label'
@@ -121,7 +125,7 @@ export default function CustomizedInputBase({ register,
           </IconButton>
         </>
       )}
-      <Dialog open={openFilters} onClose={handleCloseFilters} sx={{ maxWidth: { md: "350", xs: "250px" } }} className='flex self-center justify-self-center justify-center'>
+      <Dialog open={openFilters} onClose={handleCloseFilters} sx={{ width: { md: "350" } }} className='flex self-center justify-self-center justify-center'>
         <DialogTitle>Фильтры</DialogTitle>
         <DialogContent sx={{ width: "350px" }}>
           <FormControl className='space-y-6' style={{ width: '100%' }}>

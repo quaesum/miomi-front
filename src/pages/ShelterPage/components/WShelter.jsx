@@ -132,7 +132,7 @@ export const WShelter = ({
             <SupportIcon sx={{ width: "36px", height: "36px" }} />
           <Typography fontSize={20} className="flex justify-center items-center">{data?.name}
           </Typography>
-          <Typography fontSize={20}>{data?.description}</Typography>
+          <Typography textAlign={"center"} fontSize={20}>{data?.description}</Typography>
           <Typography fontSize={20}>{data?.addres}</Typography>
           <Typography fontSize={20}>{data?.phone}</Typography>
           <Button
@@ -223,6 +223,11 @@ export const WShelter = ({
               >
                 <Typography fontSize={18}>Сохранить</Typography>
               </LoadingButton>
+              <Button
+              type="reset"
+              onClick={() => handleChangeEdit(false)}
+              >Назад
+              </Button>
             </Box>
           </form>
           </div>

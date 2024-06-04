@@ -8,6 +8,7 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
+import Slider from "react-slick";
 import pointSrc from "../../assets/CurrentAnimalPage/point.png";
 import { useForm } from "react-hook-form";
 import { Name } from "./componentsPage/Name";
@@ -18,12 +19,13 @@ import { ModalPhotos } from "./componentsPage/ModalPhotos";
 import { ModalDelete } from "../../components/ModalDelete/ModalDelete";
 import { ageTransformation } from "../../components/Animals/Animals";
 import DataService from "../../auth/data.service";
-import { Place } from "./componentsPage/Place";
-import { Address } from "./componentsPage/Address";
 import { useNavigate } from "react-router";
 import { useMobile } from "../../hooks/useMobile";
 import { MobilePhotos } from "./componentsPage/MobilePhotos";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export const CurrentAnimalPage = ({
   animal,
@@ -34,7 +36,6 @@ export const CurrentAnimalPage = ({
   baseUrl,
   shelter,
 }) => {
-  console.log(animal)
   const navigate = useNavigate();
   const isMobile = useMobile();
   const [isEditMode, setIsEditMode] = useState(false);
@@ -43,12 +44,18 @@ export const CurrentAnimalPage = ({
   const [filesURL, setFilesURL] = useState(animal?.photos);
   const [filesID, setFilesID] = useState();
   const [files, setFiles] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [openCarousel, setOpenCarousel] = useState(false);
 
-  const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const handleOpenCarousel = () => setOpenCarousel(true);
+  const handleCloseCarousel = () => setOpenCarousel(false);
+
   const sex = animal.sex == "0" ? "мальчик" : "девочка";
+
+  let params = (new URL(document.location)).searchParams; 
 
   useEffect(() => {
     setDefaultFiles();
@@ -80,7 +87,7 @@ export const CurrentAnimalPage = ({
   };
 
   const setDefaultFiles = () => {
-    const tempPhotosUrls = [...animal?.photos?.map((el) => `${baseUrl}${el}`)];
+    const tempPhotosUrls = [...animal?.photos?.map((el) => `${el.startsWith("http") ? '' : baseUrl}${el}`)];
     const tempPhotoID = [
       ...animal?.photos?.map((defaultUrl) => {
         let id = urlsImages?.filter((el) => el?.url === defaultUrl)?.[0]?.id;
@@ -109,7 +116,6 @@ export const CurrentAnimalPage = ({
     let tempIndex = Number(index.split("-")[2]);
     if (e.target.files.length > 0) {
       let image = e.target.files[0];
-
       let path = URL.createObjectURL(image);
       let tempFilesURL = [...filesURL];
       let tempFiles = [...files];
@@ -124,7 +130,6 @@ export const CurrentAnimalPage = ({
 
   const handleFormSubmit = async () => {
     setIsEditMode(false);
-
     const tempPhotosId = []; //id photos
     for (let i = 0; i < filesURL.length; i++) {
       if (files[i]) {
@@ -180,6 +185,16 @@ export const CurrentAnimalPage = ({
     setDefaultFiles();
   };
 
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <ArrowForwardIcon />,
+    prevArrow: <ArrowBackIcon />,
+  };
+
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
@@ -199,7 +214,7 @@ export const CurrentAnimalPage = ({
           <Box className="flex items-center">
             <Typography className="flex items-center">
               <ArrowBackIcon
-                onClick={() => navigate("/")}
+                onClick={() => navigate(params.get("prev"))}
                 className="cursor-pointer transition ease-in-out delay-150 hover:bg-gray-200 rounded-full hover:scale-110 hover:duration-300 hover:border-4 border-gray-200"
                 sx={{
                   width: { xs: 30, md: 35 },
@@ -284,6 +299,7 @@ export const CurrentAnimalPage = ({
                 aria-describedby="modal-modal-description"
               >
                 <ModalDelete
+                  prev={params.get("prev")}
                   type={"animal"}
                   id={id}
                   handleClose={handleClose}
@@ -368,7 +384,7 @@ export const CurrentAnimalPage = ({
                   variant="quilted"
                   cols={3}
                 >
-                  {filesURL?.map((item) => (
+                  {filesURL?.map((item, index) => (
                     <ImageListItem key={item}>
                       <img
                         style={{
@@ -379,6 +395,7 @@ export const CurrentAnimalPage = ({
                         src={item}
                         alt={"animal_image"}
                         loading="lazy"
+                        onClick={handleOpenCarousel}
                       />
                     </ImageListItem>
                   ))}
@@ -406,7 +423,7 @@ export const CurrentAnimalPage = ({
                   message: "Минимальная длина 5 символа",
                 },
               })}
-              className={`resize-none w-full outline-0 rounded-md px-6 cursor-default font-normal leading-6 rounded-full bg-gray-200 ${isEditMode ? "border-2 border-gray-300" : ""
+              className={`resize-none w-full outline-0 rounded-md px-6 cursor-default font-normal leading-6 bg-gray-200 ${isEditMode ? "border-2 border-gray-300" : ""
                 } ${errors.description
                   ? "border-red-300 w-6/12"
                   : "!border-gray-300 w-full"
@@ -418,6 +435,41 @@ export const CurrentAnimalPage = ({
           </Box>
         </Box>
       </Card>
+
+      <Modal
+        open={openCarousel}
+        onClose={handleCloseCarousel}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: { xs: '90vw', md: '60vw' },
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          p: 4,
+          borderRadius: 2
+        }}>
+          <Slider {...settings}>
+            {filesURL?.map((item, index) => (
+              <div key={index}>
+                <img
+                  src={item}
+                  alt={`animal_image_${index}`}
+                  style={{
+                    width: '100%',
+                    maxHeight: '80vh',
+                    objectFit: 'contain'
+                  }}
+                />
+              </div>
+            ))}
+          </Slider>
+        </Box>
+      </Modal>
     </form>
   );
 };

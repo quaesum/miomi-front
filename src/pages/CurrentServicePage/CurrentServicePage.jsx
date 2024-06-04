@@ -291,7 +291,7 @@ export const CurrentServicePage = ({ services, id, isCanEdit, baseUrl, urlsImage
                   message: "Минимальная длина 5 символа",
                 },
               })}
-              className={`resize-none w-full outline-0 rounded-md px-6 cursor-default font-normal leading-6 rounded-full bg-gray-200 ${isEditMode ? "border-2 border-gray-300" : ""
+              className={`resize-none w-full outline-0 rounded-md px-6 cursor-default font-normal leading-6 bg-gray-200 ${isEditMode ? "border-2 border-gray-300" : ""
                 } ${errors.description
                   ? "border-red-300 w-6/12"
                   : "!border-gray-300 w-full"

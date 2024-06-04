@@ -49,24 +49,29 @@ export function AnimalContextProvider({ children }) {
     const [currentAnimalPage, setCurrentAnimalPage] = useState(1);
     const [currentProductPage, setCurrentProductPage] = useState(1);
     const [currentServicesPage, setCurrentServicesPage] = useState(1);
-    const [request, setRequest] = useState('')
+    const [request, setRequest] = useState('');
+    const [filters, setFilters] = useState();
 
     useEffect(() => {
         setUserKey(localStorage.getItem("user"))
-        axios.post(GET_ANIMALS_ENDPOINT, { headers: authHeader(), request: "", page: currentTab + 1, per_page: 21}).then((res) => {
+        axios.post(GET_ANIMALS_ENDPOINT, { request: "", page: currentTab + 1, per_page: 21}, { headers: authHeader()}).then((res) => {
             setAnimalsData(res.data.animals);
             setMaxAnimalsPages(res.data.max_page)
+            localStorage.setItem("animals_max_page", res.data.max_page)
+            localStorage.setItem("animals_page", currentTab + 1)
         });
-        axios.get(GET_ALL_NEWS_ENDPOINT,  {headers: authHeader}).then((res) => {
+        axios.get(GET_ALL_NEWS_ENDPOINT,  {headers: authHeader()}).then((res) => {
             setNewsData(res.data);
         });
-        axios.get(GET_FILE_NAMES_AND_IDS_ENDPOINT, {headers: authHeader}).then((res) =>
+        axios.get(GET_FILE_NAMES_AND_IDS_ENDPOINT, {headers: authHeader()}).then((res) =>
             setUrlsImages(res.data));
-        axios.post(GET_ALL_PRODUCTS_ENDPOINT,  {headers: authHeader, request: "", page: currentTab + 1, per_page: 21}).then((res) => {
+        axios.post(GET_ALL_PRODUCTS_ENDPOINT, { request: "", page: currentTab + 1, per_page: 21}, { headers: authHeader() }).then((res) => {
             setProductsData(res.data.products);
             setMaxProductsPages(res.data.max_page)
+            localStorage.setItem("products_max_page", res.data.max_page)
+            localStorage.setItem("products_page", currentTab + 1)
         });
-        axios.post(GET_ALL_SERVICE_ENDPOINT,  {headers: authHeader, request: "", page: currentTab + 1, per_page: 21}).then((res) => {
+        axios.post(GET_ALL_SERVICE_ENDPOINT,{ request: "", page: currentTab + 1, per_page: 21},  {headers: authHeader()}).then((res) => {
             setServicesData(res.data.services);
             setMaxServicesPages(res.data.max_page)
         });
@@ -102,11 +107,14 @@ export function AnimalContextProvider({ children }) {
         setAvatarUrl("")
     }
 
-    const updateAnimals = async (page, filters) => {
-        if (page < 1) page = 1
-        await axios.post(GET_ANIMALS_ENDPOINT, { headers: authHeader(), request: request, page: page, per_page: 21, filters: filters}).then((res) => {
+    const updateAnimals = async () => {
+        let request = localStorage.getItem('request');
+        let page = Number(localStorage.getItem('animals_page'));
+        setCurrentAnimalPage(page);
+        await axios.post(GET_ANIMALS_ENDPOINT, { request: request, page: page, per_page: 21, filters: filters}, { headers: authHeader() }).then((res) => {
             setAnimalsData(res.data.animals);
             setMaxAnimalsPages(res.data.max_page)
+            localStorage.setItem('animals_max_page', res.data.max_page)
         });
     }
 
@@ -125,19 +133,23 @@ export function AnimalContextProvider({ children }) {
         });
     }
 
-    const updateProducts = async (page) => {
-        if (page < 1) page = 1
-        await axios.post(GET_ALL_PRODUCTS_ENDPOINT, { headers: authHeader(), request: request, page: page, per_page: 21}).then((res) => {
+    const updateProducts = async () => {
+        let page = Number(localStorage.getItem('products_page'))
+        let request = localStorage.getItem('request')
+        await axios.post(GET_ALL_PRODUCTS_ENDPOINT,{ request: request, page: page, per_page: 21}, { headers: authHeader()}).then((res) => {
             setProductsData(res.data.products);
-            setMaxProductsPages(res.data.max_page)
+            setMaxProductsPages(res.data.max_page);
+            localStorage.setItem("products_max_page", res.data.max_page)
         });
     }
 
-    const updateServices = async (page) => {
-        if (page < 1) page = 1
-        await axios.post(GET_ALL_SERVICE_ENDPOINT, { headers: authHeader(), request: request, page: page, per_page: 21}).then((res) => {
+    const updateServices = async () => {
+        if (currentServicesPage < 1) setCurrentServicesPage(1)
+        let request = localStorage.getItem('request')
+        await axios.post(GET_ALL_SERVICE_ENDPOINT, { request: request, page: currentServicesPage, per_page: 21}, {headers: authHeader()}).then((res) => {
             setServicesData(res.data.services);
             setMaxServicesPages(res.data.max_page)
+            localStorage.setItem("services_max_page", res.data.max_page)
         });
     }
 
@@ -189,11 +201,23 @@ export function AnimalContextProvider({ children }) {
         })
     }
 
-    const handleSearch = (filters) => {
+    const handleSetRequest = (value) => {
+        localStorage.setItem('request', value)
+        setRequest(value)
         switch (currentTab + 1){
-            case 1: updateAnimals(currentAnimalPage, filters)
-            case 3: updateProducts(currentProductPage)
-            case 4: updateServices(currentServicesPage)
+            case 1: setCurrentAnimalPage(1); localStorage.setItem('animals_page', 1)
+            case 3: setCurrentProductPage(1); localStorage.setItem('products_page', 1)
+            case 4: setCurrentServicesPage(1); localStorage.setItem('services_page', 1)
+        }
+    }
+
+    const handleSearch = (filters, request) => {
+        handleSetRequest(request);
+        localStorage.setItem('request', request)
+        switch (currentTab + 1){
+            case 1: setFilters(filters);updateAnimals()
+            case 3: updateProducts()
+            case 4: updateServices()
         }
     }
 
@@ -205,7 +229,7 @@ export function AnimalContextProvider({ children }) {
                 servicesData, setServicesData,
                 SERVICE_STORAGE_URL, isLogin, setIsLogin,
                 userData, newsData, logout, login, 
-                updateUserInfo, updateAnimals, updateServices, updateNews, updateUrls, 
+                updateUserInfo, updateAnimals, updateServices, updateNews, updateUrls, updateProducts,
                 urlsImages, avatarUrl,
                 currentTab, setCurrentTab, 
                 maxAnimalsPages, setMaxAnimalsPages,
@@ -215,10 +239,10 @@ export function AnimalContextProvider({ children }) {
                 currentAnimalPage, setCurrentAnimalPage,
                 currentProductPage, setCurrentProductPage,
                 currentServicesPage, setCurrentServicesPage,
-                request, setRequest, userShelter,
+                request, handleSetRequest, userShelter,
                 isAdmin, isVerified, getShelterByID,
                 getAllUsers, allUsersInfo, userInvitations,
-                showInvitations, setShowInvitations, getInvitations
+                showInvitations, setShowInvitations, getInvitations,
             }}
         >
             {children}

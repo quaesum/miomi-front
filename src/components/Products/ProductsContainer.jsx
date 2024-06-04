@@ -3,21 +3,26 @@ import { Products } from "./Products";
 import { useAnimalContext } from "../../Context/AnimalContext";
 
 export const ProductsContainer = ({ isAllAnimal }) => {
-  const { productsData, maxProductsPages, updateProducts, currentProductPage, setCurrentProductPage } = useAnimalContext();
+  const { productsData, maxProductsPages, updateProducts, currentProductPage, setCurrentProductPage} = useAnimalContext();
 
-
-  useEffect(() => {
-    setCurrentProductPage(1);
-  }, [isAllAnimal]);
+  let currentPage = Number(localStorage.getItem("products_page"));
+  let maxPage = Number(localStorage.getItem("products_max_page"));
 
   const handleIncrementPage = () => {
-    setCurrentProductPage((prev) => (prev += 1));
-    updateProducts(currentProductPage + 1)
+    localStorage.setItem("products_page", currentPage + 1)
+    setCurrentProductPage((prev) => {
+      prev += 1
+    });
+    updateProducts()
   };
 
   const handleDecrementPage = () => {
-    setCurrentProductPage((prev) => (prev -= 1));
-    updateProducts(currentProductPage - 1)
+    localStorage.setItem("products_page", currentPage - 1)
+    setCurrentProductPage((prev) => {
+      prev -= 1
+    });
+    updateProducts()
+
   };
 
   return (
@@ -25,8 +30,8 @@ export const ProductsContainer = ({ isAllAnimal }) => {
       products={productsData}
       handleIncrementPage={handleIncrementPage}
       handleDecrementPage={handleDecrementPage}
-      currentPage={currentProductPage}
-      maxPages={maxProductsPages}
+      currentPage={currentPage}
+      maxPages={maxPage}
     />
   );
 };

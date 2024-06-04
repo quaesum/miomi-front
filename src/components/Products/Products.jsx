@@ -12,13 +12,14 @@ export const Products = ({
   maxPages,
 }) => {
   const page = `Страница ${currentPage}`;
+  console.log(currentPage)
 
   const classNameRightArrow = `${
     maxPages === currentPage ? "opacity-30" : "cursor-pointer"
   }`;
 
   const classNameLeftArrow = `${
-    currentPage === 1 ? "opacity-30" : "cursor-pointer"
+    currentPage == 1 ? "opacity-30" : "cursor-pointer"
   }`;
 
   const handleClickLeftArrow = () => {

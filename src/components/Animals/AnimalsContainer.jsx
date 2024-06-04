@@ -9,24 +9,34 @@ export const AnimalsContainer = ({ isAllAnimal }) => {
     setCurrentAnimalPage(1);
   }, [isAllAnimal]);
 
+  let currentPage = Number(localStorage.getItem("animals_page"));
+  let maxPage = Number(localStorage.getItem("animals_max_page"));
+
   const handleIncrementPage = () => {
-    setCurrentAnimalPage((prev) => (prev += 1));
-    updateAnimals(currentAnimalPage + 1)
+    localStorage.setItem("animals_page", currentPage + 1)
+    setCurrentAnimalPage((prev) => {prev += 1
+    });
+    updateAnimals()
   };
 
   const handleDecrementPage = () => {
-    setCurrentAnimalPage((prev) => (prev -= 1));
-    updateAnimals(currentAnimalPage - 1)
+    localStorage.setItem("animals_page", currentPage - 1)
+    setCurrentAnimalPage((prev) => {
+      prev -= 1;
+    }
+    );
+    updateAnimals()
   };
 
   return (
     <Animals
+      prev={"/"}
       animals={animalsData}
       baseURL={baseURL}
       handleIncrementPage={handleIncrementPage}
       handleDecrementPage={handleDecrementPage}
-      currentAnimalPage={currentAnimalPage}
-      maxAnimalsPages={maxAnimalsPages}
+      currentAnimalPage={currentPage}
+      maxAnimalsPages={maxPage}
     />
   );
 };
