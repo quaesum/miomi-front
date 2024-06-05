@@ -115,7 +115,7 @@ export default function ProfilePage({ data, updateUserInfo, logout, avatarUrl, i
   };
 
   const updateAnimals = (page) => {
-    axios.post(GET_ANIMALS_ENDPOINT, { request: "", page: page, per_page: 21, filters: { shelterId: data.shelter_id.toString() } }, { headers: authHeader() })
+    axios.post(GET_ANIMALS_ENDPOINT, { request: "", page: page, per_page: 21, filters: { shelterId: [data.shelter_id] } }, { headers: authHeader() })
       .then((response) => {
         setAnimalsData(response?.data.animals);
         setMaxPage(response?.data.max_page)
@@ -247,7 +247,7 @@ export default function ProfilePage({ data, updateUserInfo, logout, avatarUrl, i
 
   useEffect(() => {
     updateAnimals()
-    updateReports()
+    isAdmin && updateReports()
   }, [navigation]);
 
   const handleSubmitForm = () => {
@@ -453,12 +453,12 @@ export default function ProfilePage({ data, updateUserInfo, logout, avatarUrl, i
           handleReject={handleRejectInvitation}
         />
 
-        <ReportsModal
+        {isAdmin &&<ReportsModal
         requests={reports}
         isOpen={reportsOpen}
         onClose={handleCloseReports}
         updateReports={updateReports}
-        />
+        />}
 
         {/* Render Animals Component */}
         {!edit && <Box mt={4}>
