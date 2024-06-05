@@ -154,7 +154,7 @@ export const CurrentAnimalPage = ({
     const postData = {
       age: Number(getValues("age")),
       name: getValues("nameAnimal"),
-      sex: getValues("sex") === "мальчик" ? 1 : 0,
+      sex: getValues("sex") === "мальчик" ? 0 : 1,
       type: type,
       shelterId: Number(animal.shelterId),
       description: getValues("description"),
