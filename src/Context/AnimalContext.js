@@ -110,6 +110,7 @@ export function AnimalContextProvider({ children }) {
     const updateAnimals = async () => {
         let request = localStorage.getItem('request');
         let page = Number(localStorage.getItem('animals_page'));
+        let filters = JSON.parse(localStorage.getItem('filters'))
         setCurrentAnimalPage(page);
         await axios.post(GET_ANIMALS_ENDPOINT, { request: request, page: page, per_page: 21, filters: filters}, { headers: authHeader() }).then((res) => {
             setAnimalsData(res.data.animals);
@@ -215,7 +216,7 @@ export function AnimalContextProvider({ children }) {
         handleSetRequest(request);
         localStorage.setItem('request', request)
         switch (currentTab + 1){
-            case 1: setFilters(filters);updateAnimals()
+            case 1: localStorage.setItem("filters", JSON.stringify(filters));setFilters(filters);updateAnimals()
             case 3: updateProducts()
             case 4: updateServices()
         }

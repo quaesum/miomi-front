@@ -52,6 +52,7 @@ export default function CustomizedInputBase({
   };
 
   const setDefaultFilters = () => {
+    localStorage.removeItem('filters')
     reset()
     setIsMan(false)
     setIsWoman(false)
