@@ -387,6 +387,7 @@ export default function ProfilePage({ data, updateUserInfo, logout, avatarUrl, i
               <MenuIcon />
             </IconButton>
             <BurgerMenu
+              isAdmin={isAdmin}
               handleOpenReports={handleOpenReports}
               anchorEl={anchorEl}
               menuOpen={menuOpen}
