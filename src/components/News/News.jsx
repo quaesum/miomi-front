@@ -20,7 +20,11 @@ export const News = ({ news, baseURL }) => {
   ));
 
   if (news == null) {
-    return <Typography>Новости отсутствуют(</Typography>
+    return <div className="flex items-center text-center">
+    <Typography color="gray" className="w-full">
+      Новостей не найдено :(
+    </Typography>
+  </div>
   }
 
   return <div className="grid grid-col-1">{newsElements}</div>;

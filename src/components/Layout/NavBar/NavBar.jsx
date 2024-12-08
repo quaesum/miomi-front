@@ -200,7 +200,7 @@ export const NavBar = ({ firstName, lastName, isLogin, handleClickExit, isVerifi
                       >
                         <MenuItem onClick={() => { navigate("/profile"); popupState.close() }}>Профиль</MenuItem>
                         <MenuItem onClick={() => { navigate("/my-shelter"); popupState.close() }}>Приют</MenuItem>
-                        <MenuItem onClick={() => { navigate("/about-us"); popupState.close() }}>О нас</MenuItem>
+                        {<MenuItem onClick={() => { navigate("/about-us"); popupState.close() }}>О нас</MenuItem>}
                         <MenuItem onClick={() => { handleClickExit(); popupState.close() }}>Выйти</MenuItem>
                       </Box>
                     </Popover>

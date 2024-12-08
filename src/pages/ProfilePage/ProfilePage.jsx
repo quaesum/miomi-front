@@ -91,6 +91,7 @@ export default function ProfilePage({ data, updateUserInfo, logout, avatarUrl, i
   };
 
   const handleOpenReports = () => {
+    updateReports()
     setReportsOpen(true)
   };
 
@@ -174,6 +175,7 @@ export default function ProfilePage({ data, updateUserInfo, logout, avatarUrl, i
     setOpenInvitations(false);
     await axios.post(`${ACCEPT_INVITATION_ENDPOINT}${id}`, {}, { headers: authHeader() });
     getInvitations();
+    updateUserInfo()
   };
 
   const handleRejectInvitation = async (id) => {
@@ -354,8 +356,10 @@ export default function ProfilePage({ data, updateUserInfo, logout, avatarUrl, i
               <Box className="flex flex-col">
                 <Typography component="h1" variant="h5" className="mt-2">
                   {data?.firstName} {data?.lastName}
-                  {invitations?.lenght > 0 && <Tooltip title="Новые приглашения">
-                    <MarkEmailUnreadOutlinedIcon sx={{ width: "30px", height: "30px" }} className="cursor-pointer" color="info" onClick={() => handleOpenInvitations()} />
+                  {invitations?.data?.length > 0  && <Tooltip title="Новые приглашения">
+                    <IconButton onClick={() => {handleOpenInvitations(); console.log('click')}} >
+                    <MarkEmailUnreadOutlinedIcon sx={{ width: "30px", height: "30px" }} className="cursor-pointer" color="info"/>
+                    </IconButton>
                   </Tooltip>}
                 </Typography>
                 <Typography fontSize={20} className="flex fustify-center items-center">{data?.email}
@@ -395,6 +399,7 @@ export default function ProfilePage({ data, updateUserInfo, logout, avatarUrl, i
               setEdit={setEdit}
               handleClickOpenShelters={handleClickOpenShelters}
               handleClickExit={handleClickExit}
+              isAdmin={isAdmin}
             />
           </Box>}
         </Box>
@@ -447,11 +452,11 @@ export default function ProfilePage({ data, updateUserInfo, logout, avatarUrl, i
         </Dialog>
 
         <ModalInvitation
-          open={openInvitations}
-          onClose={handleCloseInvitations}
-          invitations={invitations}
+          isOpen={openInvitations}
+          handleClose={handleCloseInvitations}
           handleAccept={handleAcceptInvitation}
           handleReject={handleRejectInvitation}
+          data={invitations}
         />
 
         {isAdmin &&<ReportsModal

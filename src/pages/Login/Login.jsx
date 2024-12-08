@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import AuthService from "../../auth/auth.service";
 import { useNavigate } from "react-router";
 import { useMobile } from "../../hooks/useMobile";
+import { Link } from "react-router-dom";
 
 const btnStyle = {
   borderRadius: "10px",
@@ -152,6 +153,9 @@ export const Login = ({ login, setIsLogin }) => {
               {errors.password && (
                 <Box sx={{ color: "red" }}>{errors.password.message}</Box>
               )}
+            </Box>
+            <Box className="mt-8">
+              <Typography component={Link} to={"/forgot-password"} className="text-blue">Забыли пароль?</Typography>
             </Box>
 
             <Box className="!mt-20 flex flex-col">

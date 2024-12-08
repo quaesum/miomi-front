@@ -32,7 +32,11 @@ export const Products = ({
 
   if (products == null) {
     return (
-      <Typography>Товаров не найдено :(</Typography>
+      <div className="flex items-center text-center mb-32">
+        <Typography color="gray" className="w-full">
+          Товаров не найдено :(
+        </Typography>
+      </div>
     )
   }
 

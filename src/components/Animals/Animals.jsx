@@ -50,7 +50,12 @@ export const Animals = ({
 
   if (animals == null) {
     return (
-      <Typography>Зверушек не найдено :(</Typography>
+      <div className="flex items-center text-center mb-32">
+        <Typography color="gray" className="w-full">
+          Зверушек не найдено :(
+        </Typography>
+      </div>
+      
     )
   }
 

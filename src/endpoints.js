@@ -1,5 +1,5 @@
-//export const SERVICE_URL = 'http://miomi.by/api/'
-//export const SERVICE_FILES_URL = "http://miomi.by:9000"
+// export const SERVICE_URL = 'http://miomi.by/api/'
+// export const SERVICE_STORAGE_URL = "http://miomi.by:9000"
 export const SERVICE_URL = 'http://localhost:8080/api/'
 export const SERVICE_STORAGE_URL = 'http://localhost:9000'
 
@@ -67,6 +67,8 @@ export const GET_SHELTER_BY_ID = SERVICE_SHELTERS_URL
 //==========AUTH=============
 export const LOGIN_ENDPOINT = SERVICE_URL + "login"
 export const SIGNUP_ENDPOINT = SERVICE_URL + "signup"
+export const SEND_PASSWORD_RECOVERY = SERVICE_URL + "password_reset"
+export const PASSWORD_CHANGE = SERVICE_URL + "password_set"
 
 //==========REPORTS===========
 const SERVICE_REPORTS_URL = SERVICE_URL + 'reports/v1/'

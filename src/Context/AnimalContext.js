@@ -80,6 +80,7 @@ export function AnimalContextProvider({ children }) {
     useEffect(() => {
         if (userKey) {
             setIsLogin(true)
+            setAvatar()
             getInvitations()
             UserService.getUserInfo().then(res => {
                 setUserData(res.data.data)
@@ -166,6 +167,7 @@ export function AnimalContextProvider({ children }) {
     }
 
     const login = () => {
+        setAvatar()
         setIsLogin(true)
         UserService.getUserInfo().then(res => {
             setUserData(res.data.data)
@@ -181,6 +183,7 @@ export function AnimalContextProvider({ children }) {
             setUserData(res.data.data)
             setIsAdmin(res.data.data.role == "admin" ? true : false)
             setIsVerified(res.data.data.isVerified)
+            getShelterByID(res.data.data.shelter_id)
         }).catch(er => {
             AuthService.logout()
             logout()

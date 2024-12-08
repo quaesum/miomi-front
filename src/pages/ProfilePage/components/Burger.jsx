@@ -2,7 +2,7 @@
 import React from 'react';
 import { Menu, MenuItem } from '@mui/material';
 
-export default function BurgerMenu({ isAdmin, anchorEl, menuOpen, handleMenuClose, setEdit, handleClickOpenShelters, handleClickExit, handleOpenReports }) {
+export default function BurgerMenu({ anchorEl, menuOpen, handleMenuClose, setEdit, handleClickOpenShelters, handleClickExit, handleOpenReports, isAdmin }) {
   return (
     <Menu
       id="long-menu"
@@ -19,12 +19,13 @@ export default function BurgerMenu({ isAdmin, anchorEl, menuOpen, handleMenuClos
       <MenuItem onClick={() => { setEdit(true); handleMenuClose(); }}>
         Изменить
       </MenuItem>
-      {isAdmin && <MenuItem onClick={() => { handleClickOpenShelters(); handleMenuClose(); }}>
+      {isAdmin &&<MenuItem onClick={() => { handleClickOpenShelters(); handleMenuClose(); }}>
         Запросы на подтверждение
       </MenuItem>}
       {isAdmin && <MenuItem onClick={() => {handleOpenReports(); handleMenuClose()}}>
         Сообщения
-      </MenuItem>}
+      </MenuItem>
+      }
       <MenuItem onClick={() => { handleClickExit(); handleMenuClose(); }}>
         Выйти
       </MenuItem>

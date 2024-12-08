@@ -2,7 +2,6 @@ import React from 'react';
 import { Modal, Box, Typography, Button } from '@mui/material';
 
 export const ModalInvitation = ({ isOpen, handleClose, handleAccept, handleReject, data }) => {
-    console.log(data)
   return (
     <Modal open={isOpen} onClose={handleClose} aria-labelledby="invitation-modal">
       <Box

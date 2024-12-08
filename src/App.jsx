@@ -17,6 +17,8 @@ import { Restricted } from "./pages/EmailConfirmation/Restricted";
 import { Success } from "./pages/EmailConfirmation/Success";
 import ShelterPageContainer from "./pages/ShelterPage/ShelterPageContainer";
 import AboutUs from "./pages/AboutUs/AboutUs";
+import ChangePassword from "./pages/PasswordChange/Success";
+import ForgotPassword from "./pages/PasswordChange/EmailForm";
 
 export const App = () => {
   return (
@@ -38,6 +40,8 @@ export const App = () => {
         <Route path="email-restricted" element={<Restricted/>} />
         <Route path="email-confirmed" element={<Success/>} />
         <Route path="about-us" element={<AboutUs/>} />
+        <Route path="password-change" element={<ChangePassword/>} />
+        <Route path="forgot-password" element={<ForgotPassword/>} />
         <Route path="*" element={<Navigate to={"/"} />} />
       </Route>
     </Routes>

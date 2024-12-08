@@ -327,6 +327,9 @@ export const CurrentAnimalPage = ({
                   />
                 </Box>
                 <Box className={`${isEditMode ? "flex flex-col" : ""} ml-6`}>
+                <Typography fontSize={22} sx={{ color: "#6A6D76" }}>
+                    {shelter?.name}
+                  </Typography>
                   <Typography name={22} sx={{ color: "#6A6D76" }}>
                     {shelter?.place}
                   </Typography>
